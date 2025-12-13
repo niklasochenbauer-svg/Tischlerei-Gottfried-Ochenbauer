@@ -56,15 +56,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
             e.preventDefault();
 
-        const target = document.querySelector(this.getAttribute('href'));
+            const targetId = link.getAttribute("href");
 
-        if (target) {
-
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        }
-
-    });
+            if (targetId && targetId !== "#") {
+              const target = document.querySelector(targetId);
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+        });
 
 });
 

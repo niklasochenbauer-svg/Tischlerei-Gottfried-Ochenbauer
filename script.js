@@ -54,18 +54,22 @@ document.querySelectorAll("a[href^='#']").forEach(link => {
       e.preventDefault();
   
       const targetId = link.getAttribute("href");
+      if (!targetId || targetId === "#") return;
   
-      if (targetId && targetId !== "#") {
-        const target = document.querySelector(targetId);
-        if (target) {
-          target.scrollIntoView({ behavior: "smooth" });
-        }
-      }
+      const target = document.querySelector(targetId);
+      if (!target) return;
+  
+      const headerOffset = 80; // Höhe deines fixen Headers
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     });
   });
   
-
-
 
 // ===== Navbar Scroll Effect =====
 

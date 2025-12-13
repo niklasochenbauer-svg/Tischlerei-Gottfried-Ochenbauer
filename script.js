@@ -49,24 +49,12 @@ if (hamburger && navMenu && backdrop) {
 
 
 // ===== Smooth Scrolling =====
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-
-    anchor.addEventListener('click', function (e) {
-
-            e.preventDefault();
-
-            const targetId = link.getAttribute("href");
-
-            if (targetId && targetId !== "#") {
-              const target = document.querySelector(targetId);
-              if (target) {
-                target.scrollIntoView({ behavior: "smooth" });
-              }
-            }
-        });
-
-});
+document.querySelectorAll('a[href="#"]').forEach(anchor => {
+    anchor.addEventListener("click", e => {
+      e.preventDefault();
+    });
+  });
+  
 
 
 

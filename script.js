@@ -178,7 +178,7 @@ if (contactForm) {
 
         
 
-        fetch('https://n8n.srv1070777.hstgr.cloud/webhook-test/d6271044-14b4-4bd1-b026-df33608b4a20', {
+        fetch('https://n8n.srv1070777.hstgr.cloud/webhook/d6271044-14b4-4bd1-b026-df33608b4a20', {
 
             method: 'POST',
 

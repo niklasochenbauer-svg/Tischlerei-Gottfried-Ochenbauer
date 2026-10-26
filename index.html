@@ -85,7 +85,7 @@
                 <span class="wordmark-name">Ochenbauer</span>
                 <span class="wordmark-trade">Tischlerei &amp; Handel</span>
             </a>
-            <ul class="nav-menu" id="nav-menu">
+            <ul class="nav-menu" id="nav-menu" data-lenis-prevent>
                 <li><a href="#services" class="nav-link">Leistungen</a></li>
                 <li><a href="#about" class="nav-link">Über uns</a></li>
                 <li><a href="#portfolio" class="nav-link">Arbeiten</a></li>
@@ -429,9 +429,19 @@
     </footer>
 
     <a href="#home" class="scroll-to-top" id="scroll-top" aria-label="Nach oben">
+        <!-- Jahresringe: zeigen, wie weit man auf der Seite ist -->
+        <svg class="growth-rings" viewBox="0 0 56 56" aria-hidden="true">
+            <circle class="ring-track" cx="28" cy="28" r="25"/>
+            <circle class="ring-track" cx="28" cy="28" r="20.5"/>
+            <circle class="ring-track" cx="28" cy="28" r="16"/>
+            <circle class="ring" cx="28" cy="28" r="25" pathLength="1"/>
+            <circle class="ring" cx="28" cy="28" r="20.5" pathLength="1"/>
+            <circle class="ring" cx="28" cy="28" r="16" pathLength="1"/>
+        </svg>
         <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
     </a>
 
+    <script src="assets/vendor/lenis.min.js" defer></script>
     <script src="galerie.js" defer></script>
     <script src="script.js" defer></script>
 </body>

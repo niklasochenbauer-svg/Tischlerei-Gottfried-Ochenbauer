@@ -3,9 +3,40 @@
 // ═══════════════════════════════════════════════════════════
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const motionOK = !reduceMotion.matches;
 const EASE_OUT = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
 const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clamp01 = v => Math.min(1, Math.max(0, v));
+
+
+// ── Weiches Scrollen (Lenis) ───────────────────────────────
+// Bremst das Mausrad auf ein ruhiges, gleichmäßiges Tempo. Touch bleibt nativ.
+let lenis = null;
+if (motionOK && window.Lenis) {
+    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.8, smoothWheel: true });
+    const raf = time => { lenis.raf(time); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+}
+
+// Scrollen sperren (Menü, Lightbox) – für Lenis und nativ
+function lockScroll(locked) {
+    document.body.style.overflow = locked ? 'hidden' : '';
+    if (locked) lenis?.stop(); else lenis?.start();
+}
+
+// Ruhige Fahrt zu einer Position
+function scrollToY(y) {
+    const distance = Math.abs(y - window.scrollY);
+    if (lenis) {
+        lenis.scrollTo(y, {
+            duration: Math.min(2.2, 0.9 + distance / 2800),
+            easing: t => (t < 0.5 ? 8 * t ** 4 : 1 - (-2 * t + 2) ** 4 / 2)
+        });
+    } else {
+        window.scrollTo({ top: y, behavior: motionOK ? 'smooth' : 'auto' });
+    }
+}
 
 
 // ── Mobile Navigation ──────────────────────────────────────
@@ -26,7 +57,7 @@ function setNav(open) {
     backdrop.classList.toggle('active', open);
     hamburger.setAttribute('aria-expanded', String(open));
     hamburger.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
-    document.body.style.overflow = open ? 'hidden' : '';
+    lockScroll(open);
     if (open) navMenu.querySelector('a')?.focus({ preventScroll: true });
 }
 const closeNav = () => setNav(false);
@@ -38,39 +69,134 @@ navMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav
 window.matchMedia('(min-width: 769px)').addEventListener('change', e => { if (e.matches) closeNav(); });
 
 
-// ── Navbar-Zustand & Nach-oben-Button ──────────────────────
+// ── Holzplatten-Stapel ─────────────────────────────────────
+// Jeder Abschnitt klebt fest, sobald er ganz gesehen wurde; der nächste
+// gleitet darüber, der verdeckte dunkelt ab und tritt leicht zurück.
+const mainEl        = document.querySelector('main');
+const stackSections = [...document.querySelectorAll('main > section')];
+const useStack      = motionOK && stackSections.length > 1;
+const shades        = [];
+const coverState    = [];
+let naturalTops     = [];   // Position jedes Abschnitts im normalen Fluss (für Anker & Scrollspy)
+
+if (useStack) {
+    document.documentElement.classList.add('is-stacked');
+    stackSections.forEach((section, i) => {
+        section.style.zIndex = i + 1;
+        if (i < stackSections.length - 1) {
+            const shade = document.createElement('div');
+            shade.className = 'stack-shade';
+            shade.setAttribute('aria-hidden', 'true');
+            section.appendChild(shade);
+            shades[i] = shade;
+        }
+    });
+}
+
+function measureStack() {
+    const vh = window.innerHeight;
+    let y = mainEl ? mainEl.getBoundingClientRect().top + window.scrollY : 0;
+    naturalTops = stackSections.map(section => {
+        const top = y;
+        y += section.offsetHeight;
+        // Lange Abschnitte kleben erst, wenn ihr Ende unten ankommt
+        if (useStack) section.style.top = `${Math.min(0, vh - section.offsetHeight)}px`;
+        return top;
+    });
+}
+
+function updateStack() {
+    if (!useStack) return;
+    const vh = window.innerHeight;
+    // Erst alle Positionen lesen, dann schreiben (kein Layout-Hin-und-Her)
+    const progress = stackSections.slice(1).map(next => clamp01(1 - next.getBoundingClientRect().top / vh));
+    progress.forEach((p, i) => {
+        if (Math.abs(p - (coverState[i] ?? -1)) < 0.002) return;
+        coverState[i] = p;
+        stackSections[i].style.transform = p > 0.001 ? `scale(${(1 - 0.045 * p).toFixed(4)})` : '';
+        shades[i].style.opacity = (p * 0.62).toFixed(3);
+    });
+}
+
+
+// ── Navbar, Scrollspy & Jahresringe ────────────────────────
 const navbar      = document.getElementById('navbar');
 const scrollTopEl = document.getElementById('scroll-top');
+const navLinks    = document.querySelectorAll('.nav-link');
+const rings       = [...document.querySelectorAll('.growth-rings .ring')].reverse(); // innen → außen
+let activeId      = null;
 let scrollRafPending = false;
+
+function updateSpy() {
+    const line = window.scrollY + window.innerHeight * 0.35;
+    let current = null;
+    naturalTops.forEach((top, i) => { if (top <= line) current = stackSections[i].id || current; });
+    if (current === activeId) return;
+    activeId = current;
+    navLinks.forEach(link => {
+        const active = link.getAttribute('href') === '#' + current;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+    });
+}
+
+function updateRings() {
+    if (!rings.length) return;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const p = max > 0 ? clamp01(window.scrollY / max) : 0;
+    rings.forEach((ring, k) => {
+        ring.style.strokeDashoffset = (1 - clamp01(p * rings.length - k)).toFixed(4);
+    });
+}
 
 function onScroll() {
     const y = window.scrollY;
     navbar?.classList.toggle('scrolled', y > 40);
     scrollTopEl?.classList.toggle('is-visible', y > 600);
+    updateStack();
+    updateSpy();
+    updateRings();
     scrollRafPending = false;
 }
-window.addEventListener('scroll', () => {
+function requestScrollUpdate() {
     if (scrollRafPending) return;
     scrollRafPending = true;
     requestAnimationFrame(onScroll);
-}, { passive: true });
+}
+window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+
+function relayout() {
+    measureStack();
+    lenis?.resize();
+    requestScrollUpdate();
+}
+window.addEventListener('resize', relayout);
+if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(relayout);
+    stackSections.forEach(s => ro.observe(s));
+}
+measureStack();
 onScroll();
+document.fonts?.ready.then(relayout);
 
 
-// ── Aktiver Navigationspunkt (Scrollspy) ───────────────────
-const navLinks = document.querySelectorAll('.nav-link');
-const spyObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        navLinks.forEach(link => {
-            const active = link.getAttribute('href') === '#' + entry.target.id;
-            link.classList.toggle('active', active);
-            if (active) link.setAttribute('aria-current', 'location');
-            else link.removeAttribute('aria-current');
-        });
-    });
-}, { rootMargin: '-40% 0px -55% 0px' });
-document.querySelectorAll('main section[id]').forEach(s => spyObserver.observe(s));
+// ── Anker-Links: ruhige Fahrt zum Ziel ─────────────────────
+document.addEventListener('click', e => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey) return;
+    const id = link.getAttribute('href').slice(1);
+    if (!id || id === 'inhalt') return; // Skip-Link bleibt nativ (Fokus!)
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    const index = stackSections.indexOf(target);
+    const y = id === 'home' ? 0
+        : index >= 0 ? naturalTops[index]
+        : target.getBoundingClientRect().top + window.scrollY - 80;
+    scrollToY(y);
+    history.replaceState(null, '', id === 'home' ? location.pathname : `#${id}`);
+});
 
 
 // ── Scroll Reveal (gestaffelt) ─────────────────────────────
@@ -133,7 +259,10 @@ function showStatus(type, html) {
     formStatus.innerHTML = html;
     formStatus.hidden = false;
     formStatus.focus({ preventScroll: true });
-    formStatus.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
+    const rect = formStatus.getBoundingClientRect();
+    if (rect.top < 80 || rect.bottom > window.innerHeight) {
+        scrollToY(window.scrollY + rect.top - window.innerHeight / 2 + rect.height / 2);
+    }
     if (!reduceMotion.matches) {
         formStatus.animate(
             [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }],
@@ -434,7 +563,7 @@ async function openLightbox(category, opener) {
         lightboxImg.classList.toggle('lb-loading', !instantSrc);
         setLightboxText();
         lightbox.hidden = false;
-        document.body.style.overflow = 'hidden';
+        lockScroll(true);
     };
 
     if (canMorph() && tileImg) {
@@ -469,7 +598,7 @@ async function closeLightbox() {
     const hide = () => {
         lightbox.hidden = true;
         lightbox.classList.remove('is-open');
-        document.body.style.overflow = '';
+        lockScroll(false);
     };
 
     if (backToTile) {

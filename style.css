@@ -643,7 +643,8 @@ section[id] { scroll-margin-top: 72px; }
    ═══════════════════════════════════════════════════════════ */
 .services {
     padding: var(--section-y) 0;
-    background-image: var(--seam-on-light);
+    background-color: var(--cream-light);
+    background-image: var(--seam-on-light), var(--grain);
 }
 
 .services-features {
@@ -878,6 +879,8 @@ section[id] { scroll-margin-top: 72px; }
    ═══════════════════════════════════════════════════════════ */
 .portfolio {
     padding: var(--section-y) 0;
+    background-color: var(--cream-light);
+    background-image: var(--grain);
 }
 
 .portfolio-grid {
@@ -1342,6 +1345,31 @@ section[id] { scroll-margin-top: 72px; }
 .scroll-to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
 .scroll-to-top:hover { background: var(--wood-medium); }
 
+/* Jahresringe um den Nach-oben-Knopf: füllen sich von innen nach außen mit dem Scrollfortschritt */
+.scroll-to-top:has(.growth-rings) {
+    width: 56px;
+    height: 56px;
+    background: var(--bg-darkest);
+    color: var(--wood-honey);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+.scroll-to-top:has(.growth-rings):hover { background: var(--bg-warm); }
+.growth-rings {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+.growth-rings circle { fill: none; stroke-width: 1.6; }
+.growth-rings .ring-track { stroke: rgba(232,201,155,0.16); }
+.growth-rings .ring {
+    stroke: var(--wood-honey);
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+}
+
 /* ═══════════════════════════════════════════════════════════
    LEGAL PAGES (Impressum / Datenschutz)
    ═══════════════════════════════════════════════════════════ */
@@ -1531,3 +1559,97 @@ section[id] { scroll-margin-top: 72px; }
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   WEICHES SCROLLEN (Lenis)
+   ═══════════════════════════════════════════════════════════ */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto; } /* nur eine Glättung: Lenis */
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ═══════════════════════════════════════════════════════════
+   HOLZPLATTEN-STAPEL
+   Jeder Abschnitt gleitet wie eine neue Platte über den vorherigen;
+   der darunterliegende dunkelt ab und tritt zurück (script.js setzt
+   top, z-index und den Fortschritt). Nur ohne reduzierte Bewegung.
+   ═══════════════════════════════════════════════════════════ */
+:root { --panel-radius: clamp(16px, 2.2vw, 28px); }
+
+.is-stacked body { background: var(--bg-void); }
+.is-stacked main > section {
+    position: sticky;
+    transform-origin: 50% 0%;
+}
+.is-stacked main > section:not(:first-child),
+.is-stacked .footer {
+    border-radius: var(--panel-radius) var(--panel-radius) 0 0;
+    /* Schatten auf die Platte darunter + feine, gehobelte Oberkante */
+    box-shadow:
+        0 -20px 44px rgba(12,6,2,0.3),
+        inset 0 1px 0 rgba(232,201,155,0.22);
+    overflow: clip;
+}
+.is-stacked .footer { position: relative; z-index: 20; }
+
+.stack-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    border-radius: inherit;
+    background: var(--bg-void);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ZOLLSTOCK — klappt unter den Überschriften Glied für Glied auf
+   ═══════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] .section-title::after {
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.75s steps(3, end) 0.2s;
+    }
+    .js [data-reveal].revealed .section-title::after { transform: scaleX(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MASSBAND — zieht sich über die Arbeitsschritte aus, während sie
+   ins Bild kommen (scroll-gesteuert; ältere Browser: fertige Linie)
+   ═══════════════════════════════════════════════════════════ */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .process-steps { border-top-color: transparent; }
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(232,201,155,0.55);
+            transform-origin: left;
+            animation: tape-x linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 100%;
+        }
+        @media (max-width: 768px) {
+            .process-steps { border-left-color: transparent; }
+            .process-steps::before {
+                top: 0;
+                bottom: 0;
+                left: -1px;
+                right: auto;
+                width: 1px;
+                height: auto;
+                transform-origin: top;
+                animation-name: tape-y;
+                animation-range: entry 0% cover 60%;
+            }
+        }
+    }
+}
+@keyframes tape-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes tape-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }

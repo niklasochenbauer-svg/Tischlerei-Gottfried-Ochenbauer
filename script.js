@@ -14,7 +14,7 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
 // Bremst das Mausrad auf ein ruhiges, gleichmäßiges Tempo. Touch bleibt nativ.
 let lenis = null;
 if (motionOK && window.Lenis) {
-    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.8, smoothWheel: true });
+    lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.9, smoothWheel: true });
     const raf = time => { lenis.raf(time); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
 }
@@ -69,67 +69,22 @@ navMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav
 window.matchMedia('(min-width: 769px)').addEventListener('change', e => { if (e.matches) closeNav(); });
 
 
-// ── Holzplatten-Stapel ─────────────────────────────────────
-// Jeder Abschnitt klebt fest, sobald er ganz gesehen wurde; der nächste
-// gleitet darüber, der verdeckte dunkelt ab und tritt leicht zurück.
+// ── Scroll-gekoppelte Bewegung ─────────────────────────────
+// Kann der Browser CSS-Scroll-Timelines, übernimmt das CSS alle Übergänge
+// direkt auf der GPU (.sda). Die einfachen Einblendungen werden dann nicht gebraucht.
+const scrollDriven = motionOK && window.CSS?.supports?.('animation-timeline: view()');
+if (scrollDriven) document.documentElement.classList.add('sda');
+
+// ── Abschnitte vermessen (für Anker-Fahrten & Scrollspy) ───
 const mainEl        = document.querySelector('main');
 const stackSections = [...document.querySelectorAll('main > section')];
-const useStack      = motionOK && stackSections.length > 1;
-const shades        = [];
-const coverState    = [];
-let naturalTops     = [];   // Position jedes Abschnitts im normalen Fluss (für Anker & Scrollspy)
+let naturalTops     = [];
 
-if (useStack) {
-    document.documentElement.classList.add('is-stacked');
-    stackSections.forEach((section, i) => {
-        section.style.zIndex = i + 1;
-        if (i < stackSections.length - 1) {
-            const shade = document.createElement('div');
-            shade.className = 'stack-shade';
-            shade.setAttribute('aria-hidden', 'true');
-            section.appendChild(shade);
-            shades[i] = shade;
-        }
-    });
-}
-
-const stickTops = [];
 function measureStack() {
-    // 1. Alles lesen (ein einziger Layout-Durchlauf) …
-    const vh = window.innerHeight;
-    const start = mainEl ? mainEl.getBoundingClientRect().top + window.scrollY : 0;
-    const heights = stackSections.map(section => section.offsetHeight);
-    scrollMax = document.documentElement.scrollHeight - vh;
-    // 2. … dann nur Geändertes schreiben
-    let y = start;
-    naturalTops = heights.map(h => { const top = y; y += h; return top; });
-    if (!useStack) return;
-    heights.forEach((h, i) => {
-        // Lange Abschnitte kleben erst, wenn ihr Ende unten ankommt
-        const top = Math.min(0, Math.round(vh - h));
-        if (stickTops[i] !== top) {
-            stickTops[i] = top;
-            stackSections[i].style.top = `${top}px`;
-        }
-    });
-}
-
-// Lesen: wie weit ist jede Platte schon von der nächsten verdeckt?
-function readStack() {
-    if (!useStack) return null;
-    const vh = window.innerHeight;
-    return stackSections.slice(1).map(next => clamp01(1 - next.getBoundingClientRect().top / vh));
-}
-
-// Schreiben: nur transform/opacity, nur bei Änderung
-function writeStack(progress) {
-    if (!progress) return;
-    progress.forEach((p, i) => {
-        if (Math.abs(p - (coverState[i] ?? -1)) < 0.002) return;
-        coverState[i] = p;
-        stackSections[i].style.transform = p > 0.001 ? `scale(${(1 - 0.045 * p).toFixed(4)})` : '';
-        shades[i].style.opacity = (p * 0.62).toFixed(3);
-    });
+    // nur lesen: ein einziger Layout-Durchlauf
+    const scroll = window.scrollY;
+    naturalTops = stackSections.map(section => section.getBoundingClientRect().top + scroll);
+    scrollMax = document.documentElement.scrollHeight - window.innerHeight;
 }
 
 
@@ -167,13 +122,9 @@ function updateRings(scrollY) {
 }
 
 function onScroll() {
-    // erst lesen …
     const y = window.scrollY;
-    const progress = readStack();
-    // … dann schreiben
     navbar?.classList.toggle('scrolled', y > 40);
     scrollTopEl?.classList.toggle('is-visible', y > 600);
-    writeStack(progress);
     updateSpy(y);
     updateRings(y);
     scrollRafPending = false;
@@ -240,7 +191,7 @@ function reveal(el) {
     setTimeout(() => el.classList.add('reveal-done'), total);
 }
 
-if (reduceMotion.matches || !('IntersectionObserver' in window)) {
+if (scrollDriven || reduceMotion.matches || !('IntersectionObserver' in window)) {
     revealEls.forEach(el => el.classList.add('revealed', 'reveal-done'));
 } else {
     const revealObserver = new IntersectionObserver(entries => {

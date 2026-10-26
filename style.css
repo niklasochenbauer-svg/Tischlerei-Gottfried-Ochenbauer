@@ -84,14 +84,14 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
     --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
-    /* Weiche Abschnittsübergänge: Schatten der dunklen Fläche darüber */
-    --seam-on-light: linear-gradient(to bottom, rgba(26,13,6,0.09), rgba(26,13,6,0) 180px);
-    --seam-on-dark:  linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0) 160px);
+    /* Abschnittsübergänge übernimmt jetzt die Maserungs-Kante (siehe unten) */
+    --seam-on-light: linear-gradient(transparent, transparent);
+    --seam-on-dark:  linear-gradient(transparent, transparent);
 
-    /* Grain texture */
-    --grain:
-        repeating-linear-gradient(73deg, transparent 0 8px, rgba(107,58,31,0.018) 8px 9px),
-        repeating-linear-gradient(-28deg, transparent 0 14px, rgba(60,25,8,0.013) 14px 15px);
+    /* Holzmaserung: Ahorn auf hellen, Nussbaum auf dunklen Flächen (nahtlos kachelbar).
+       Vorgerendert aus assets/maserung-*.svg — SVG-Filter live zu berechnen kostet zu viel Rechenzeit. */
+    --grain:      url('assets/maserung-hell.webp');
+    --grain-dark: url('assets/maserung-dunkel.webp');
 }
 
 /* ── Global Typography ── */
@@ -439,7 +439,7 @@ section[id] { scroll-margin-top: 72px; }
     background-image:
         radial-gradient(ellipse at 15% 25%, rgba(196,135,75,0.1) 0%, transparent 55%),
         radial-gradient(ellipse at 90% 80%, rgba(107,58,31,0.14) 0%, transparent 50%),
-        var(--grain);
+        var(--grain-dark);
     position: relative;
     overflow: hidden;
     color: var(--on-dark);
@@ -719,7 +719,7 @@ section[id] { scroll-margin-top: 72px; }
 .process {
     padding: var(--section-y) 0;
     background-color: var(--bg-dark);
-    background-image: var(--seam-on-dark), var(--grain), linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-warm) 100%);
+    background-image: var(--seam-on-dark), var(--grain-dark), linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-warm) 100%);
     color: var(--on-dark);
 }
 
@@ -1074,7 +1074,7 @@ section[id] { scroll-margin-top: 72px; }
 .testimonials {
     padding: var(--section-y) 0;
     background-color: var(--bg-darkest);
-    background-image: var(--seam-on-dark), var(--grain), linear-gradient(160deg, var(--bg-darkest) 0%, var(--bg-dark) 100%);
+    background-image: var(--seam-on-dark), var(--grain-dark), linear-gradient(160deg, var(--bg-darkest) 0%, var(--bg-dark) 100%);
     color: var(--on-dark);
 }
 
@@ -1135,7 +1135,7 @@ section[id] { scroll-margin-top: 72px; }
 
 .contact-info {
     background-color: var(--bg-dark);
-    background-image: var(--grain), linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-warm) 100%);
+    background-image: var(--grain-dark), linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-warm) 100%);
     color: var(--on-dark);
 }
 .contact-info-inner {
@@ -1375,7 +1375,7 @@ section[id] { scroll-margin-top: 72px; }
    ═══════════════════════════════════════════════════════════ */
 .legal-header {
     background: var(--bg-darkest);
-    background-image: var(--grain);
+    background-image: var(--grain-dark);
     padding: 1.1rem 0;
 }
 .legal-header .nav-container { gap: 1rem; }
@@ -1456,7 +1456,7 @@ section[id] { scroll-margin-top: 72px; }
         gap: 0;
         padding: 5.5rem 1.5rem 2rem;
         background-color: var(--bg-darkest);
-        background-image: var(--grain);
+        background-image: var(--grain-dark);
         box-shadow: -8px 0 30px rgba(0,0,0,0.35);
         z-index: 999;
         transform: translateX(100%);
@@ -1570,49 +1570,148 @@ html.lenis { scroll-behavior: auto; } /* nur eine Glättung: Lenis */
 .lenis.lenis-stopped { overflow: hidden; }
 
 /* ═══════════════════════════════════════════════════════════
-   HOLZPLATTEN-STAPEL
-   Jeder Abschnitt gleitet wie eine neue Platte über den vorherigen;
-   der darunterliegende dunkelt ab und tritt zurück (script.js setzt
-   top, z-index und den Fortschritt). Nur ohne reduzierte Bewegung.
+   MASERUNGS-KANTE — statt harter Kanten läuft jeder Abschnitt mit einer
+   gewachsenen, geschwungenen Holzkante samt feinen Jahreslinien in den
+   vorherigen hinein. (Farben = Grundfarbe des jeweiligen Abschnitts.)
    ═══════════════════════════════════════════════════════════ */
-:root { --panel-radius: clamp(16px, 2.2vw, 28px); }
-
-.is-stacked body { background: var(--bg-void); }
-.is-stacked main > section {
-    position: sticky;
-    transform-origin: 50% 0%;
+:root { --edge-h: clamp(46px, 8.5vw, 136px); }
+@media (max-width: 768px) {
+    /* auf schmalen Bildschirmen breiter auslegen, damit die Kante ruhig bleibt */
+    :is(.services, .process, .about, .portfolio, .testimonials)::before { left: -50%; width: 200%; }
 }
-.is-stacked main > section:not(:first-child),
-.is-stacked .footer {
-    border-radius: var(--panel-radius) var(--panel-radius) 0 0;
-    /* Schatten auf die Platte darunter + feine, gehobelte Oberkante */
-    box-shadow:
-        0 -20px 44px rgba(12,6,2,0.3),
-        inset 0 1px 0 rgba(232,201,155,0.22);
-    overflow: clip;
-}
-.is-stacked .footer { position: relative; z-index: 20; }
 
-.stack-shade {
+main > section { position: relative; }
+/* Kanten wandern seitlich – nichts darf horizontal überstehen (iPhone!) */
+main { overflow-x: clip; }
+.process > .container, .testimonials > .container { position: relative; }
+/* Rahmen, der die Jahresringe auf ihren Abschnitt begrenzt (die Kante oben bleibt frei) */
+.deco-wrap {
     position: absolute;
     inset: 0;
-    z-index: 40;
-    border-radius: inherit;
-    background: var(--bg-void);
-    opacity: 0;
+    overflow: hidden;
     pointer-events: none;
 }
 
+:is(.services, .process, .about, .portfolio, .testimonials)::before {
+    content: '';
+    position: absolute;
+    left: -15%;
+    width: 130%;
+    height: var(--edge-h);
+    top: calc(1px - var(--edge-h));
+    background: var(--edge) center bottom / 100% 100% no-repeat;
+    pointer-events: none;
+    z-index: 2;
+}
+/* Waldkanten: werden von einem Skript erzeugt (unregelmäßige Baumkante + 3 Jahreslinien) */
+/* EDGES:START */
+.services::before { --edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140' preserveAspectRatio='none'%3E%3Cpath d='M0 92C20 88 82 69 120 70C158 71 187 97 230 96C273 95 332 70 380 62C428 54 473 45 520 48C567 51 613 71 660 80C707 89 750 105 800 104C850 103 910 85 960 74C1010 63 1053 40 1100 36C1147 32 1197 43 1240 52C1283 61 1327 87 1360 90C1393 93 1427 75 1440 72V140H0Z' fill='%23F7EFE0'/%3E%3Cg fill='none' stroke='%23E8C99B'%3E%3Cpath d='M0 77C20 73 82 54 120 55C158 56 187 82 230 81C273 80 332 55 380 47C428 39 473 30 520 33C567 36 613 56 660 65C707 74 750 90 800 89C850 88 910 70 960 59C1010 48 1053 25 1100 21C1147 17 1197 28 1240 37C1283 46 1327 72 1360 75C1393 78 1427 60 1440 57' stroke-opacity='0.55' stroke-width='1.4' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 61C20 57 82 38 120 39C158 40 187 66 230 65C273 64 332 39 380 31C428 23 473 14 520 17C567 20 613 40 660 49C707 58 750 74 800 73C850 72 910 54 960 43C1010 32 1053 9 1100 5C1147 1 1197 12 1240 21C1283 30 1327 56 1360 59C1393 62 1427 44 1440 41' stroke-opacity='0.3' stroke-width='1.1' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 43C20 39 82 20 120 21C158 22 187 48 230 47C273 46 332 21 380 13C428 5 473 -4 520 -1C567 2 613 22 660 31C707 40 750 56 800 55C850 54 910 36 960 25C1010 14 1053 -9 1100 -13C1147 -17 1197 -6 1240 3C1283 12 1327 38 1360 41C1393 44 1427 26 1440 23' stroke-opacity='0.14' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/svg%3E"); }
+.process::before { --edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140' preserveAspectRatio='none'%3E%3Cpath d='M0 60C23 64 90 79 140 86C190 93 248 107 300 104C352 101 400 81 450 70C500 59 548 42 600 40C652 38 710 49 760 58C810 67 850 85 900 92C950 99 1010 103 1060 98C1110 93 1155 71 1200 62C1245 53 1290 43 1330 44C1370 45 1422 62 1440 66V140H0Z' fill='%23241208'/%3E%3Cg fill='none' stroke='%239B5E35'%3E%3Cpath d='M0 45C23 49 90 64 140 71C190 78 248 92 300 89C352 86 400 66 450 55C500 44 548 27 600 25C652 23 710 34 760 43C810 52 850 70 900 77C950 84 1010 88 1060 83C1110 78 1155 56 1200 47C1245 38 1290 28 1330 29C1370 30 1422 47 1440 51' stroke-opacity='0.55' stroke-width='1.4' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 29C23 33 90 48 140 55C190 62 248 76 300 73C352 70 400 50 450 39C500 28 548 11 600 9C652 7 710 18 760 27C810 36 850 54 900 61C950 68 1010 72 1060 67C1110 62 1155 40 1200 31C1245 22 1290 12 1330 13C1370 14 1422 31 1440 35' stroke-opacity='0.3' stroke-width='1.1' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 11C23 15 90 30 140 37C190 44 248 58 300 55C352 52 400 32 450 21C500 10 548 -7 600 -9C652 -11 710 0 760 9C810 18 850 36 900 43C950 50 1010 54 1060 49C1110 44 1155 22 1200 13C1245 4 1290 -6 1330 -5C1370 -4 1422 13 1440 17' stroke-opacity='0.14' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/svg%3E"); }
+.about::before { --edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140' preserveAspectRatio='none'%3E%3Cpath d='M0 78C27 73 108 56 160 50C212 44 258 38 310 42C362 46 415 64 470 74C525 84 585 99 640 100C695 101 752 91 800 82C848 73 882 54 930 46C978 38 1037 30 1090 34C1143 38 1192 60 1250 70C1308 80 1408 92 1440 96V140H0Z' fill='%23F0E4CE'/%3E%3Cg fill='none' stroke='%23E8C99B'%3E%3Cpath d='M0 63C27 58 108 41 160 35C212 29 258 23 310 27C362 31 415 49 470 59C525 69 585 84 640 85C695 86 752 76 800 67C848 58 882 39 930 31C978 23 1037 15 1090 19C1143 23 1192 45 1250 55C1308 65 1408 77 1440 81' stroke-opacity='0.55' stroke-width='1.4' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 47C27 42 108 25 160 19C212 13 258 7 310 11C362 15 415 33 470 43C525 53 585 68 640 69C695 70 752 60 800 51C848 42 882 23 930 15C978 7 1037 -1 1090 3C1143 7 1192 29 1250 39C1308 49 1408 61 1440 65' stroke-opacity='0.3' stroke-width='1.1' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 29C27 24 108 7 160 1C212 -5 258 -11 310 -7C362 -3 415 15 470 25C525 35 585 50 640 51C695 52 752 42 800 33C848 24 882 5 930 -3C978 -11 1037 -19 1090 -15C1143 -11 1192 11 1250 21C1308 31 1408 43 1440 47' stroke-opacity='0.14' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/svg%3E"); }
+.portfolio::before { --edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140' preserveAspectRatio='none'%3E%3Cpath d='M0 70C30 74 122 94 180 96C238 98 297 89 350 80C403 71 443 48 500 44C557 40 632 48 690 56C748 64 797 89 850 94C903 99 957 91 1010 84C1063 77 1118 53 1170 50C1222 47 1275 58 1320 64C1365 70 1420 84 1440 88V140H0Z' fill='%23F7EFE0'/%3E%3Cg fill='none' stroke='%23C4874B'%3E%3Cpath d='M0 55C30 59 122 79 180 81C238 83 297 74 350 65C403 56 443 33 500 29C557 25 632 33 690 41C748 49 797 74 850 79C903 84 957 76 1010 69C1063 62 1118 38 1170 35C1222 32 1275 43 1320 49C1365 55 1420 69 1440 73' stroke-opacity='0.55' stroke-width='1.4' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 39C30 43 122 63 180 65C238 67 297 58 350 49C403 40 443 17 500 13C557 9 632 17 690 25C748 33 797 58 850 63C903 68 957 60 1010 53C1063 46 1118 22 1170 19C1222 16 1275 27 1320 33C1365 39 1420 53 1440 57' stroke-opacity='0.3' stroke-width='1.1' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 21C30 25 122 45 180 47C238 49 297 40 350 31C403 22 443 -1 500 -5C557 -9 632 -1 690 7C748 15 797 40 850 45C903 50 957 42 1010 35C1063 28 1118 4 1170 1C1222 -2 1275 9 1320 15C1365 21 1420 35 1440 39' stroke-opacity='0.14' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/svg%3E"); }
+.testimonials::before { --edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140' preserveAspectRatio='none'%3E%3Cpath d='M0 92C20 88 82 69 120 70C158 71 187 97 230 96C273 95 332 70 380 62C428 54 473 45 520 48C567 51 613 71 660 80C707 89 750 105 800 104C850 103 910 85 960 74C1010 63 1053 40 1100 36C1147 32 1197 43 1240 52C1283 61 1327 87 1360 90C1393 93 1427 75 1440 72V140H0Z' fill='%231A0D06'/%3E%3Cg fill='none' stroke='%239B5E35'%3E%3Cpath d='M0 77C20 73 82 54 120 55C158 56 187 82 230 81C273 80 332 55 380 47C428 39 473 30 520 33C567 36 613 56 660 65C707 74 750 90 800 89C850 88 910 70 960 59C1010 48 1053 25 1100 21C1147 17 1197 28 1240 37C1283 46 1327 72 1360 75C1393 78 1427 60 1440 57' stroke-opacity='0.55' stroke-width='1.4' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 61C20 57 82 38 120 39C158 40 187 66 230 65C273 64 332 39 380 31C428 23 473 14 520 17C567 20 613 40 660 49C707 58 750 74 800 73C850 72 910 54 960 43C1010 32 1053 9 1100 5C1147 1 1197 12 1240 21C1283 30 1327 56 1360 59C1393 62 1427 44 1440 41' stroke-opacity='0.3' stroke-width='1.1' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 43C20 39 82 20 120 21C158 22 187 48 230 47C273 46 332 21 380 13C428 5 473 -4 520 -1C567 2 613 22 660 31C707 40 750 56 800 55C850 54 910 36 960 25C1010 14 1053 -9 1100 -13C1147 -17 1197 -6 1240 3C1283 12 1327 38 1360 41C1393 44 1427 26 1440 23' stroke-opacity='0.14' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/svg%3E"); }
+/* EDGES:END */
+.portfolio::before { height: calc(var(--edge-h) * 0.7); top: calc(1px - var(--edge-h) * 0.7); }
+/* „entdecken“ sitzt über der Kante */
+.hero-scroll-hint { bottom: calc(var(--edge-h) + 0.25rem); z-index: 3; }
+
 /* ═══════════════════════════════════════════════════════════
-   ZOLLSTOCK — klappt unter den Überschriften Glied für Glied auf
+   JAHRESRINGE — großer Hirnholz-Querschnitt als Signatur im Hintergrund
    ═══════════════════════════════════════════════════════════ */
+.deco-rings {
+    position: absolute;
+    aspect-ratio: 1;
+    background: url('assets/jahresringe.svg') center / contain no-repeat;
+    pointer-events: none;
+    opacity: 0.14;
+}
+.hero .deco-rings { width: min(82vw, 1080px); right: -16%; top: 50%; translate: 0 -50%; opacity: 0.12; }
+.process .deco-rings { width: min(72vw, 860px); left: -26%; bottom: -24%; opacity: 0.09; }
+.testimonials .deco-rings { width: min(58vw, 680px); right: -16%; top: -32%; opacity: 0.08; }
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLL-GEKOPPELTE BEWEGUNG (.sda = Browser kann Scroll-Timelines)
+   Alles hängt direkt an der Scrollposition und läuft auf der GPU
+   (nur transform/opacity) — exakt im Takt, ohne JS-Verzögerung.
+   Ältere Browser: einfache Einblendungen (data-reveal).
+   ═══════════════════════════════════════════════════════════ */
+@keyframes scrub-rise   { from { opacity: 0; transform: translateY(56px); } to { opacity: 1; transform: none; } }
+@keyframes photo-drift  { from { transform: translateY(-6%) scale(1.14); } to { transform: translateY(6%) scale(1.14); } }
+@keyframes edge-drift   { from { transform: translateX(-7%); } to { transform: translateX(7%); } }
+@keyframes rings-turn   { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+@keyframes hero-exit    { to { transform: translateY(-9vh) scale(0.965); opacity: 0; } }
+@keyframes forest-sink  { to { transform: translateY(24%); } }
+@keyframes unfold       { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .sda :is(.section-head > *, .services-features > *, .service-list > li, .process-steps > li,
+                 .about-text > *, .about-figure, .testimonials-cta, .contact-info-inner > *,
+                 .contact-form-inner, .portfolio-item) {
+            animation: scrub-rise linear both;
+            animation-timeline: view();
+            animation-range: entry 4% entry 78%;
+        }
+        /* Geschwister nacheinander — wie Bretter, die nachgereicht werden */
+        .sda :is(.services-features, .service-list, .process-steps, .section-head) > :nth-child(2),
+        .sda .portfolio-item:nth-child(4n + 2) { animation-range: entry 11% entry 85%; }
+        .sda :is(.services-features, .service-list, .process-steps) > :nth-child(3),
+        .sda .portfolio-item:nth-child(4n + 3) { animation-range: entry 18% entry 92%; }
+        .sda .service-list > :nth-child(4),
+        .sda .portfolio-item:nth-child(4n + 4) { animation-range: entry 25% entry 99%; }
+
+        /* Fotos bewegen sich im Rahmen leicht gegen die Scrollrichtung (Tiefe) */
+        .sda :is(.service-photo, .about-photo) img {
+            animation: photo-drift linear both;
+            animation-timeline: view();
+            animation-range: cover;
+        }
+
+        /* Zollstock klappt im Takt des Scrollens Glied für Glied auf */
+        .sda .section-title::after {
+            transform-origin: left;
+            animation: unfold steps(3, end) both;
+            animation-timeline: view();
+            animation-range: entry 45% entry 100%;
+        }
+
+        /* Maserungs-Kanten wandern sanft seitlich mit */
+        .sda :is(.services, .process, .about, .portfolio, .testimonials)::before {
+            animation: edge-drift linear both;
+            animation-timeline: view();
+            animation-range: cover;
+        }
+
+        /* Jahresringe drehen sich langsam */
+        .sda .deco-rings {
+            animation: rings-turn linear both;
+            animation-timeline: view();
+            animation-range: cover;
+        }
+
+        /* Hero: Inhalt hebt sich ab und blendet aus, Wald sinkt nach */
+        .sda .hero { view-timeline: --hero block; }
+        .sda .hero-inner {
+            animation: hero-exit linear both;
+            animation-timeline: --hero;
+            animation-range: exit 0% exit 85%;
+        }
+        .sda .hero-forest {
+            animation: forest-sink linear both;
+            animation-timeline: --hero;
+            animation-range: exit 0% exit 100%;
+        }
+    }
+}
+
+/* Fallback ohne Scroll-Timelines: Zollstock klappt beim Einblenden auf */
 @media (prefers-reduced-motion: no-preference) {
-    .js [data-reveal] .section-title::after {
+    .js:not(.sda) [data-reveal] .section-title::after {
         transform: scaleX(0);
         transform-origin: left;
         transition: transform 0.75s steps(3, end) 0.2s;
     }
-    .js [data-reveal].revealed .section-title::after { transform: scaleX(1); }
+    .js:not(.sda) [data-reveal].revealed .section-title::after { transform: scaleX(1); }
 }
 
 /* ═══════════════════════════════════════════════════════════

@@ -93,23 +93,37 @@ if (useStack) {
     });
 }
 
+const stickTops = [];
 function measureStack() {
+    // 1. Alles lesen (ein einziger Layout-Durchlauf) …
     const vh = window.innerHeight;
-    let y = mainEl ? mainEl.getBoundingClientRect().top + window.scrollY : 0;
-    naturalTops = stackSections.map(section => {
-        const top = y;
-        y += section.offsetHeight;
+    const start = mainEl ? mainEl.getBoundingClientRect().top + window.scrollY : 0;
+    const heights = stackSections.map(section => section.offsetHeight);
+    scrollMax = document.documentElement.scrollHeight - vh;
+    // 2. … dann nur Geändertes schreiben
+    let y = start;
+    naturalTops = heights.map(h => { const top = y; y += h; return top; });
+    if (!useStack) return;
+    heights.forEach((h, i) => {
         // Lange Abschnitte kleben erst, wenn ihr Ende unten ankommt
-        if (useStack) section.style.top = `${Math.min(0, vh - section.offsetHeight)}px`;
-        return top;
+        const top = Math.min(0, Math.round(vh - h));
+        if (stickTops[i] !== top) {
+            stickTops[i] = top;
+            stackSections[i].style.top = `${top}px`;
+        }
     });
 }
 
-function updateStack() {
-    if (!useStack) return;
+// Lesen: wie weit ist jede Platte schon von der nächsten verdeckt?
+function readStack() {
+    if (!useStack) return null;
     const vh = window.innerHeight;
-    // Erst alle Positionen lesen, dann schreiben (kein Layout-Hin-und-Her)
-    const progress = stackSections.slice(1).map(next => clamp01(1 - next.getBoundingClientRect().top / vh));
+    return stackSections.slice(1).map(next => clamp01(1 - next.getBoundingClientRect().top / vh));
+}
+
+// Schreiben: nur transform/opacity, nur bei Änderung
+function writeStack(progress) {
+    if (!progress) return;
     progress.forEach((p, i) => {
         if (Math.abs(p - (coverState[i] ?? -1)) < 0.002) return;
         coverState[i] = p;
@@ -127,8 +141,8 @@ const rings       = [...document.querySelectorAll('.growth-rings .ring')].revers
 let activeId      = null;
 let scrollRafPending = false;
 
-function updateSpy() {
-    const line = window.scrollY + window.innerHeight * 0.35;
+function updateSpy(scrollY) {
+    const line = scrollY + window.innerHeight * 0.35;
     let current = null;
     naturalTops.forEach((top, i) => { if (top <= line) current = stackSections[i].id || current; });
     if (current === activeId) return;
@@ -141,22 +155,27 @@ function updateSpy() {
     });
 }
 
-function updateRings() {
+let scrollMax = 1;   // wird in relayout() gemessen, nicht bei jedem Scroll-Frame
+const ringState = [];
+function updateRings(scrollY) {
     if (!rings.length) return;
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const p = max > 0 ? clamp01(window.scrollY / max) : 0;
+    const p = scrollMax > 0 ? clamp01(scrollY / scrollMax) : 0;
     rings.forEach((ring, k) => {
-        ring.style.strokeDashoffset = (1 - clamp01(p * rings.length - k)).toFixed(4);
+        const offset = (1 - clamp01(p * rings.length - k)).toFixed(3);
+        if (ringState[k] !== offset) { ringState[k] = offset; ring.style.strokeDashoffset = offset; }
     });
 }
 
 function onScroll() {
+    // erst lesen …
     const y = window.scrollY;
+    const progress = readStack();
+    // … dann schreiben
     navbar?.classList.toggle('scrolled', y > 40);
     scrollTopEl?.classList.toggle('is-visible', y > 600);
-    updateStack();
-    updateSpy();
-    updateRings();
+    writeStack(progress);
+    updateSpy(y);
+    updateRings(y);
     scrollRafPending = false;
 }
 function requestScrollUpdate() {
@@ -166,14 +185,25 @@ function requestScrollUpdate() {
 }
 window.addEventListener('scroll', requestScrollUpdate, { passive: true });
 
+// Mehrere Auslöser (Größenänderung, Schriften, Galerie) auf einen Frame bündeln
+let relayoutPending = false;
 function relayout() {
-    measureStack();
-    lenis?.resize();
-    requestScrollUpdate();
+    if (relayoutPending) return;
+    relayoutPending = true;
+    requestAnimationFrame(() => {
+        relayoutPending = false;
+        measureStack();
+        lenis?.resize();
+        onScroll();
+    });
 }
 window.addEventListener('resize', relayout);
 if ('ResizeObserver' in window) {
-    const ro = new ResizeObserver(relayout);
+    let firstCall = true;
+    const ro = new ResizeObserver(() => {
+        if (firstCall) { firstCall = false; return; } // erster Aufruf = Startzustand, schon vermessen
+        relayout();
+    });
     stackSections.forEach(s => ro.observe(s));
 }
 measureStack();

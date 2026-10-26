@@ -4,7 +4,7 @@ Die Galerie „Unsere Arbeiten“ holt sich ihre Fotos automatisch. Neue Bilder 
 
 ## So geht's (auch am Handy)
 
-1. **Verwaltungsseite öffnen:** `https://<ihre-domain>/fotos.html`.
+1. **Verwaltungsseite öffnen:** **https://www.tischlerei-ochenbauer.at/fotos.html**.
    Tipp: Am Handy als Lesezeichen oder „Zum Home-Bildschirm“ speichern.
 2. **Anmelden** mit E-Mail-Adresse und Passwort.
 3. **Kategorie wählen**, z. B. „Küche“.
@@ -36,10 +36,10 @@ Auf der Anmeldeseite E-Mail-Adresse eingeben und „Passwort vergessen?“ antip
 
 ## Einmalige Einrichtung (technisch, nur einmal nötig)
 
-1. Im Supabase-Projekt **„tischlerei-bilder“** → **SQL Editor** den Inhalt von [`supabase/foto-admin.sql`](supabase/foto-admin.sql) einfügen und **Run** drücken.
+1. ✅ *Erledigt am 26.10.2026.* Im Supabase-Projekt **„tischlerei-bilder“** → **SQL Editor** den Inhalt von [`supabase/foto-admin.sql`](supabase/foto-admin.sql) einfügen und **Run** drücken.
    Das erlaubt Hochladen und Löschen nur für freigegebene E-Mail-Adressen. Freigegeben ist `tischlerei.ochenbauer@gmail.com`; weitere Adressen kommen unten im SQL dazu.
 2. **Authentication → Users → Add user**: E-Mail und Passwort eintragen, Haken bei **„Auto Confirm User“**.
-3. Für „Passwort vergessen“: **Authentication → URL Configuration** → bei *Redirect URLs* `https://<ihre-domain>/fotos.html` eintragen.
+3. Für „Passwort vergessen“: **Authentication → URL Configuration** → bei *Redirect URLs* **https://www.tischlerei-ochenbauer.at/fotos.html** eintragen.
 
 ### Wie es technisch funktioniert
 

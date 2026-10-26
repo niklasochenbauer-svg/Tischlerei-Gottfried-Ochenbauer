@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /fotos.html
+
+Sitemap: https://www.tischlerei-ochenbauer.at/sitemap.xml

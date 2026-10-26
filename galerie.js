@@ -20,6 +20,19 @@ const Galerie = (() => {
     const DEFAULT_ORDER  = ['Stiege', 'Kueche', 'Esstisch', 'Wohnzimmer', 'Stauraum', 'Gartenhaus', 'Bett', 'Spiegel', 'Kastenstiege', 'Badezimmer', 'Tor'];
     const DEFAULT_TITLES = { Kueche: 'Küche' };
 
+    // Bildoptimierung über Vercel (/_vercel/image, siehe vercel.json):
+    // liefert passend verkleinerte WebP/AVIF-Fotos. Nur auf der echten Website,
+    // lokal werden die Originale geladen.
+    const OPTIMIZE = location.protocol === 'https:' && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    const WIDTHS = [384, 640, 960, 1280, 1920];
+    function sized(url, width) {
+        if (!OPTIMIZE) return url;
+        const w = WIDTHS.find(x => x >= width) || WIDTHS[WIDTHS.length - 1];
+        return `/_vercel/image?url=${encodeURIComponent(url)}&w=${w}&q=${w >= 1280 ? 80 : 72}`;
+    }
+    const srcset = (url, widths = [384, 640, 960]) =>
+        OPTIMIZE ? widths.map(w => `${sized(url, w)} ${w}w`).join(', ') : '';
+
     const encodePath = path => path.split('/').map(encodeURIComponent).join('/');
     const publicUrl  = path => `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${encodePath(path)}`;
 
@@ -106,8 +119,8 @@ const Galerie = (() => {
     }
 
     return {
-        SUPABASE_URL, ANON_KEY, BUCKET, MANIFEST, SYSTEM_FOLDERS, THUMB_SUFFIX,
-        headers, list, publicUrl, encodePath, thumbNameFor,
+        SUPABASE_URL, ANON_KEY, BUCKET, MANIFEST, SYSTEM_FOLDERS, THUMB_SUFFIX, OPTIMIZE,
+        headers, list, publicUrl, encodePath, thumbNameFor, sized, srcset,
         loadManifest, discover, loadCategories, loadPhotos
     };
 })();

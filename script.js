@@ -204,9 +204,45 @@ if (contactForm) {
 // ═══════════════════════════════════════════════════════════
 const portfolioGrid   = document.getElementById('portfolio-grid');
 const portfolioStatus = document.getElementById('portfolio-status');
-let galleryCategories = [];   // [{ ordner, titel, photos, coverIndex }]
+const GALLERY_CACHE   = 'tischlerei-galerie-v1';
+let galleryCategories = [];   // [{ ordner, titel, photos: [{ name, url, thumb }], coverIndex }]
+let galleryRequest    = null;
 
-function renderSkeleton(count = 8) {
+// Zuletzt geladene Galerie merken: beim nächsten Besuch sofort da,
+// und die Platzhalter haben gleich die richtige Anzahl (kein Springen)
+function readGalleryCache() {
+    try {
+        const data = JSON.parse(localStorage.getItem(GALLERY_CACHE));
+        return Array.isArray(data?.cats) && data.cats.length ? data.cats : null;
+    } catch { return null; }
+}
+function writeGalleryCache(cats) {
+    try { localStorage.setItem(GALLERY_CACHE, JSON.stringify({ t: Date.now(), cats })); } catch {}
+}
+
+async function fetchGalleryData() {
+    const manifest = await Galerie.loadCategories();
+    const cats = manifest.kategorien.filter(c => c?.ordner && !c.versteckt);
+    const results = await Promise.allSettled(cats.map(c => Galerie.loadPhotos(c.ordner)));
+    if (results.length && results.every(r => r.status === 'rejected')) throw new Error('Galerie nicht erreichbar');
+    return cats.map((c, i) => {
+        const photos = results[i].status === 'fulfilled'
+            ? results[i].value.map(({ name, url, thumb }) => ({ name, url, thumb }))
+            : [];
+        const coverIndex = Math.max(0, photos.findIndex(p => p.name === c.titelbild));
+        return { ordner: c.ordner, titel: c.titel || c.ordner, photos, coverIndex };
+    }).filter(c => c.photos.length);
+}
+
+// Daten früh im Hintergrund holen, damit beim Hinscrollen nichts mehr wartet
+function prefetchGallery() {
+    if (!galleryRequest) {
+        galleryRequest = fetchGalleryData().catch(err => { galleryRequest = null; throw err; });
+    }
+    return galleryRequest;
+}
+
+function renderSkeleton(count = readGalleryCache()?.length || 11) {
     if (!portfolioGrid) return;
     portfolioGrid.innerHTML = Array.from({ length: count }, () =>
         '<div class="portfolio-item is-skeleton" aria-hidden="true"></div>').join('');
@@ -236,7 +272,7 @@ function renderGallery() {
     portfolioGrid.innerHTML = '';
 
     visible.forEach((cat, i) => {
-        const cover = cat.photos[cat.coverIndex];
+        const cover = cat.photos[cat.coverIndex] || cat.photos[0];
         const count = `${cat.photos.length} ${cat.photos.length === 1 ? 'Foto' : 'Fotos'}`;
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -249,10 +285,17 @@ function renderGallery() {
         img.decoding = 'async';
         img.addEventListener('load', () => { img.classList.add('is-loaded'); btn.classList.remove('is-loading'); }, { once: true });
         img.addEventListener('error', () => {
-            // Vorschaubild fehlt? Dann das Originalfoto nehmen
-            if (img.src !== cover.url) img.src = cover.url;
+            // Optimierung oder Vorschaubild nicht verfügbar? Dann das Originalfoto nehmen
+            if (img.src !== cover.url) { img.removeAttribute('srcset'); img.src = cover.url; }
         });
-        img.src = cover.thumb;
+        if (Galerie.OPTIMIZE) {
+            // Kachelgröße: die erste ist doppelt so groß wie die übrigen
+            img.sizes = i === 0 ? '(max-width: 768px) 92vw, 50vw' : '(max-width: 768px) 46vw, 25vw';
+            img.srcset = Galerie.srcset(cover.url);
+            img.src = Galerie.sized(cover.url, 640);
+        } else {
+            img.src = cover.thumb || cover.url;
+        }
 
         btn.appendChild(img);
         btn.insertAdjacentHTML('beforeend', `
@@ -279,23 +322,25 @@ function showGalleryError() {
 
 async function initGallery() {
     if (portfolioStatus) portfolioStatus.hidden = true;
-    portfolioGrid?.setAttribute('aria-busy', 'true');
-    renderSkeleton();
-    try {
-        const manifest = await Galerie.loadCategories();
-        const cats = manifest.kategorien.filter(c => c?.ordner && !c.versteckt);
-        const results = await Promise.allSettled(cats.map(c => Galerie.loadPhotos(c.ordner)));
-        if (results.length && results.every(r => r.status === 'rejected')) throw new Error('Galerie nicht erreichbar');
-
-        galleryCategories = cats.map((c, i) => {
-            const photos = results[i].status === 'fulfilled' ? results[i].value : [];
-            const coverIndex = Math.max(0, photos.findIndex(p => p.name === c.titelbild));
-            return { ordner: c.ordner, titel: c.titel || c.ordner, photos, coverIndex };
-        });
+    const cached = readGalleryCache();
+    if (cached) {
+        galleryCategories = cached;
         renderGallery();
+    } else {
+        portfolioGrid?.setAttribute('aria-busy', 'true');
+        renderSkeleton();
+    }
+    try {
+        const fresh = await prefetchGallery();
+        writeGalleryCache(fresh);
+        // Nur neu aufbauen, wenn sich wirklich etwas geändert hat
+        if (JSON.stringify(fresh) !== JSON.stringify(cached)) {
+            galleryCategories = fresh;
+            if (!lightbox || lightbox.hidden) renderGallery();
+        }
     } catch (err) {
         console.error(err);
-        showGalleryError();
+        if (!cached) showGalleryError();
     }
 }
 
@@ -325,15 +370,34 @@ let swapToken       = 0;
 const canMorph = () => 'startViewTransition' in document && !reduceMotion.matches;
 const currentPhotos = () => currentCategory?.photos || [];
 
+// Lädt ein Bild vor; liefert true bei Erfolg
 function loadImage(url) {
     return new Promise(resolve => {
         const probe = new Image();
-        probe.onload = probe.onerror = () => resolve();
+        probe.onload = () => resolve(true);
+        probe.onerror = () => resolve(false);
         probe.src = url;
-        if (probe.complete) resolve();
     });
 }
 const withTimeout = (promise, ms) => Promise.race([promise, new Promise(r => setTimeout(r, ms))]);
+
+// Große Version passend zu Bildschirm und Pixeldichte (max. 1920 px)
+function largeUrl(photo) {
+    const width = Math.min(window.innerWidth, 1400) * Math.min(window.devicePixelRatio || 1, 2);
+    return Galerie.sized(photo.url, Math.min(1920, Math.round(width)));
+}
+
+// Große Version laden und einsetzen, sobald sie da ist (Fallback: Original)
+async function upgradeLightboxImage(photo, index) {
+    let url = largeUrl(photo);
+    if (!(await loadImage(url)) && url !== photo.url) {
+        url = photo.url;
+        await loadImage(url);
+    }
+    if (lightbox.hidden || index !== currentIndex || currentPhotos()[index] !== photo) return;
+    lightboxImg.src = url;
+    lightboxImg.classList.remove('lb-loading');
+}
 
 function setLightboxText() {
     const photos = currentPhotos();
@@ -346,8 +410,8 @@ function preloadNeighbours() {
     const photos = currentPhotos();
     const n = photos.length;
     if (n < 2) return;
-    new Image().src = photos[(currentIndex + 1) % n].url;
-    new Image().src = photos[(currentIndex - 1 + n) % n].url;
+    new Image().src = largeUrl(photos[(currentIndex + 1) % n]);
+    new Image().src = largeUrl(photos[(currentIndex - 1 + n) % n]);
 }
 
 async function openLightbox(category, opener) {
@@ -359,13 +423,15 @@ async function openLightbox(category, opener) {
     btnPrev.hidden  = !multiple;
     btnNext.hidden  = !multiple;
 
-    const url = category.photos[currentIndex].url;
+    const photo = category.photos[currentIndex];
     const tileImg = opener.querySelector('img');
-    await withTimeout(loadImage(url), 700);
+    // Sofort mit dem bereits geladenen Kachelbild öffnen, große Version folgt
+    const instantSrc = tileImg?.complete && tileImg.naturalWidth ? tileImg.currentSrc : '';
+    loadImage(largeUrl(photo)); // schon jetzt anstoßen
 
     const show = () => {
-        lightboxImg.src = url;
-        lightboxImg.classList.remove('lb-loading');
+        lightboxImg.src = instantSrc || largeUrl(photo);
+        lightboxImg.classList.toggle('lb-loading', !instantSrc);
         setLightboxText();
         lightbox.hidden = false;
         document.body.style.overflow = 'hidden';
@@ -389,6 +455,7 @@ async function openLightbox(category, opener) {
         lightbox.classList.add('is-open');
     }
     btnClose.focus({ preventScroll: true });
+    upgradeLightboxImage(photo, currentIndex);
     preloadNeighbours();
 }
 
@@ -432,11 +499,13 @@ async function step(dir) {
     if (photos.length < 2) return;
     currentIndex = (currentIndex + dir + photos.length) % photos.length;
     const token = ++swapToken;
-    const url = photos[currentIndex].url;
+    const photo = photos[currentIndex];
+    let url = largeUrl(photo);
     setLightboxText();
 
     if (reduceMotion.matches) {
-        lightboxImg.src = url;
+        if (!(await loadImage(url))) url = photo.url;
+        if (token === swapToken) lightboxImg.src = url;
         preloadNeighbours();
         return;
     }
@@ -446,8 +515,9 @@ async function step(dir) {
         [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-dir * 24}px)` }],
         { duration: 160, easing: 'ease-out', fill: 'forwards' }
     );
-    await Promise.all([out.finished.catch(() => {}), withTimeout(loadImage(url), 1500)]);
+    const [, loaded] = await Promise.all([out.finished.catch(() => {}), withTimeout(loadImage(url), 2500)]);
     if (token !== swapToken) return; // schneller weitergeblättert
+    if (loaded === false) url = photo.url; // Optimierung nicht verfügbar → Original
 
     lightboxImg.src = url;
     await withTimeout(lightboxImg.decode?.().catch(() => {}) ?? Promise.resolve(), 400);
@@ -500,15 +570,19 @@ document.addEventListener('keydown', e => {
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// Galerie erst laden, wenn sie in die Nähe des Viewports kommt
+// Galerie-Daten (kleine JSON-Listen) gleich nach dem Seitenaufbau im Hintergrund holen,
+// die Fotos selbst erst, wenn die Galerie in die Nähe kommt
 const portfolioSection = document.getElementById('portfolio');
+const whenIdle = cb => ('requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 2500 }) : setTimeout(cb, 1200));
+window.addEventListener('load', () => whenIdle(() => prefetchGallery().catch(() => {})), { once: true });
+
 if (portfolioSection && 'IntersectionObserver' in window) {
     renderSkeleton();
     const galleryObserver = new IntersectionObserver(entries => {
         if (!entries[0].isIntersecting) return;
         galleryObserver.disconnect();
         initGallery();
-    }, { rootMargin: '600px 0px' });
+    }, { rootMargin: '1000px 0px' });
     galleryObserver.observe(portfolioSection);
 } else {
     initGallery();

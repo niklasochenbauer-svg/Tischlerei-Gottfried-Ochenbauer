@@ -253,32 +253,25 @@ section[id] { scroll-margin-top: 72px; }
 /* ═══════════════════════════════════════════════════════════
    SCROLL REVEAL (nur mit JS & ohne reduzierte Bewegung)
    ═══════════════════════════════════════════════════════════ */
-/* Kinder eines [data-reveal]-Blocks erscheinen gestaffelt (--i setzt script.js),
-   Fotos werden dabei von unten aufgedeckt. */
+/* Kinder eines [data-reveal]-Blocks erscheinen gestaffelt (--i setzt script.js).
+   Nur opacity/transform: läuft auf der GPU und ruckelt auch auf schwachen Handys nicht. */
 @media (prefers-reduced-motion: no-preference) {
     .js [data-reveal] > * {
         transition:
-            opacity 0.9s var(--ease-out),
-            transform 0.9s var(--ease-out);
-        transition-delay: calc(var(--i, 0) * 90ms);
+            opacity 0.8s var(--ease-out),
+            transform 0.8s var(--ease-out);
+        transition-delay: calc(var(--i, 0) * 80ms);
     }
     .js [data-reveal]:not(.revealed) > * {
         opacity: 0;
-        transform: translateY(24px);
-    }
-    .js [data-reveal] :is(.service-photo, .about-photo) {
-        transition: clip-path 1.1s var(--ease-in-out), box-shadow 0.4s ease;
-        transition-delay: calc(var(--i, 0) * 90ms);
-    }
-    .js [data-reveal]:not(.revealed) :is(.service-photo, .about-photo) {
-        clip-path: inset(100% 0 0 0);
+        transform: translateY(20px);
     }
     .js [data-reveal] :is(.service-photo, .about-photo) img {
-        transition: transform 1.4s var(--ease-out);
-        transition-delay: calc(var(--i, 0) * 90ms);
+        transition: transform 1.2s var(--ease-out);
+        transition-delay: calc(var(--i, 0) * 80ms);
     }
     .js [data-reveal]:not(.revealed) :is(.service-photo, .about-photo) img {
-        transform: scale(1.12);
+        transform: scale(1.06);
     }
 
     /* Hero: kurzer, gestaffelter Auftakt beim Laden */
@@ -289,7 +282,6 @@ section[id] { scroll-margin-top: 72px; }
 }
 /* Nach dem Einblenden: keine Verzögerung mehr für Hover */
 .js [data-reveal].reveal-done > *,
-.js [data-reveal].reveal-done :is(.service-photo, .about-photo),
 .js [data-reveal].reveal-done :is(.service-photo, .about-photo) img { transition-delay: 0s; }
 .js [data-reveal].reveal-done :is(.service-photo, .about-photo) img { transition-duration: 0.8s; }
 

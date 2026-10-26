@@ -80,12 +80,16 @@ const mainEl        = document.querySelector('main');
 const stackSections = [...document.querySelectorAll('main > section')];
 let naturalTops     = [];
 
+let measured = false;
 function measureStack() {
     // nur lesen: ein einziger Layout-Durchlauf
     const scroll = window.scrollY;
     naturalTops = stackSections.map(section => section.getBoundingClientRect().top + scroll);
     scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+    measured = true;
 }
+// Erst messen, wenn es gebraucht wird (erster Scroll/Klick) – nicht beim Laden
+function ensureMeasured() { if (!measured) measureStack(); }
 
 
 // ── Navbar, Scrollspy & Jahresringe ────────────────────────
@@ -123,10 +127,13 @@ function updateRings(scrollY) {
 
 function onScroll() {
     const y = window.scrollY;
+    if (y > 0) ensureMeasured();
     navbar?.classList.toggle('scrolled', y > 40);
     scrollTopEl?.classList.toggle('is-visible', y > 600);
-    updateSpy(y);
-    updateRings(y);
+    if (measured) {
+        updateSpy(y);
+        updateRings(y);
+    }
     scrollRafPending = false;
 }
 function requestScrollUpdate() {
@@ -143,22 +150,22 @@ function relayout() {
     relayoutPending = true;
     requestAnimationFrame(() => {
         relayoutPending = false;
-        measureStack();
+        measured = false;          // beim nächsten Bedarf neu messen
         lenis?.resize();
-        onScroll();
+        if (window.scrollY > 0) onScroll();
     });
 }
 window.addEventListener('resize', relayout);
 if ('ResizeObserver' in window) {
     let firstCall = true;
     const ro = new ResizeObserver(() => {
-        if (firstCall) { firstCall = false; return; } // erster Aufruf = Startzustand, schon vermessen
+        if (firstCall) { firstCall = false; return; } // erster Aufruf = Startzustand
         relayout();
     });
     stackSections.forEach(s => ro.observe(s));
 }
-measureStack();
-onScroll();
+// Seite mitten drin geladen (Zurück-Taste, Anker)? Dann sofort Zustand setzen
+if (window.scrollY > 0) onScroll();
 document.fonts?.ready.then(relayout);
 
 
@@ -171,6 +178,7 @@ document.addEventListener('click', e => {
     const target = document.getElementById(id);
     if (!target) return;
     e.preventDefault();
+    ensureMeasured();
     const index = stackSections.indexOf(target);
     const y = id === 'home' ? 0
         : index >= 0 ? naturalTops[index]
@@ -356,7 +364,7 @@ function renderSkeleton(count = readGalleryCache()?.length || 11) {
     if (!portfolioGrid) return;
     portfolioGrid.innerHTML = Array.from({ length: count }, () =>
         '<div class="portfolio-item is-skeleton" aria-hidden="true"></div>').join('');
-    layoutGallery();
+    requestAnimationFrame(layoutGallery); // nicht synchron beim Laden messen
 }
 
 // Breite Kacheln so verteilen, dass die letzte Reihe immer voll ist

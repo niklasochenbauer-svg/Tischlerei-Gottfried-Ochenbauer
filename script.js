@@ -13,8 +13,14 @@ const hamburger = document.getElementById('hamburger');
 const navMenu   = document.getElementById('nav-menu');
 const backdrop  = document.getElementById('nav-backdrop');
 
+let navAnimTimer;
 function setNav(open) {
     if (!hamburger || !navMenu || !backdrop) return;
+    if (open !== navMenu.classList.contains('active')) {
+        navMenu.classList.add('is-animating');
+        clearTimeout(navAnimTimer);
+        navAnimTimer = setTimeout(() => navMenu.classList.remove('is-animating'), 700);
+    }
     navMenu.classList.toggle('active', open);
     hamburger.classList.toggle('active', open);
     backdrop.classList.toggle('active', open);

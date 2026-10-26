@@ -81,7 +81,12 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     /* Rhythm */
     --section-y: clamp(4rem, 9vw, 7.5rem);
     --gutter:    clamp(16px, 4vw, 40px);
-    --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+    /* Weiche Abschnittsübergänge: Schatten der dunklen Fläche darüber */
+    --seam-on-light: linear-gradient(to bottom, rgba(26,13,6,0.09), rgba(26,13,6,0) 180px);
+    --seam-on-dark:  linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0) 160px);
 
     /* Grain texture */
     --grain:
@@ -248,14 +253,67 @@ section[id] { scroll-margin-top: 72px; }
 /* ═══════════════════════════════════════════════════════════
    SCROLL REVEAL (nur mit JS & ohne reduzierte Bewegung)
    ═══════════════════════════════════════════════════════════ */
+/* Kinder eines [data-reveal]-Blocks erscheinen gestaffelt (--i setzt script.js),
+   Fotos werden dabei von unten aufgedeckt. */
 @media (prefers-reduced-motion: no-preference) {
-    .js [data-reveal] {
-        transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    .js [data-reveal] > * {
+        transition:
+            opacity 0.9s var(--ease-out),
+            transform 0.9s var(--ease-out);
+        transition-delay: calc(var(--i, 0) * 90ms);
     }
-    .js [data-reveal]:not(.revealed) {
+    .js [data-reveal]:not(.revealed) > * {
         opacity: 0;
-        transform: translateY(18px);
+        transform: translateY(24px);
     }
+    .js [data-reveal] :is(.service-photo, .about-photo) {
+        transition: clip-path 1.1s var(--ease-in-out), box-shadow 0.4s ease;
+        transition-delay: calc(var(--i, 0) * 90ms);
+    }
+    .js [data-reveal]:not(.revealed) :is(.service-photo, .about-photo) {
+        clip-path: inset(100% 0 0 0);
+    }
+    .js [data-reveal] :is(.service-photo, .about-photo) img {
+        transition: transform 1.4s var(--ease-out);
+        transition-delay: calc(var(--i, 0) * 90ms);
+    }
+    .js [data-reveal]:not(.revealed) :is(.service-photo, .about-photo) img {
+        transform: scale(1.12);
+    }
+
+    /* Hero: kurzer, gestaffelter Auftakt beim Laden */
+    .hero-content > * { animation: rise 0.9s var(--ease-out) both; }
+    .hero-content > :nth-child(2) { animation-delay: 70ms; }
+    .hero-content > :nth-child(3) { animation-delay: 140ms; }
+    .hero-content > :nth-child(4) { animation-delay: 210ms; }
+}
+/* Nach dem Einblenden: keine Verzögerung mehr für Hover */
+.js [data-reveal].reveal-done > *,
+.js [data-reveal].reveal-done :is(.service-photo, .about-photo),
+.js [data-reveal].reveal-done :is(.service-photo, .about-photo) img { transition-delay: 0s; }
+.js [data-reveal].reveal-done :is(.service-photo, .about-photo) img { transition-duration: 0.8s; }
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* Seitenwechsel (Impressum/Datenschutz) als sanfte Überblendung */
+@view-transition { navigation: auto; }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 280ms; animation-timing-function: ease; }
+::view-transition-group(lb-photo) {
+    animation-duration: 420ms;
+    animation-timing-function: var(--ease-out);
+}
+::view-transition-old(lb-photo),
+::view-transition-new(lb-photo) {
+    animation-duration: 420ms;
+    height: 100%;
+    object-fit: cover;
+}
+@media (prefers-reduced-motion: reduce) {
+    @view-transition { navigation: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -370,7 +428,11 @@ section[id] { scroll-margin-top: 72px; }
     inset: 0;
     background: rgba(10, 4, 1, 0.7);
     z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
 }
+.mobile-menu-backdrop.active { opacity: 1; visibility: visible; }
 
 /* ═══════════════════════════════════════════════════════════
    HERO
@@ -537,6 +599,7 @@ section[id] { scroll-margin-top: 72px; }
     transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s var(--ease-out), box-shadow 0.25s ease;
 }
 .btn-full { width: 100%; }
+.btn:active:not(:disabled) { transform: scale(0.97); transition-duration: 0.12s; }
 
 .btn-primary {
     background: var(--wood-rich);
@@ -588,6 +651,7 @@ section[id] { scroll-margin-top: 72px; }
    ═══════════════════════════════════════════════════════════ */
 .services {
     padding: var(--section-y) 0;
+    background-image: var(--seam-on-light);
 }
 
 .services-features {
@@ -662,7 +726,7 @@ section[id] { scroll-margin-top: 72px; }
 .process {
     padding: var(--section-y) 0;
     background-color: var(--bg-dark);
-    background-image: var(--grain), linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-warm) 100%);
+    background-image: var(--seam-on-dark), var(--grain), linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-warm) 100%);
     color: var(--on-dark);
 }
 
@@ -719,7 +783,7 @@ section[id] { scroll-margin-top: 72px; }
 .about {
     padding: var(--section-y) 0;
     background-color: var(--cream);
-    background-image: var(--grain);
+    background-image: var(--seam-on-light), var(--grain);
 }
 
 .about-content {
@@ -886,14 +950,16 @@ section[id] { scroll-margin-top: 72px; }
 }
 
 /* Lade- & Leerzustand */
-.portfolio-item.is-skeleton {
-    cursor: default;
+.portfolio-item.is-skeleton { cursor: default; }
+.portfolio-item.is-skeleton,
+.portfolio-item.is-loading {
     background:
         linear-gradient(100deg, transparent 20%, rgba(255,255,255,0.35) 50%, transparent 80%) -150% 0 / 60% 100% no-repeat,
         var(--cream-dark);
 }
 @media (prefers-reduced-motion: no-preference) {
-    .portfolio-item.is-skeleton { animation: shimmer 1.6s ease-in-out infinite; }
+    .portfolio-item.is-skeleton,
+    .portfolio-item.is-loading { animation: shimmer 1.6s ease-in-out infinite; }
 }
 @keyframes shimmer { to { background-position: 250% 0, 0 0; } }
 .portfolio-item.is-skeleton .portfolio-overlay { background: none; color: var(--text-light); }
@@ -942,9 +1008,18 @@ section[id] { scroll-margin-top: 72px; }
     background: rgba(12, 5, 1, 0.96);
 }
 .lightbox[hidden] { display: none; }
-@media (prefers-reduced-motion: no-preference) {
-    .lightbox:not([hidden]) { animation: fade 0.25s ease; }
+.lightbox {
+    opacity: 0;
+    transition: opacity 0.28s ease;
 }
+.lightbox.is-open { opacity: 1; }
+.lightbox.is-instant { transition: none; }
+.lightbox .lightbox-content {
+    transform: scale(0.96);
+    transition: transform 0.32s var(--ease-out);
+}
+.lightbox.is-open .lightbox-content { transform: none; }
+.lightbox.is-instant .lightbox-content { transition: none; }
 
 .lightbox-content {
     display: flex;
@@ -1004,7 +1079,7 @@ section[id] { scroll-margin-top: 72px; }
 .testimonials {
     padding: var(--section-y) 0;
     background-color: var(--bg-darkest);
-    background-image: var(--grain), linear-gradient(160deg, var(--bg-darkest) 0%, var(--bg-dark) 100%);
+    background-image: var(--seam-on-dark), var(--grain), linear-gradient(160deg, var(--bg-darkest) 0%, var(--bg-dark) 100%);
     color: var(--on-dark);
 }
 
@@ -1116,7 +1191,7 @@ section[id] { scroll-margin-top: 72px; }
 
 .contact-form-panel {
     background-color: var(--cream-light);
-    background-image: var(--grain);
+    background-image: var(--seam-on-light), var(--grain);
 }
 .contact-form-inner {
     max-width: 560px;
@@ -1333,7 +1408,6 @@ section[id] { scroll-margin-top: 72px; }
     .service-feature:last-child .service-photo { aspect-ratio: 4 / 3; }
     .service-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .portfolio-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(150px, 24vw, 220px); }
-    .portfolio-item.is-wide { grid-column: span 1; }
 }
 
 @media (max-width: 900px) {
@@ -1367,6 +1441,16 @@ section[id] { scroll-margin-top: 72px; }
         overflow-y: auto;
     }
     .nav-menu.active { transform: none; visibility: visible; }
+    .nav-menu li {
+        opacity: 0;
+        transform: translateX(24px);
+        transition: opacity 0.3s ease, transform 0.45s var(--ease-out);
+    }
+    .nav-menu.active li { opacity: 1; transform: none; }
+    .nav-menu.active li:nth-child(1) { transition-delay: 80ms; }
+    .nav-menu.active li:nth-child(2) { transition-delay: 120ms; }
+    .nav-menu.active li:nth-child(3) { transition-delay: 160ms; }
+    .nav-menu.active li:nth-child(4) { transition-delay: 200ms; }
     .nav-link {
         padding: 1rem 0.25rem;
         font-size: 0.95rem;

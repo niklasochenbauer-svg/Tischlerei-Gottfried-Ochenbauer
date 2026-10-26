@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotos verwalten – Tischlerei Ochenbauer</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#1A0D06">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fotos.css">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="admin">
+    <svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false">
+        <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+        <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+        <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+        <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+        <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+        <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+        <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol>
+    </svg>
+
+    <header class="legal-header">
+        <div class="nav-container">
+            <a href="index.html" class="wordmark" aria-label="Tischlerei Ochenbauer – zur Website">
+                <span class="wordmark-name">Ochenbauer</span>
+                <span class="wordmark-trade">Fotos verwalten</span>
+            </a>
+            <div class="admin-header-actions">
+                <a href="index.html#portfolio" class="legal-back">Zur Galerie <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+                <button type="button" class="admin-logout" id="logout" hidden>Abmelden</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-main">
+
+        <!-- Anmeldung -->
+        <section class="admin-panel admin-login" id="login-view" aria-labelledby="login-title">
+            <h1 id="login-title">Fotos verwalten</h1>
+            <p class="admin-hint">Melden Sie sich an, um neue Fotos hochzuladen oder die Galerie zu ordnen.</p>
+            <form id="login-form" novalidate>
+                <div class="form-group">
+                    <label for="login-email">E-Mail-Adresse</label>
+                    <input type="email" id="login-email" autocomplete="username" inputmode="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Passwort</label>
+                    <input type="password" id="login-password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full"><span class="btn-label">Anmelden</span></button>
+                <button type="button" class="admin-link" id="forgot">Passwort vergessen?</button>
+            </form>
+            <form id="reset-form" novalidate hidden>
+                <div class="form-group">
+                    <label for="new-password">Neues Passwort (mind. 8 Zeichen)</label>
+                    <input type="password" id="new-password" autocomplete="new-password" minlength="8" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full"><span class="btn-label">Passwort speichern</span></button>
+            </form>
+            <p class="admin-msg" id="login-msg" role="status"></p>
+        </section>
+
+        <!-- Verwaltung -->
+        <div id="app-view" hidden>
+            <section class="admin-panel" aria-labelledby="upload-title">
+                <h1 id="upload-title">Neue Fotos hochladen</h1>
+                <p class="admin-hint">Fotos werden vor dem Hochladen automatisch verkleinert. Sie können sie direkt vom Handy auswählen.</p>
+
+                <div class="form-group">
+                    <label for="upload-category">Kategorie</label>
+                    <select id="upload-category"></select>
+                </div>
+
+                <label class="dropzone" id="dropzone">
+                    <input type="file" id="file-input" accept="image/*" multiple>
+                    <svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg>
+                    <strong>Fotos auswählen</strong>
+                    <span>oder hierher ziehen</span>
+                </label>
+
+                <ul class="upload-queue" id="upload-queue" aria-live="polite"></ul>
+                <button type="button" class="btn btn-primary btn-full" id="upload-btn" disabled><span class="btn-label">Hochladen</span></button>
+            </section>
+
+            <section class="admin-panel" aria-labelledby="manage-title">
+                <div class="admin-panel-head">
+                    <h2 id="manage-title">Galerie ordnen</h2>
+                    <button type="button" class="btn btn-ghost-dark" id="add-category"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg> Neue Kategorie</button>
+                </div>
+                <p class="admin-hint">Reihenfolge mit den Pfeilen ändern. Die oberste Kategorie erscheint groß. Mit dem Stern wählen Sie das Titelbild einer Kategorie.</p>
+                <ol class="category-list" id="category-list" aria-busy="true"></ol>
+            </section>
+        </div>
+    </main>
+
+    <div class="admin-toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="galerie.js" defer></script>
+    <script src="fotos.js" defer></script>
+</body>
+</html>

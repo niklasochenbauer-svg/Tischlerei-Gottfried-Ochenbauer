@@ -3,6 +3,10 @@
 // ═══════════════════════════════════════════════════════════
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const EASE_OUT = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
 
 // ── Mobile Navigation ──────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
@@ -13,14 +17,15 @@ function setNav(open) {
     if (!hamburger || !navMenu || !backdrop) return;
     navMenu.classList.toggle('active', open);
     hamburger.classList.toggle('active', open);
+    backdrop.classList.toggle('active', open);
     hamburger.setAttribute('aria-expanded', String(open));
     hamburger.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
-    backdrop.hidden = !open;
     document.body.style.overflow = open ? 'hidden' : '';
-    if (open) navMenu.querySelector('a')?.focus();
+    if (open) navMenu.querySelector('a')?.focus({ preventScroll: true });
 }
 const closeNav = () => setNav(false);
 
+backdrop?.removeAttribute('hidden');
 hamburger?.addEventListener('click', () => setNav(!navMenu.classList.contains('active')));
 backdrop?.addEventListener('click', closeNav);
 navMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
@@ -62,24 +67,33 @@ const spyObserver = new IntersectionObserver(entries => {
 document.querySelectorAll('main section[id]').forEach(s => spyObserver.observe(s));
 
 
-// ── Scroll Reveal ──────────────────────────────────────────
+// ── Scroll Reveal (gestaffelt) ─────────────────────────────
 const revealEls = document.querySelectorAll('[data-reveal]');
+revealEls.forEach(el => [...el.children].forEach((child, i) => child.style.setProperty('--i', i)));
+
+function reveal(el) {
+    el.classList.add('revealed');
+    // Danach Verzögerungen entfernen, damit Hover sofort reagiert
+    const total = 1400 + el.children.length * 90;
+    setTimeout(() => el.classList.add('reveal-done'), total);
+}
+
 if (reduceMotion.matches || !('IntersectionObserver' in window)) {
-    revealEls.forEach(el => el.classList.add('revealed'));
+    revealEls.forEach(el => el.classList.add('revealed', 'reveal-done'));
 } else {
     const revealObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (!entry.isIntersecting) return;
-            entry.target.classList.add('revealed');
+            reveal(entry.target);
             revealObserver.unobserve(entry.target);
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
     revealEls.forEach(el => revealObserver.observe(el));
 }
 
 
 // ── Kontaktformular ────────────────────────────────────────
-const WEBHOOK_URL = 'https://n8n.srv1070777.hstgr.cloud/webhook/d6271044-14b4-4bd1-b026-df33608b4a20';
+const WEBHOOK_URL  = 'https://n8n.srv1070777.hstgr.cloud/webhook/d6271044-14b4-4bd1-b026-df33608b4a20';
 const CONTACT_MAIL = 'tischlerei.ochenbauer@gmail.com';
 
 const contactForm = document.getElementById('contact-form');
@@ -114,6 +128,12 @@ function showStatus(type, html) {
     formStatus.hidden = false;
     formStatus.focus({ preventScroll: true });
     formStatus.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
+    if (!reduceMotion.matches) {
+        formStatus.animate(
+            [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }],
+            { duration: 320, easing: EASE_OUT }
+        );
+    }
 }
 
 if (contactForm) {
@@ -174,112 +194,81 @@ if (contactForm) {
 
 
 // ═══════════════════════════════════════════════════════════
-// GALERIE — Bilder aus Supabase Storage (öffentlicher Bucket)
+// GALERIE — Kategorien & Fotos aus Supabase (siehe galerie.js)
 // ═══════════════════════════════════════════════════════════
-const SUPABASE_URL      = 'https://oirmfkagzasujjlekvsw.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pcm1ma2FnemFzdWpqbGVrdnN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODcxMzIsImV4cCI6MjA4MDc2MzEzMn0.w9ae07N1tkev28L840lACS_nVIIRKFYXAk_8iu1ARg4';
-const SUPABASE_BUCKET   = 'bilder';
-
-// Reihenfolge = Reihenfolge in der Galerie; die erste Kategorie wird groß gezeigt
-const galleryCategories = [
-    { id: 'stiege',       title: 'Stiege',       storagePrefix: 'Stiege'       },
-    { id: 'kueche',       title: 'Küche',        storagePrefix: 'Kueche'       },
-    { id: 'esstisch',     title: 'Esstisch',     storagePrefix: 'Esstisch'     },
-    { id: 'wohnzimmer',   title: 'Wohnzimmer',   storagePrefix: 'Wohnzimmer'   },
-    { id: 'stauraum',     title: 'Stauraum',     storagePrefix: 'Stauraum'     },
-    { id: 'gartenhaus',   title: 'Gartenhaus',   storagePrefix: 'Gartenhaus',  wide: true },
-    { id: 'bett',         title: 'Bett',         storagePrefix: 'Bett'         },
-    { id: 'spiegel',      title: 'Spiegel',      storagePrefix: 'Spiegel'      },
-    { id: 'kastenstiege', title: 'Kastenstiege', storagePrefix: 'Kastenstiege' },
-    { id: 'badezimmer',   title: 'Badezimmer',   storagePrefix: 'Badezimmer'   },
-    { id: 'tor',          title: 'Tor',          storagePrefix: 'Tor',         wide: true },
-];
-
-const categoryImages = new Map();
-const isImagePath = name => /\.(png|jpe?g|webp|gif|avif)$/i.test(name);
-const publicUrl = path => `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_BUCKET}/${path.split('/').map(encodeURIComponent).join('/')}`;
-
-async function listImages(prefix) {
-    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/list/${SUPABASE_BUCKET}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`
-        },
-        body: JSON.stringify({ prefix, limit: 100, offset: 0, sortBy: { column: 'name', order: 'asc' } })
-    });
-    if (!res.ok) throw new Error(`Supabase ${res.status}`);
-    const files = await res.json();
-    return files
-        .filter(f => f.id && f.name && isImagePath(f.name))
-        .map(f => ({ url: publicUrl(`${prefix}/${f.name}`), name: f.name }));
-}
-
-async function loadGallery() {
-    const results = await Promise.allSettled(
-        galleryCategories.map(async cat => categoryImages.set(cat.id, await listImages(cat.storagePrefix)))
-    );
-    if (results.every(r => r.status === 'rejected')) throw new Error('Galerie nicht erreichbar');
-}
-
 const portfolioGrid   = document.getElementById('portfolio-grid');
 const portfolioStatus = document.getElementById('portfolio-status');
+let galleryCategories = [];   // [{ ordner, titel, photos, coverIndex }]
 
-function renderSkeleton() {
+function renderSkeleton(count = 8) {
     if (!portfolioGrid) return;
-    portfolioGrid.innerHTML = galleryCategories.map(cat => `
-        <div class="portfolio-item is-skeleton${cat.wide ? ' is-wide' : ''}" aria-hidden="true">
-            <div class="portfolio-overlay"><h3>${cat.title}</h3></div>
-        </div>`).join('');
+    portfolioGrid.innerHTML = Array.from({ length: count }, () =>
+        '<div class="portfolio-item is-skeleton" aria-hidden="true"></div>').join('');
+    layoutGallery();
+}
+
+// Breite Kacheln so verteilen, dass die letzte Reihe immer voll ist
+function layoutGallery() {
+    if (!portfolioGrid) return;
+    const items = [...portfolioGrid.children];
+    if (!items.length) return;
+    items.forEach(el => el.classList.remove('is-wide'));
+    const cols = getComputedStyle(portfolioGrid).gridTemplateColumns.split(' ').length;
+    const featureCells = cols >= 3 ? 4 : cols;
+    const cells = featureCells + items.length - 1;
+    let missing = (cols - (cells % cols)) % cols;
+    for (let i = items.length - 1; i > 0 && missing > 0; i--) {
+        items[i].classList.add('is-wide');
+        missing -= 1;
+        i -= 1; // breite Kacheln nicht direkt nebeneinander
+    }
 }
 
 function renderGallery() {
     if (!portfolioGrid) return;
+    const visible = galleryCategories.filter(c => c.photos.length);
     portfolioGrid.innerHTML = '';
-    galleryCategories.forEach((cat, i) => {
-        const images = categoryImages.get(cat.id) || [];
-        const wide = cat.wide ? ' is-wide' : '';
 
-        if (!images.length) {
-            const empty = document.createElement('div');
-            empty.className = `portfolio-item is-empty${wide}`;
-            empty.innerHTML = `
-                <svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>
-                <div class="portfolio-overlay"><h3>${cat.title}</h3><span>Bilder folgen</span></div>`;
-            portfolioGrid.appendChild(empty);
-            return;
-        }
-
+    visible.forEach((cat, i) => {
+        const cover = cat.photos[cat.coverIndex];
+        const count = `${cat.photos.length} ${cat.photos.length === 1 ? 'Foto' : 'Fotos'}`;
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `portfolio-item${wide}`;
-        btn.setAttribute('aria-label', `${cat.title}: Galerie mit ${images.length} ${images.length === 1 ? 'Foto' : 'Fotos'} öffnen`);
+        btn.className = 'portfolio-item is-loading';
+        btn.setAttribute('aria-label', `${cat.titel}: Galerie mit ${count} öffnen`);
+
         const img = new Image();
         img.alt = '';
-        img.loading = i < 4 ? 'eager' : 'lazy';
+        img.loading = i < 5 ? 'eager' : 'lazy';
         img.decoding = 'async';
-        img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
-        img.addEventListener('error', () => btn.classList.add('is-skeleton'), { once: true });
-        img.src = images[0].url;
+        img.addEventListener('load', () => { img.classList.add('is-loaded'); btn.classList.remove('is-loading'); }, { once: true });
+        img.addEventListener('error', () => {
+            // Vorschaubild fehlt? Dann das Originalfoto nehmen
+            if (img.src !== cover.url) img.src = cover.url;
+        });
+        img.src = cover.thumb;
+
         btn.appendChild(img);
         btn.insertAdjacentHTML('beforeend', `
             <div class="portfolio-overlay">
-                <h3>${cat.title}</h3>
-                <span>${images.length} ${images.length === 1 ? 'Foto' : 'Fotos'}</span>
+                <h3>${escapeHtml(cat.titel)}</h3>
+                <span>${count}</span>
             </div>`);
         btn.addEventListener('click', () => openLightbox(cat, btn));
         portfolioGrid.appendChild(btn);
     });
+
     portfolioGrid.setAttribute('aria-busy', 'false');
+    layoutGallery();
 }
 
 function showGalleryError() {
     if (!portfolioStatus) return;
-    portfolioStatus.innerHTML = `<span>Die Galerie konnte gerade nicht geladen werden.</span><button type="button">Erneut versuchen</button>`;
+    portfolioStatus.innerHTML = '<span>Die Galerie konnte gerade nicht geladen werden.</span><button type="button">Erneut versuchen</button>';
     portfolioStatus.hidden = false;
     portfolioStatus.querySelector('button').addEventListener('click', initGallery, { once: true });
-    portfolioGrid?.setAttribute('aria-busy', 'false');
+    portfolioGrid.innerHTML = '';
+    portfolioGrid.setAttribute('aria-busy', 'false');
 }
 
 async function initGallery() {
@@ -287,12 +276,29 @@ async function initGallery() {
     portfolioGrid?.setAttribute('aria-busy', 'true');
     renderSkeleton();
     try {
-        await loadGallery();
+        const manifest = await Galerie.loadCategories();
+        const cats = manifest.kategorien.filter(c => c?.ordner && !c.versteckt);
+        const results = await Promise.allSettled(cats.map(c => Galerie.loadPhotos(c.ordner)));
+        if (results.length && results.every(r => r.status === 'rejected')) throw new Error('Galerie nicht erreichbar');
+
+        galleryCategories = cats.map((c, i) => {
+            const photos = results[i].status === 'fulfilled' ? results[i].value : [];
+            const coverIndex = Math.max(0, photos.findIndex(p => p.name === c.titelbild));
+            return { ordner: c.ordner, titel: c.titel || c.ordner, photos, coverIndex };
+        });
         renderGallery();
     } catch (err) {
         console.error(err);
         showGalleryError();
     }
+}
+
+if (portfolioGrid && 'ResizeObserver' in window) {
+    let lastCols = 0;
+    new ResizeObserver(() => {
+        const cols = getComputedStyle(portfolioGrid).gridTemplateColumns.split(' ').length;
+        if (cols !== lastCols) { lastCols = cols; layoutGallery(); }
+    }).observe(portfolioGrid);
 }
 
 
@@ -308,54 +314,144 @@ const btnClose      = lightbox?.querySelector('.lightbox-close');
 let currentCategory = null;
 let currentIndex    = 0;
 let lightboxOpener  = null;
+let swapToken       = 0;
 
-const currentImages = () => categoryImages.get(currentCategory?.id) || [];
+const canMorph = () => 'startViewTransition' in document && !reduceMotion.matches;
+const currentPhotos = () => currentCategory?.photos || [];
 
-function openLightbox(category, opener) {
-    if (!lightbox || !(categoryImages.get(category.id) || []).length) return;
+function loadImage(url) {
+    return new Promise(resolve => {
+        const probe = new Image();
+        probe.onload = probe.onerror = () => resolve();
+        probe.src = url;
+        if (probe.complete) resolve();
+    });
+}
+const withTimeout = (promise, ms) => Promise.race([promise, new Promise(r => setTimeout(r, ms))]);
+
+function setLightboxText() {
+    const photos = currentPhotos();
+    lightboxTitle.textContent = currentCategory.titel;
+    lightboxCount.textContent = `${currentIndex + 1} / ${photos.length}`;
+    lightboxImg.alt = `${currentCategory.titel} – Foto ${currentIndex + 1} von ${photos.length}`;
+}
+
+function preloadNeighbours() {
+    const photos = currentPhotos();
+    const n = photos.length;
+    if (n < 2) return;
+    new Image().src = photos[(currentIndex + 1) % n].url;
+    new Image().src = photos[(currentIndex - 1 + n) % n].url;
+}
+
+async function openLightbox(category, opener) {
+    if (!lightbox || !category.photos.length) return;
     currentCategory = category;
-    currentIndex    = 0;
+    currentIndex    = category.coverIndex;
     lightboxOpener  = opener;
-    const multiple  = currentImages().length > 1;
+    const multiple  = category.photos.length > 1;
     btnPrev.hidden  = !multiple;
     btnNext.hidden  = !multiple;
-    updateLightbox();
-    lightbox.hidden = false;
-    document.body.style.overflow = 'hidden';
-    btnClose.focus();
-}
 
-function closeLightbox() {
-    if (!lightbox || lightbox.hidden) return;
-    lightbox.hidden = true;
-    document.body.style.overflow = '';
-    lightboxOpener?.focus();
-}
+    const url = category.photos[currentIndex].url;
+    const tileImg = opener.querySelector('img');
+    await withTimeout(loadImage(url), 700);
 
-function updateLightbox() {
-    const images = currentImages();
-    if (!images.length || !lightboxImg) return;
-    lightboxImg.classList.add('lb-loading');
-    lightboxImg.onload = lightboxImg.onerror = () => lightboxImg.classList.remove('lb-loading');
-    lightboxImg.src = images[currentIndex].url;
-    if (lightboxImg.complete && lightboxImg.naturalWidth) lightboxImg.classList.remove('lb-loading');
-    lightboxImg.alt = `${currentCategory.title} – Foto ${currentIndex + 1} von ${images.length}`;
-    lightboxTitle.textContent = currentCategory.title;
-    lightboxCount.textContent = `${currentIndex + 1} / ${images.length}`;
+    const show = () => {
+        lightboxImg.src = url;
+        lightboxImg.classList.remove('lb-loading');
+        setLightboxText();
+        lightbox.hidden = false;
+        document.body.style.overflow = 'hidden';
+    };
 
-    // Nachbarn vorladen, damit Weiterblättern sofort reagiert
-    const n = images.length;
-    if (n > 1) {
-        new Image().src = images[(currentIndex + 1) % n].url;
-        new Image().src = images[(currentIndex - 1 + n) % n].url;
+    if (canMorph() && tileImg) {
+        // Foto wächst aus der angeklickten Kachel in die Lightbox
+        lightbox.classList.add('is-instant', 'is-open');
+        tileImg.style.viewTransitionName = 'lb-photo';
+        const vt = document.startViewTransition(() => {
+            tileImg.style.viewTransitionName = '';
+            lightboxImg.style.viewTransitionName = 'lb-photo';
+            show();
+        });
+        await vt.finished.catch(() => {});
+        lightboxImg.style.viewTransitionName = '';
+        lightbox.classList.remove('is-instant');
+    } else {
+        show();
+        lightbox.offsetWidth; // Startzustand festschreiben, dann einblenden
+        lightbox.classList.add('is-open');
     }
+    btnClose.focus({ preventScroll: true });
+    preloadNeighbours();
 }
 
-function step(dir) {
-    const n = currentImages().length;
-    if (n < 2) return;
-    currentIndex = (currentIndex + dir + n) % n;
-    updateLightbox();
+async function closeLightbox() {
+    if (!lightbox || lightbox.hidden) return;
+    const opener = lightboxOpener;
+    const tileImg = opener?.querySelector('img');
+    // Nur zurück in die Kachel morphen, wenn noch das Titelbild gezeigt wird
+    const backToTile = canMorph() && tileImg && currentIndex === currentCategory.coverIndex;
+
+    const hide = () => {
+        lightbox.hidden = true;
+        lightbox.classList.remove('is-open');
+        document.body.style.overflow = '';
+    };
+
+    if (backToTile) {
+        lightbox.classList.add('is-instant');
+        lightboxImg.style.viewTransitionName = 'lb-photo';
+        const vt = document.startViewTransition(() => {
+            lightboxImg.style.viewTransitionName = '';
+            tileImg.style.viewTransitionName = 'lb-photo';
+            hide();
+        });
+        await vt.finished.catch(() => {});
+        tileImg.style.viewTransitionName = '';
+        lightbox.classList.remove('is-instant');
+    } else if (!reduceMotion.matches) {
+        lightbox.classList.remove('is-open');
+        await new Promise(r => setTimeout(r, 280));
+        if (!lightbox.classList.contains('is-open')) hide();
+    } else {
+        hide();
+    }
+    opener?.focus({ preventScroll: true });
+}
+
+// Bildwechsel: altes Foto gleitet weg, neues gleitet aus der Blätterrichtung herein
+async function step(dir) {
+    const photos = currentPhotos();
+    if (photos.length < 2) return;
+    currentIndex = (currentIndex + dir + photos.length) % photos.length;
+    const token = ++swapToken;
+    const url = photos[currentIndex].url;
+    setLightboxText();
+
+    if (reduceMotion.matches) {
+        lightboxImg.src = url;
+        preloadNeighbours();
+        return;
+    }
+
+    lightboxImg.getAnimations().forEach(a => a.cancel());
+    const out = lightboxImg.animate(
+        [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-dir * 24}px)` }],
+        { duration: 160, easing: 'ease-out', fill: 'forwards' }
+    );
+    await Promise.all([out.finished.catch(() => {}), withTimeout(loadImage(url), 1500)]);
+    if (token !== swapToken) return; // schneller weitergeblättert
+
+    lightboxImg.src = url;
+    await withTimeout(lightboxImg.decode?.().catch(() => {}) ?? Promise.resolve(), 400);
+    if (token !== swapToken) return;
+    out.cancel();
+    lightboxImg.animate(
+        [{ opacity: 0, transform: `translateX(${dir * 24}px)` }, { opacity: 1, transform: 'none' }],
+        { duration: 280, easing: EASE_OUT }
+    );
+    preloadNeighbours();
 }
 
 btnNext?.addEventListener('click', () => step(1));

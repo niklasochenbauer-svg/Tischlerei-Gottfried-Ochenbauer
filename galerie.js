@@ -59,8 +59,8 @@ const Galerie = (() => {
     }
 
     // Ordner im Bucket automatisch erkennen
-    async function discover(token) {
-        const entries = await list('', token);
+    async function discover(token, entries) {
+        entries = entries || await list('', token);
         const folders = entries
             .filter(e => !e.id && !SYSTEM_FOLDERS.includes(e.name))
             .map(e => e.name);
@@ -74,8 +74,16 @@ const Galerie = (() => {
         };
     }
 
+    // Kategorien-Datei nur abrufen, wenn sie im Bucket liegt (spart eine
+    // fehlschlagende Anfrage); sonst die Ordner selbst erkennen.
+    // `gespeichert` sagt, ob es die Datei schon gibt.
     async function loadCategories(token) {
-        return (await loadManifest(token)) || discover(token);
+        const entries = await list('', token);
+        if (entries.some(e => e.id && e.name === MANIFEST)) {
+            const manifest = await loadManifest(token);
+            if (manifest) return { ...manifest, gespeichert: true };
+        }
+        return { ...(await discover(token, entries)), gespeichert: false };
     }
 
     // Fotos einer Kategorie inkl. Vorschaubild (falls vorhanden)

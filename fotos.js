@@ -195,7 +195,7 @@ $('logout').addEventListener('click', async () => {
 async function loadAll() {
     $('category-list').setAttribute('aria-busy', 'true');
     const t = await token();
-    manifest = (await Galerie.loadManifest(t)) || (await Galerie.discover(t));
+    manifest = await Galerie.loadCategories(t);
     await Promise.all(manifest.kategorien.map(async c => {
         try { photos.set(c.ordner, await Galerie.loadPhotos(c.ordner, t)); }
         catch { photos.set(c.ordner, []); }
@@ -229,6 +229,7 @@ function saveManifest(immediate = false) {
                 'x-upsert': 'true',
                 'cache-control': 'max-age=60'
             });
+            manifest.gespeichert = true;
             toast('Gespeichert – auf der Website sichtbar in etwa einer Minute.');
         } catch (err) {
             toast(`Speichern fehlgeschlagen: ${err.message}`, 'error');
@@ -346,7 +347,7 @@ $('upload-btn').addEventListener('click', async () => {
     renderQueue();
     if (ok) {
         photos.set(ordner, await Galerie.loadPhotos(ordner, await token()));
-        if (!(await Galerie.loadManifest(await token()))) await saveManifest(true); // erste Kategorien-Datei anlegen
+        if (!manifest.gespeichert) await saveManifest(true); // erste Kategorien-Datei anlegen
         renderCategories();
         toast(`${ok} ${ok === 1 ? 'Foto' : 'Fotos'} hochgeladen.`);
     }

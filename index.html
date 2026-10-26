@@ -10,6 +10,7 @@
     <meta property="og:description" content="Maßgefertigte Möbel, Küchen und Holzarbeiten mit Leidenschaft. Persönliche Beratung, ehrliches Handwerk seit 2014.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="de_AT">
+    <meta property="og:image" content="assets/img/og-image.jpg">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -19,12 +20,14 @@
       "telephone": "+4366473617208",
       "email": "tischlerei.ochenbauer@gmail.com",
       "foundingDate": "2014",
+      "image": "assets/img/og-image.jpg",
+      "founder": {"@type": "Person", "name": "Gottfried Ochenbauer"},
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Schaueregg 23",
         "postalCode": "2872",
         "addressLocality": "Pinggau",
-        "addressRegion": "Niederösterreich",
+        "addressRegion": "Steiermark",
         "addressCountry": "AT"
       },
       "hasOfferCatalog": {
@@ -40,64 +43,65 @@
       }
     }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://oirmfkagzasujjlekvsw.supabase.co">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://n8n.srv1070777.hstgr.cloud">
+    <script>document.documentElement.classList.add('js');</script>
+    <link rel="preload" href="assets/fonts/PlayfairDisplay-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/Lato-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" as="image" href="assets/img/hero-stiege-1100.webp" imagesrcset="assets/img/hero-stiege-640.webp 640w, assets/img/hero-stiege-1100.webp 1100w" imagesizes="(max-width: 900px) 78vw, 34vw" fetchpriority="high">
+    <link rel="preconnect" href="https://oirmfkagzasujjlekvsw.supabase.co" crossorigin>
     <link rel="stylesheet" href="style.css">
-    <link rel="preload" href="Bilder/Logo/Logo.jpg" as="image" fetchpriority="high">
-    <!-- Google Fonts — non-blocking (trimmed to used weights only) -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,600;1,700&family=Lato:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,600;1,700&family=Lato:wght@400;700&display=swap"></noscript>
-    <!-- Font Awesome — split into solid+brands only, non-blocking -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/solid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
-    </noscript>
-    <link rel="icon" href="Bilder/Logo/Logo.jpg" type="image/jpeg">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
+    <!-- Icon sprite (Lucide-Formen, ISC-Lizenz) -->
+    <svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false">
+        <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+        <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
+        <symbol id="i-external" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+        <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+        <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+        <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+        <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+        <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+        <symbol id="i-star" viewBox="0 0 24 24"><path class="fill" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+    </svg>
+
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#home" class="nav-logo">
-                <div class="nav-logo-ring">
-                    <img id="nav-logo-img" src="Bilder/Logo/Logo.jpg" alt="Tischlerei Ochenbauer Logo" loading="lazy" decoding="async">
-                </div>
-                <span>Tischlerei Ochenbauer</span>
+    <header class="navbar" id="navbar">
+        <nav class="nav-container" aria-label="Hauptnavigation">
+            <a href="#home" class="wordmark" aria-label="Tischlerei Ochenbauer – zum Seitenanfang">
+                <span class="wordmark-name">Ochenbauer</span>
+                <span class="wordmark-trade">Tischlerei &amp; Handel</span>
             </a>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home" class="nav-link">Start</a></li>
                 <li><a href="#services" class="nav-link">Leistungen</a></li>
                 <li><a href="#about" class="nav-link">Über uns</a></li>
-                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#portfolio" class="nav-link">Arbeiten</a></li>
                 <li><a href="#contact" class="nav-link nav-link-cta">Kontakt</a></li>
             </ul>
-            <button class="hamburger" id="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-menu">
+            <button class="hamburger" id="hamburger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-menu">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </button>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <div class="mobile-menu-backdrop" id="nav-backdrop"></div>
+    <div class="mobile-menu-backdrop" id="nav-backdrop" hidden></div>
+
+    <main id="inhalt">
 
     <!-- ═══════════════════════════════════════════ HERO ═══ -->
-    <section id="home" class="hero">
+    <section id="home" class="hero" aria-labelledby="hero-title">
 
-        <!-- Amber forest silhouette — visible on dark background -->
         <div class="hero-forest" aria-hidden="true">
             <svg viewBox="0 0 1440 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
-                <!-- Ground glow -->
-                <ellipse cx="720" cy="420" rx="900" ry="80" fill="rgba(196,135,75,0.04)"/>
-                <!-- Distant trees — dark amber -->
                 <g fill="rgba(180,110,55,0.14)">
                     <path d="M60,420 L36,295 L54,308 L26,210 L48,226 L18,138 L44,156 L22,82 L72,110 L58,72 L60,22 L62,72 L48,44 L98,78 L76,56 L104,420Z"/>
                     <path d="M280,420 L254,288 L274,302 L242,198 L266,215 L232,122 L258,140 L234,68 L288,98 L272,60 L280,10 L288,60 L272,32 L326,68 L300,46 L330,420Z"/>
@@ -106,7 +110,6 @@
                     <path d="M1100,420 L1076,292 L1096,306 L1062,204 L1086,220 L1050,128 L1078,146 L1054,70 L1112,104 L1094,62 L1100,14 L1106,62 L1088,36 L1148,72 L1122,50 L1154,420Z"/>
                     <path d="M1360,420 L1338,298 L1356,311 L1324,212 L1348,228 L1314,136 L1340,154 L1318,78 L1374,110 L1358,70 L1364,20 L1370,70 L1354,42 L1412,78 L1388,56 L1418,420Z"/>
                 </g>
-                <!-- Mid trees — warmer amber -->
                 <g fill="rgba(210,140,65,0.1)">
                     <path d="M170,420 L150,328 L164,336 L142,264 L158,273 L134,204 L152,215 L138,162 L180,183 L168,152 L170,118 L172,152 L160,128 L202,154 L186,130 L210,420Z"/>
                     <path d="M410,420 L390,322 L406,331 L382,256 L398,266 L372,194 L392,206 L376,152 L422,174 L408,142 L410,108 L412,142 L400,118 L444,144 L428,120 L454,420Z"/>
@@ -114,334 +117,312 @@
                     <path d="M960,420 L938,320 L956,330 L930,252 L948,262 L920,190 L942,202 L924,146 L974,170 L958,138 L960,102 L962,138 L950,114 L996,140 L978,116 L1006,420Z"/>
                     <path d="M1230,420 L1210,325 L1226,334 L1202,258 L1220,268 L1194,196 L1214,208 L1198,154 L1246,176 L1232,144 L1234,110 L1236,144 L1224,120 L1270,146 L1254,122 L1280,420Z"/>
                 </g>
-                <!-- Near trees — bright amber accent -->
-                <g fill="rgba(232,185,100,0.07)">
-                    <path d="M0,420 L-6,356 L8,364 L-10,308 L6,316 L-16,264 L4,274 L-8,234 L24,248 L14,226 L16,200 L18,226 L8,208 L40,228 L28,210 L48,420Z"/>
-                    <path d="M1400,420 L1394,352 L1410,360 L1390,304 L1406,312 L1384,258 L1404,268 L1390,228 L1422,242 L1412,220 L1414,194 L1416,220 L1406,202 L1438,222 L1426,204 L1444,420Z"/>
-                </g>
-                <!-- Ground strip -->
                 <path d="M0,420 L0,398 C180,388 360,382 540,392 C720,402 900,385 1080,390 C1260,396 1380,382 1440,386 L1440,420Z" fill="rgba(107,58,31,0.12)"/>
             </svg>
         </div>
 
-        <!-- Ambient light glow -->
-        <div class="hero-glow" aria-hidden="true"></div>
-
-        <div class="hero-content" data-reveal="left">
-            <span class="hero-badge">Tischler &amp; Holzgestalter seit 2014</span>
-            <h1>Holz mit<br><em>Charakter.</em></h1>
-            <p class="hero-sub">Möbel &amp; Holzarbeiten nach Maß — natürliche Materialien, sorgfältige Verarbeitung, persönliche Beratung aus Pinggau.</p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Beratung anfragen</a>
-                <a href="#portfolio" class="btn btn-ghost">Unsere Arbeiten&nbsp;<i class="fas fa-arrow-right"></i></a>
-            </div>
-        </div>
-
-        <div class="hero-image" data-reveal="right">
-            <div class="hero-medallion">
-                <div class="hero-medallion-ring"></div>
-                <div class="hero-placeholder">
-                    <img id="hero-logo-image" src="Bilder/Logo/Logo.jpg" alt="Tischlerei Ochenbauer" class="hero-logo-image" fetchpriority="high">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <h1 id="hero-title">Holz mit <em>Charakter.</em></h1>
+                <p class="hero-sub">Möbel &amp; Holzarbeiten nach Maß — natürliche Materialien, sorgfältige Verarbeitung, persönliche Beratung aus Pinggau.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Beratung anfragen</a>
+                    <a href="#portfolio" class="btn btn-ghost">Unsere Arbeiten <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
                 </div>
+                <ul class="hero-facts" aria-label="Kurz zu uns">
+                    <li><strong>20+</strong> Jahre Erfahrung</li>
+                    <li><strong>200+</strong> zufriedene Kunden</li>
+                    <li><strong>seit 2014</strong> eigener Betrieb</li>
+                </ul>
             </div>
+
+            <figure class="hero-figure">
+                <div class="dim dim--v" aria-hidden="true"><span>nach Maß</span></div>
+                <div class="hero-photo">
+                    <img src="assets/img/hero-stiege-1100.webp"
+                         srcset="assets/img/hero-stiege-640.webp 640w, assets/img/hero-stiege-1100.webp 1100w"
+                         sizes="(max-width: 900px) 78vw, 34vw"
+                         width="1100" height="1467"
+                         alt="Abgehängte Holzstiege mit schwebenden Stufen in einem hellen Wohnraum"
+                         fetchpriority="high" decoding="async">
+                </div>
+                <figcaption class="dim dim--h"><span>Holzstiege · aus unserer Werkstatt</span></figcaption>
+            </figure>
         </div>
 
-        <a href="#services" class="hero-scroll-hint" aria-label="Mehr entdecken">
+        <a href="#services" class="hero-scroll-hint">
             <span>entdecken</span>
-            <i class="fas fa-chevron-down"></i>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
         </a>
-
-    </section>
-
-    <!-- ══════════════════════════════════════════ STATS ═══ -->
-    <section class="stats-strip">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item" data-reveal>
-                    <span class="stat-number">20+</span>
-                    <span class="stat-label">Jahre Erfahrung</span>
-                </div>
-                <div class="stat-divider" aria-hidden="true"></div>
-                <div class="stat-item" data-reveal>
-                    <span class="stat-number">200+</span>
-                    <span class="stat-label">Zufriedene Kunden</span>
-                </div>
-                <div class="stat-divider" aria-hidden="true"></div>
-                <div class="stat-item" data-reveal>
-                    <span class="stat-number">100%</span>
-                    <span class="stat-label">Qualitätsversprechen</span>
-                </div>
-                <div class="stat-divider" aria-hidden="true"></div>
-                <div class="stat-item" data-reveal>
-                    <span class="stat-number">Regional</span>
-                    <span class="stat-label">Aus der Region, für die Region</span>
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- ══════════════════════════════════════════ SERVICES ═══ -->
-    <section id="services" class="services">
+    <section id="services" class="services" aria-labelledby="services-title">
         <div class="container">
-            <h2 class="section-title" data-reveal>Unsere Leistungen</h2>
-            <div class="services-grid">
-                <div class="service-card" data-reveal>
-                    <div class="service-icon"><i class="fas fa-utensils"></i></div>
+            <div class="section-head">
+                <h2 class="section-title" id="services-title">Unsere Leistungen</h2>
+                <p class="section-lead">Von der Küche bis zur Stiege: Jedes Stück wird für Ihren Raum geplant und in der eigenen Werkstatt gefertigt.</p>
+            </div>
+
+            <div class="services-features" data-reveal>
+                <article class="service-feature service-feature--lead">
+                    <div class="service-photo">
+                        <img src="assets/img/leistung-kueche-900.webp" width="900" height="676" alt="Maßküche aus Eichenholz mit dunkler Arbeitsplatte und Kochinsel" loading="lazy" decoding="async">
+                    </div>
                     <h3>Maßküchen</h3>
                     <p>Von der ersten Idee bis zur letzten Schraube — Ihre Küche, genau so wie Sie sie sich vorstellen.</p>
-                </div>
-                <div class="service-card" data-reveal>
-                    <div class="service-icon"><i class="fas fa-couch"></i></div>
+                </article>
+                <article class="service-feature">
+                    <div class="service-photo">
+                        <img src="assets/img/leistung-moebel-900.webp" width="900" height="676" alt="Wohnwand nach Maß mit beleuchteten Holzfächern" loading="lazy" decoding="async">
+                    </div>
                     <h3>Maßmöbel</h3>
                     <p>Kein Standardmaß. Jedes Möbelstück entsteht nach Ihren Wünschen und fügt sich perfekt in Ihren Raum ein.</p>
-                </div>
-                <div class="service-card" data-reveal>
-                    <div class="service-icon"><i class="fas fa-stairs"></i></div>
+                </article>
+                <article class="service-feature">
+                    <div class="service-photo">
+                        <img src="assets/img/leistung-stiege-700.webp" width="700" height="932" alt="Holzstiege mit massiven Stufen in offenem Wohnbereich" loading="lazy" decoding="async">
+                    </div>
                     <h3>Holzstiegen</h3>
                     <p>Eine Treppe verbindet mehr als zwei Stockwerke. Wir bauen sie so, dass sie täglich begeistert.</p>
-                </div>
-                <div class="service-card" data-reveal>
-                    <div class="service-icon"><i class="fas fa-tools"></i></div>
-                    <h3>Möbelmontage</h3>
-                    <p>Professionelle Montage, pünktlich und ohne Stress — von Anfang bis Ende.</p>
-                </div>
-                <div class="service-card" data-reveal>
-                    <div class="service-icon"><i class="fas fa-hammer"></i></div>
-                    <h3>Reparatur &amp; Restaurierung</h3>
-                    <p>Manchmal braucht ein altes Möbelstück nur die richtigen Hände, um wieder zu strahlen.</p>
-                </div>
-                <div class="service-card" data-reveal>
-                    <div class="service-icon"><i class="fas fa-pencil-ruler"></i></div>
+                </article>
+            </div>
+
+            <ul class="service-list" data-reveal>
+                <li>
                     <h3>Planung &amp; Beratung</h3>
                     <p>Gut geplant ist halb gebaut. Wir beraten Sie persönlich — kostenlos und unverbindlich.</p>
-                </div>
-                <div class="service-card" data-reveal>
-                    <div class="service-icon"><i class="fas fa-store"></i></div>
+                </li>
+                <li>
+                    <h3>Möbelmontage</h3>
+                    <p>Professionelle Montage, pünktlich und ohne Stress — von Anfang bis Ende.</p>
+                </li>
+                <li>
+                    <h3>Reparatur &amp; Restaurierung</h3>
+                    <p>Manchmal braucht ein altes Möbelstück nur die richtigen Hände, um wieder zu strahlen.</p>
+                </li>
+                <li>
                     <h3>Holzhandel</h3>
                     <p>Ausgesuchte Hölzer in bester Qualität, direkt beim Fachmann.</p>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
     </section>
 
     <!-- ═══════════════════════════════════════════ PROCESS ═══ -->
-    <section class="process">
+    <section class="process" aria-labelledby="process-title">
         <div class="container">
-            <h2 class="section-title section-title--light" data-reveal>Wie wir arbeiten</h2>
-            <p class="process-intro" data-reveal>Vom ersten Gespräch bis zur fertigen Lieferung — einfach, ehrlich, handwerklich.</p>
-            <div class="process-grid">
-                <div class="process-step" data-reveal>
-                    <div class="process-num">01</div>
+            <div class="section-head section-head--dark">
+                <h2 class="section-title" id="process-title">Wie wir arbeiten</h2>
+                <p class="section-lead">Vom ersten Gespräch bis zur fertigen Lieferung — einfach, ehrlich, handwerklich.</p>
+            </div>
+            <ol class="process-steps" data-reveal>
+                <li>
+                    <span class="process-num" aria-hidden="true">1</span>
                     <h3>Gespräch</h3>
                     <p>Sie schildern Ihre Idee. Wir hören zu — ohne Fachsprache, ohne Druck.</p>
-                </div>
-                <div class="process-arrow" aria-hidden="true"><i class="fas fa-chevron-right"></i></div>
-                <div class="process-step" data-reveal>
-                    <div class="process-num">02</div>
+                </li>
+                <li>
+                    <span class="process-num" aria-hidden="true">2</span>
                     <h3>Entwurf</h3>
                     <p>Gemeinsam planen wir Maße, Holzart und Oberfläche bis ins Detail.</p>
-                </div>
-                <div class="process-arrow" aria-hidden="true"><i class="fas fa-chevron-right"></i></div>
-                <div class="process-step" data-reveal>
-                    <div class="process-num">03</div>
+                </li>
+                <li>
+                    <span class="process-num" aria-hidden="true">3</span>
                     <h3>Ausführung</h3>
                     <p>Handwerkliche Umsetzung mit Sorgfalt — bis Sie wirklich zufrieden sind.</p>
-                </div>
-            </div>
+                </li>
+            </ol>
         </div>
     </section>
 
     <!-- ═══════════════════════════════════════════ ABOUT ═══ -->
-    <section id="about" class="about">
+    <section id="about" class="about" aria-labelledby="about-title">
         <div class="container">
-            <div class="about-content">
-                <div class="about-text" data-reveal="left">
-                    <span class="about-label">Über uns</span>
-                    <h2>Holzhandwerk mit Herzblut</h2>
+            <div class="about-content" data-reveal>
+                <div class="about-text">
+                    <h2 class="section-title" id="about-title">Holzhandwerk mit Herzblut</h2>
                     <p>Seit mehr als 20 Jahren arbeitet Gottfried Ochenbauer mit Leidenschaft an Holzprojekten jeder Größe. Aus Pinggau bietet er persönliche Beratung, solide Handwerksarbeit und Ergebnisse, auf die Sie sich wirklich verlassen können.</p>
                     <blockquote class="craftsman-quote">
-                        Jedes Stück Holz erzählt eine Geschichte — wir geben ihr Form.
+                        <p>Jedes Stück Holz erzählt eine Geschichte — wir geben ihr Form.</p>
                     </blockquote>
-                    <div class="about-features">
-                        <div class="feature"><i class="fas fa-leaf"></i><span>Natürliche Materialien</span></div>
-                        <div class="feature"><i class="fas fa-clock"></i><span>Pünktliche Fertigstellung</span></div>
-                        <div class="feature"><i class="fas fa-handshake"></i><span>Faire, ehrliche Preise</span></div>
-                        <div class="feature"><i class="fas fa-star"></i><span>Persönliche Beratung</span></div>
-                    </div>
+                    <ul class="about-features">
+                        <li>Natürliche Materialien</li>
+                        <li>Pünktliche Fertigstellung</li>
+                        <li>Faire, ehrliche Preise</li>
+                        <li>Persönliche Beratung</li>
+                    </ul>
                 </div>
-                <div class="about-image" data-reveal="right">
-                    <div class="about-image-wrap">
-                        <div class="about-placeholder">
-                            <img src="Bilder/Logo/Logo.jpg" alt="Gottfried Ochenbauer – Tischler &amp; Holzgestalter" loading="lazy" decoding="async">
-                        </div>
-                        <p class="about-name">Gottfried Ochenbauer<br><em>Tischler &amp; Holzgestalter</em></p>
+                <figure class="about-figure">
+                    <div class="about-photo">
+                        <img id="portrait-img" src="assets/img/portrait-gottfried-720.webp" width="720" height="900" alt="Gottfried Ochenbauer in seinem Büro an einem Massivholztisch" loading="lazy" decoding="async">
                     </div>
-                </div>
+                    <figcaption><strong>Gottfried Ochenbauer</strong> Tischler &amp; Holzgestalter</figcaption>
+                </figure>
             </div>
         </div>
     </section>
 
     <!-- ═══════════════════════════════════════════ PORTFOLIO ═══ -->
-    <section id="portfolio" class="portfolio">
+    <section id="portfolio" class="portfolio" aria-labelledby="portfolio-title">
         <div class="container">
-            <h2 class="section-title" data-reveal>Unsere Arbeiten</h2>
-            <p class="section-subtitle" data-reveal>Einblicke in ausgewählte Projekte — klicken Sie auf eine Kategorie für die vollständige Galerie.</p>
-            <div class="portfolio-accordion">
-                <button id="portfolio-toggle" class="btn btn-secondary" aria-expanded="false">Kategorien anzeigen</button>
+            <div class="section-head">
+                <h2 class="section-title" id="portfolio-title">Unsere Arbeiten</h2>
+                <p class="section-lead">Einblicke in ausgewählte Projekte — wählen Sie eine Kategorie für die vollständige Galerie.</p>
             </div>
-            <div class="portfolio-grid" id="portfolio-grid"></div>
+            <div class="portfolio-grid" id="portfolio-grid" aria-busy="true"></div>
+            <div class="portfolio-status" id="portfolio-status" role="status" hidden></div>
+            <noscript><p class="portfolio-status">Die Galerie benötigt JavaScript. Gerne zeigen wir Ihnen unsere Arbeiten auch persönlich.</p></noscript>
         </div>
     </section>
 
-    <!-- Lightbox Modal -->
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-        <button class="lightbox-close" aria-label="Schließen">&times;</button>
-        <div class="lightbox-content">
-            <button class="lightbox-prev" aria-label="Vorheriges Bild"><i class="fas fa-chevron-left"></i></button>
-            <img class="lightbox-image" src="" alt="Galeriebild">
-            <button class="lightbox-next" aria-label="Nächstes Bild"><i class="fas fa-chevron-right"></i></button>
-        </div>
-        <div class="lightbox-caption">
-            <span class="lightbox-title"></span>
-            <span class="lightbox-counter"></span>
-        </div>
-    </div>
-
     <!-- ═══════════════════════════════════════════ TESTIMONIALS ═══ -->
-    <section class="testimonials">
+    <section class="testimonials" aria-labelledby="testimonials-title">
         <div class="container">
-            <h2 class="section-title section-title--light" data-reveal>Das sagen unsere Kunden</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card" data-reveal>
-                    <span class="quote-mark" aria-hidden="true">&ldquo;</span>
-                    <div class="stars" aria-label="5 von 5 Sternen">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <blockquote>Herr Ochenbauer hat unsere Küche perfekt geplant und umgesetzt. Die Qualität ist erstklassig und die Beratung war sehr professionell. Sehr empfehlenswert!</blockquote>
-                    <div class="testimonial-author">
-                        <strong>Maria und Thomas Huber</strong>
-                        <span class="review-date">vor 2 Wochen</span>
-                    </div>
-                </div>
-                <div class="testimonial-card" data-reveal>
-                    <span class="quote-mark" aria-hidden="true">&ldquo;</span>
-                    <div class="stars" aria-label="5 von 5 Sternen">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <blockquote>Die Reparatur unseres antiken Tisches war ein voller Erfolg. Herr Ochenbauer hat das Holz mit viel Liebe zum Detail restauriert. Absolut zufrieden!</blockquote>
-                    <div class="testimonial-author">
-                        <strong>Familie Weber</strong>
-                        <span class="review-date">vor 1 Monat</span>
-                    </div>
-                </div>
+            <div class="section-head section-head--dark">
+                <h2 class="section-title" id="testimonials-title">Das sagen unsere Kunden</h2>
             </div>
-            <div class="testimonials-cta" data-reveal>
-                <p>Mehr Bewertungen lesen oder selbst eine hinterlassen?</p>
-                <a href="https://www.google.com/search?q=Tischlerei+Ochenbauer+Pinggau+reviews" target="_blank" rel="noopener" class="btn btn-primary">
-                    <i class="fab fa-google"></i>&nbsp; Google Bewertungen
-                </a>
+            <div class="testimonials-grid" data-reveal>
+                <figure class="testimonial">
+                    <div class="stars" role="img" aria-label="5 von 5 Sternen">
+                        <svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg>
+                    </div>
+                    <blockquote><p>Herr Ochenbauer hat unsere Küche perfekt geplant und umgesetzt. Die Qualität ist erstklassig und die Beratung war sehr professionell. Sehr empfehlenswert!</p></blockquote>
+                    <figcaption>Maria und Thomas Huber</figcaption>
+                </figure>
+                <figure class="testimonial">
+                    <div class="stars" role="img" aria-label="5 von 5 Sternen">
+                        <svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg>
+                    </div>
+                    <blockquote><p>Die Reparatur unseres antiken Tisches war ein voller Erfolg. Herr Ochenbauer hat das Holz mit viel Liebe zum Detail restauriert. Absolut zufrieden!</p></blockquote>
+                    <figcaption>Familie Weber</figcaption>
+                </figure>
             </div>
+            <p class="testimonials-cta">
+                Mehr Bewertungen lesen oder selbst eine hinterlassen?
+                <a href="https://www.google.com/search?q=Tischlerei+Ochenbauer+Pinggau" target="_blank" rel="noopener" class="text-link">Google-Bewertungen <svg class="icon" aria-hidden="true"><use href="#i-external"/></svg><span class="sr-only">(öffnet in neuem Tab)</span></a>
+            </p>
         </div>
     </section>
 
     <!-- ═══════════════════════════════════════════ CONTACT ═══ -->
-    <section id="contact" class="contact">
+    <section id="contact" class="contact" aria-labelledby="contact-title">
         <div class="contact-inner">
-            <!-- Dark left panel -->
-            <div class="contact-info" data-reveal="left">
+            <div class="contact-info">
                 <div class="contact-info-inner">
-                    <h2 class="section-title section-title--light section-title--left">Kontakt</h2>
-                    <h3>Sprechen Sie uns an</h3>
+                    <h2 class="section-title" id="contact-title">Sprechen Sie uns an</h2>
                     <p>Vereinbaren Sie ein unverbindliches Gespräch. Wir hören zu, beraten Sie ehrlich und finden gemeinsam die beste Lösung für Ihr Projekt.</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                    <ul class="contact-details">
+                        <li class="contact-item">
+                            <span class="contact-icon" aria-hidden="true"><svg class="icon"><use href="#i-phone"/></svg></span>
                             <div>
                                 <strong>Telefon</strong>
                                 <a href="tel:+4366473617208">+43 664 73617208</a>
                             </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        </li>
+                        <li class="contact-item">
+                            <span class="contact-icon" aria-hidden="true"><svg class="icon"><use href="#i-mail"/></svg></span>
                             <div>
                                 <strong>E-Mail</strong>
                                 <a href="mailto:tischlerei.ochenbauer@gmail.com">tischlerei.ochenbauer@gmail.com</a>
                             </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        </li>
+                        <li class="contact-item">
+                            <span class="contact-icon" aria-hidden="true"><svg class="icon"><use href="#i-pin"/></svg></span>
                             <div>
                                 <strong>Adresse</strong>
-                                <a href="https://maps.google.com/?q=Schaueregg+23,+2872+Pinggau,+Austria" target="_blank" rel="noopener">Schaueregg 23<br>2872 Pinggau</a>
+                                <a href="https://maps.google.com/?q=Schaueregg+23,+2872+Pinggau,+Austria" target="_blank" rel="noopener">Schaueregg 23, 2872 Pinggau<span class="sr-only"> (Karte öffnet in neuem Tab)</span></a>
                             </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        </li>
+                        <li class="contact-item">
+                            <span class="contact-icon" aria-hidden="true"><svg class="icon"><use href="#i-clock"/></svg></span>
                             <div>
                                 <strong>Erreichbarkeit</strong>
                                 <span>nach Absprache</span>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <!-- Light right panel — form -->
-            <div class="contact-form-panel" data-reveal="right">
+
+            <div class="contact-form-panel">
                 <div class="contact-form-inner">
-                    <h3>Nachricht senden</h3>
-                    <form id="contact-form" method="POST" novalidate>
+                    <h3 id="form-title">Nachricht senden</h3>
+                    <form id="contact-form" novalidate aria-labelledby="form-title">
                         <div class="form-group">
-                            <label for="contact-name">Ihr Name <span aria-hidden="true">*</span></label>
-                            <input type="text" name="name" id="contact-name" placeholder="z.B. Thomas Müller" autocomplete="name" required>
+                            <label for="contact-name">Ihr Name <span class="req" aria-hidden="true">*</span></label>
+                            <input type="text" name="name" id="contact-name" placeholder="z.B. Thomas Müller" autocomplete="name" required aria-describedby="err-name">
+                            <p class="field-msg" id="err-name"></p>
                         </div>
                         <div class="form-group">
-                            <label for="contact-email">E-Mail-Adresse <span aria-hidden="true">*</span></label>
-                            <input type="email" name="email" id="contact-email" placeholder="ihre@email.at" autocomplete="email" inputmode="email" required>
+                            <label for="contact-email">E-Mail-Adresse <span class="req" aria-hidden="true">*</span></label>
+                            <input type="email" name="email" id="contact-email" placeholder="ihre@email.at" autocomplete="email" inputmode="email" required aria-describedby="err-email">
+                            <p class="field-msg" id="err-email"></p>
                         </div>
                         <div class="form-group">
-                            <label for="contact-phone">Telefonnummer</label>
-                            <input type="tel" name="phone" id="contact-phone" placeholder="+43 ..." autocomplete="tel" inputmode="tel">
+                            <label for="contact-phone">Telefonnummer <span class="optional">(optional)</span></label>
+                            <input type="tel" name="phone" id="contact-phone" placeholder="+43 …" autocomplete="tel" inputmode="tel">
                         </div>
                         <div class="form-group">
-                            <label for="contact-message">Ihre Nachricht <span aria-hidden="true">*</span></label>
-                            <textarea name="message" id="contact-message" placeholder="Beschreiben Sie Ihr Projekt oder Ihre Frage …" rows="5" required></textarea>
+                            <label for="contact-message">Ihre Nachricht <span class="req" aria-hidden="true">*</span></label>
+                            <textarea name="message" id="contact-message" placeholder="Beschreiben Sie Ihr Projekt oder Ihre Frage …" rows="5" required aria-describedby="err-message"></textarea>
+                            <p class="field-msg" id="err-message"></p>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full">Nachricht senden&nbsp;<i class="fas fa-paper-plane"></i></button>
+                        <div class="hp-field" aria-hidden="true">
+                            <label for="contact-website">Website</label>
+                            <input type="text" name="website" id="contact-website" tabindex="-1" autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <span class="btn-label">Nachricht senden</span>
+                            <svg class="icon" aria-hidden="true"><use href="#i-send"/></svg>
+                        </button>
+                        <p class="form-note">Ihre Angaben verwenden wir nur zur Beantwortung Ihrer Anfrage. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
                     </form>
-                    <div id="success-message" class="form-feedback form-success">
-                        <strong>Vielen Dank!</strong> Ihre Nachricht wurde gesendet. Wir melden uns schnellstmöglich.
-                    </div>
-                    <div id="error-message" class="form-feedback form-error">
-                        <strong>Fehler!</strong> Bitte versuchen Sie es erneut oder schreiben Sie uns direkt an tischlerei.ochenbauer@gmail.com
-                    </div>
+                    <div id="form-status" class="form-feedback" role="status" tabindex="-1" hidden></div>
                 </div>
             </div>
         </div>
     </section>
+
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" hidden>
+        <button class="lightbox-close" type="button" aria-label="Galerie schließen"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+        <div class="lightbox-content">
+            <button class="lightbox-prev" type="button" aria-label="Vorheriges Bild"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+            <img class="lightbox-image" src="data:," alt="">
+            <button class="lightbox-next" type="button" aria-label="Nächstes Bild"><svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+        </div>
+        <div class="lightbox-caption">
+            <span class="lightbox-title" id="lightbox-title"></span>
+            <span class="lightbox-counter" aria-live="polite"></span>
+        </div>
+    </div>
 
     <!-- ═══════════════════════════════════════════ FOOTER ═══ -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <div class="footer-logo">
-                        <img src="Bilder/Logo/Logo.jpg" alt="Tischlerei Ochenbauer Logo" loading="lazy" decoding="async">
-                        <span>Tischlerei Ochenbauer</span>
-                    </div>
-                    <p>Holzarbeiten und Möbelbau mit Liebe zum Detail — aus Pinggau, Niederösterreich.</p>
+                    <p class="wordmark wordmark--footer">
+                        <span class="wordmark-name">Ochenbauer</span>
+                        <span class="wordmark-trade">Tischlerei &amp; Handel</span>
+                    </p>
+                    <p>Holzarbeiten und Möbelbau mit Liebe zum Detail — aus Pinggau.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Leistungen</h4>
+                    <h2 class="footer-heading">Leistungen</h2>
                     <ul>
-                        <li><a href="#services">Maßküchen & Möbel</a></li>
+                        <li><a href="#services">Maßküchen &amp; Möbel</a></li>
                         <li><a href="#services">Holzstiegen</a></li>
                         <li><a href="#services">Reparaturen</a></li>
-                        <li><a href="#services">Planung & Beratung</a></li>
+                        <li><a href="#services">Planung &amp; Beratung</a></li>
                         <li><a href="#services">Holzhandel</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Kontakt</h4>
+                    <h2 class="footer-heading">Kontakt</h2>
                     <ul>
                         <li><a href="tel:+4366473617208">+43 664 73617208</a></li>
                         <li><a href="mailto:tischlerei.ochenbauer@gmail.com">tischlerei.ochenbauer@gmail.com</a></li>
@@ -450,84 +431,16 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Tischlerei und Handel Gottfried Ochenbauer &nbsp;|&nbsp; <a href="#" id="privacy-link">Datenschutz</a> &nbsp;|&nbsp; <a href="#" id="impressum-link">Impressum</a></p>
+                <p>&copy; <span id="year">2026</span> Tischlerei und Handel Gottfried Ochenbauer</p>
+                <p><a href="datenschutz.html">Datenschutz</a> <a href="impressum.html">Impressum</a></p>
             </div>
         </div>
     </footer>
 
-    <!-- Cookie Banner -->
-    <div id="cookie-banner" class="cookie-banner">
-        <div class="cookie-content">
-            <p>Diese Website verwendet Cookies, um Ihnen das beste Nutzererlebnis zu bieten.</p>
-            <div class="cookie-buttons">
-                <button id="accept-cookies" class="btn btn-primary">Akzeptieren</button>
-                <button id="decline-cookies" class="btn btn-secondary">Ablehnen</button>
-            </div>
-        </div>
-    </div>
+    <a href="#home" class="scroll-to-top" id="scroll-top" aria-label="Nach oben">
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+    </a>
 
-    <!-- Privacy Modal -->
-    <div id="privacy-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
-        <div class="modal-content">
-            <span class="close" tabindex="0" role="button" aria-label="Schließen">&times;</span>
-            <h2 id="privacy-title">Datenschutzerklärung</h2>
-            <div class="privacy-content">
-                <h3>1. Verantwortliche Stelle</h3>
-                <p>Gottfried Ochenbauer<br>Tischlerei und Holzgestalter<br>Schaueregg 23<br>2872 Pinggau, Österreich</p>
-                <p>Telefon: +43 664 73617208<br>E-Mail: tischlerei.ochenbauer@gmail.com</p>
-                <h3>2. Allgemeine Hinweise</h3>
-                <p>Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der Datenschutz-Grundverordnung (DSGVO), dem Datenschutzgesetz (DSG 2018) sowie dieser Datenschutzerklärung.</p>
-                <h3>3. Datenerfassung</h3>
-                <h4>3.1 Cookies</h4>
-                <p>Diese Website verwendet Cookies zur Verbesserung des Nutzererlebnisses. Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).</p>
-                <ul>
-                    <li><strong>Cookie-Consent:</strong> Speichert Ihre Einwilligung (Laufzeit: 1 Jahr)</li>
-                    <li><strong>Session-Cookies:</strong> Für die Website-Funktionalität (Laufzeit: Browser-Session)</li>
-                </ul>
-                <h4>3.2 Kontaktformular</h4>
-                <p>Formulardaten (Name, E-Mail, Telefon, Nachricht) werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und nicht an Dritte weitergegeben.<br><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO</p>
-                <h4>3.3 Server-Logfiles</h4>
-                <p>Beim Besuch dieser Website werden automatisch technische Daten (IP-Adresse, Browsertyp, Uhrzeit) erhoben. Diese werden nicht mit anderen Daten zusammengeführt.<br><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO</p>
-                <h3>4. Ihre Rechte gemäß DSGVO</h3>
-                <p>Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie Widerspruch (Art. 21 DSGVO). Zur Ausübung Ihrer Rechte wenden Sie sich an: tischlerei.ochenbauer@gmail.com</p>
-                <h3>5. Aufsichtsbehörde</h3>
-                <p>Österreichische Datenschutzbehörde (DSB)<br>Barichgasse 40–42, 1030 Wien<br>dsb@dsb.gv.at | +43 1 52 152-0</p>
-                <h3>6. Datensicherheit</h3>
-                <p>Diese Website nutzt HTTPS-Verschlüsselung für die sichere Datenübertragung gemäß dem Stand der Technik (Art. 32 DSGVO).</p>
-                <p><strong>Stand:</strong> April 2026</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Impressum Modal -->
-    <div id="impressum-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="impressum-title">
-        <div class="modal-content">
-            <span class="close" tabindex="0" role="button" aria-label="Schließen">&times;</span>
-            <h2 id="impressum-title">Impressum</h2>
-            <div class="impressum-content">
-                <h3>1. Angaben gemäß § 5 ECG &amp; § 25 MedienG</h3>
-                <p>Gottfried Ochenbauer<br>Tischlerei und Holzgestalter<br>Schaueregg 23<br>2872 Pinggau, Österreich</p>
-                <h3>2. Kontaktdaten</h3>
-                <p>Telefon: +43 664 73617208<br>E-Mail: tischlerei.ochenbauer@gmail.com</p>
-                <h3>3. Offenlegung gemäß § 25 MedienG</h3>
-                <p>Medieninhaber und Herausgeber: Gottfried Ochenbauer, Schaueregg 23, 2872 Pinggau<br>Grundlegende Richtung: Unternehmenswebsite zur Präsentation von Tischlereibetrieb und Leistungen</p>
-                <h3>4. Gewerberechtliche Informationen</h3>
-                <h4>4.1 Tischler und Holzgestalter</h4>
-                <p>Gewerbewortlaut: Tischler verbunden mit Modellbauer; Bootsbauer; Binder; Drechsler; Bildhauer<br>GISA-Zahl: 29906659<br>Behörde gem. ECG: Bezirkshauptmannschaft Hartberg-Fürstenfeld<br>Seit: 24.08.2017 | Rechtsgrundlage: § 94 GewO 1994</p>
-                <h4>4.2 Holzhandel</h4>
-                <p>Gewerbewortlaut: Handelsgewerbe (Holz)<br>GISA-Zahl: 21064036<br>Seit: 01.06.2014 | Rechtsgrundlage: § 1 GewO 1994</p>
-                <h3>5. Umsatzsteuer-ID</h3>
-                <p><strong>ATU68760735</strong></p>
-                <h3>6. Online-Streitbeilegung (OS-Plattform)</h3>
-                <p>Gemäß § 19 VRUG sind wir verpflichtet, auf die Online-Streitbeilegungsplattform der EU hinzuweisen:<br><a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr/</a><br>Wir sind weder verpflichtet noch bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
-                <h3>7. Urheberrecht</h3>
-                <p>Alle Inhalte dieser Website unterliegen dem österreichischen Urheberrecht (UrhG).</p>
-                <p><strong>Stand:</strong> April 2026</p>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
     <script src="script.js" defer></script>
 </body>
 </html>

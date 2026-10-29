@@ -1798,3 +1798,107 @@ main { overflow-x: clip; }
 }
 @keyframes tape-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes tape-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+/* ═══════════════════════════════════════════════════════════
+   LEISTUNGS-UNTERSEITEN (Küchen, Holzstiegen, Möbel)
+   ═══════════════════════════════════════════════════════════ */
+.hero--page {
+    min-height: auto;
+    padding: clamp(120px, 16vh, 160px) 0 clamp(110px, 14vh, 150px);
+}
+.hero--page .hero-figure { width: min(100%, 420px); }
+.hero--page .hero-photo { aspect-ratio: 4 / 5; }
+.hero--page h1 { font-size: clamp(2.6rem, 1.4rem + 4.6vw, 4.8rem); }
+
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.4rem;
+    font-size: 0.92rem;
+    color: var(--on-dark-faint);
+}
+.breadcrumb a {
+    color: var(--on-dark-dim);
+    text-decoration: underline;
+    text-decoration-color: rgba(232,201,155,0.35);
+    text-underline-offset: 0.25em;
+}
+.breadcrumb a:hover { color: var(--wood-honey); }
+.breadcrumb [aria-current] { color: var(--wood-honey); }
+
+.page-intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+}
+.page-intro-text .section-title { margin-bottom: 1.75rem; }
+.page-intro-text p {
+    color: var(--text-medium);
+    max-width: 62ch;
+    margin-bottom: 1.1rem;
+    font-size: 1.05rem;
+}
+.page-intro-aside {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: 7px;
+    background: var(--cream);
+    border: 1px solid rgba(107,58,31,0.14);
+}
+.page-intro-aside h3 {
+    font-size: 1.3rem;
+    color: var(--text-darkest);
+    margin-bottom: 1rem;
+}
+.check-list { display: grid; gap: 0.7rem; margin-bottom: 1.5rem; }
+.check-list li {
+    position: relative;
+    padding-left: 1.6rem;
+    color: var(--text-medium);
+}
+.check-list li::before {
+    content: '';
+    position: absolute;
+    left: 0.1rem;
+    top: 0.45em;
+    width: 0.55rem;
+    height: 0.9rem;
+    border-right: 2px solid var(--wood-rich);
+    border-bottom: 2px solid var(--wood-rich);
+    transform: rotate(40deg);
+}
+.page-more {
+    font-size: 0.95rem;
+    color: var(--text-medium);
+    padding-top: 1rem;
+    border-top: 1px solid rgba(107,58,31,0.18);
+}
+.page-more a, .more-link {
+    color: var(--wood-rich);
+    font-weight: 600;
+    text-underline-offset: 0.25em;
+}
+.more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+    text-decoration: none;
+}
+.more-link:hover { text-decoration: underline; }
+.more-link .icon { transition: transform 0.25s var(--ease-out); }
+.more-link:hover .icon { transform: translateX(3px); }
+.service-link { color: inherit; text-decoration: none; }
+.service-link:hover { color: var(--wood-rich); }
+
+.page-cta .testimonials-cta { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+.page-cta .btn-primary { background: var(--wood-honey); color: var(--text-darkest); }
+.page-cta .btn-primary:hover { background: var(--cream); }
+
+@media (max-width: 900px) {
+    .page-intro-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+    .hero--page .hero-figure { width: min(100%, 340px); }
+}

@@ -368,7 +368,20 @@ function prefetchGallery() {
     return galleryRequest;
 }
 
-function renderSkeleton(count = readGalleryCache()?.length || 11) {
+// Unterseiten (z. B. Küchen) zeigen nur ihre Ordner und dort jedes Foto einzeln:
+// <div id="portfolio-grid" data-ordner="Kueche" data-modus="fotos">
+const galleryFolders = portfolioGrid?.dataset.ordner?.split(',').map(s => s.trim()).filter(Boolean) || null;
+const perPhoto = portfolioGrid?.dataset.modus === 'fotos';
+const pickCategories = cats => cats.filter(c => c.photos.length && (!galleryFolders || galleryFolders.includes(c.ordner)));
+
+function expectedTiles() {
+    const cached = readGalleryCache();
+    if (!cached) return perPhoto ? 6 : 11;
+    const cats = pickCategories(cached);
+    return perPhoto ? cats.reduce((n, c) => n + c.photos.length, 0) || 6 : cats.length || 11;
+}
+
+function renderSkeleton(count = expectedTiles()) {
     if (!portfolioGrid) return;
     portfolioGrid.innerHTML = Array.from({ length: count }, () =>
         '<div class="portfolio-item is-skeleton" aria-hidden="true"></div>').join('');
@@ -394,16 +407,22 @@ function layoutGallery() {
 
 function renderGallery() {
     if (!portfolioGrid) return;
-    const visible = galleryCategories.filter(c => c.photos.length);
+    const visible = pickCategories(galleryCategories);
     portfolioGrid.innerHTML = '';
 
-    visible.forEach((cat, i) => {
-        const cover = cat.photos[cat.coverIndex] || cat.photos[0];
+    // Kacheln: je Kategorie eine (Startseite) oder je Foto eine (Unterseiten)
+    const tiles = perPhoto
+        ? visible.flatMap(cat => cat.photos.map((photo, index) => ({ cat, photo, index })))
+        : visible.map(cat => ({ cat, photo: cat.photos[cat.coverIndex] || cat.photos[0], index: cat.coverIndex }));
+
+    tiles.forEach(({ cat, photo: cover, index }, i) => {
         const count = `${cat.photos.length} ${cat.photos.length === 1 ? 'Foto' : 'Fotos'}`;
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'portfolio-item is-loading';
-        btn.setAttribute('aria-label', `${cat.titel}: Galerie mit ${count} öffnen`);
+        btn.setAttribute('aria-label', perPhoto
+            ? `${cat.titel}, Foto ${index + 1} von ${cat.photos.length} vergrößern`
+            : `${cat.titel}: Galerie mit ${count} öffnen`);
 
         const img = new Image();
         // Beschreibender Bildtext (Bildersuche); Screenreader lesen das aria-label des Buttons
@@ -425,12 +444,14 @@ function renderGallery() {
         }
 
         btn.appendChild(img);
-        btn.insertAdjacentHTML('beforeend', `
-            <div class="portfolio-overlay">
-                <h3>${escapeHtml(cat.titel)}</h3>
-                <span>${count}</span>
-            </div>`);
-        btn.addEventListener('click', () => openLightbox(cat, btn));
+        if (!perPhoto || i === 0) {
+            btn.insertAdjacentHTML('beforeend', `
+                <div class="portfolio-overlay">
+                    <h3>${escapeHtml(cat.titel)}</h3>
+                    <span>${perPhoto ? `${tiles.length} Fotos` : count}</span>
+                </div>`);
+        }
+        btn.addEventListener('click', () => openLightbox(cat, btn, index));
         portfolioGrid.appendChild(btn);
     });
 
@@ -541,10 +562,12 @@ function preloadNeighbours() {
     new Image().src = largeUrl(photos[(currentIndex - 1 + n) % n]);
 }
 
-async function openLightbox(category, opener) {
+let lightboxStartIndex = 0;
+async function openLightbox(category, opener, startIndex = category.coverIndex) {
     if (!lightbox || !category.photos.length) return;
     currentCategory = category;
-    currentIndex    = category.coverIndex;
+    currentIndex    = Math.min(Math.max(0, startIndex), category.photos.length - 1);
+    lightboxStartIndex = currentIndex;
     lightboxOpener  = opener;
     const multiple  = category.photos.length > 1;
     btnPrev.hidden  = !multiple;
@@ -591,7 +614,7 @@ async function closeLightbox() {
     const opener = lightboxOpener;
     const tileImg = opener?.querySelector('img');
     // Nur zurück in die Kachel morphen, wenn noch das Titelbild gezeigt wird
-    const backToTile = canMorph() && tileImg && currentIndex === currentCategory.coverIndex;
+    const backToTile = canMorph() && tileImg && currentIndex === lightboxStartIndex;
 
     const hide = () => {
         lightbox.hidden = true;

@@ -26,6 +26,13 @@ Stand: 29.10.2026. Recherche: Google- und Bing-Suche nach „Tischlerei Pinggau�
 - **Adresse im Profil bewusst nicht geändert:** Das Profil ist bestätigt; eine Adressänderung kann eine neue Bestätigung auslösen und das Profil bis dahin ausblenden. Pinggau steht jetzt im Einzugsgebiet und in der Beschreibung (siehe Hinweis unten).
 - **Bewertungslink:** https://g.page/r/CdEa7-IQWougEBM/review – an Kundinnen und Kunden schicken; der Button auf der Website führt ebenfalls dorthin.
 
+## Test „tischlerei nähe mönichkirchen“ (29.10.2026, nicht angemeldet)
+
+- Google zeigt rechts als einzigen Betrieb **das Ochenbauer-Profil**. Links stehen nur Verzeichnisse: FirmenABC, Herold, Tischlerbörse, gecheckt.at, ProntoPro. Die Website selbst fehlt noch (Startseite war nicht indexiert, siehe oben).
+- Bei nur „Tischlerei“ entscheidet der Standort der suchenden Person. Vorne stehen Betriebe mit 16–31 Bewertungen.
+- Website seither mit Ortsbezug Mönichkirchen: Titel „Tischler in Pinggau & Mönichkirchen“, Beschreibung, Hero, Fußzeile, Einzugsgebiet in den Firmendaten.
+- In Google Maps schaltet ein Mitbewerber (Bauer Roman) eine **bezahlte Anzeige** vor alle anderen. Ganz oben garantiert nur Google Ads (kostet laufend).
+
 ## Was ihr tun müsst (in dieser Reihenfolge)
 
 ### 1. Google-Unternehmensprofil übernehmen ⭐ wichtigster Punkt

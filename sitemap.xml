@@ -1,7 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.tischlerei-ochenbauer.at/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-29</lastmod>
+    <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/hero-stiege-1100.webp</image:loc><image:title>Abgehängte Holzstiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-kueche-900.webp</image:loc><image:title>Maßküche aus Holz – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-moebel-900.webp</image:loc><image:title>Wohnwand nach Maß – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-stiege-700.webp</image:loc><image:title>Holzstiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/portrait-gottfried-720.webp</image:loc><image:title>Tischler Gottfried Ochenbauer, Tischlerei Ochenbauer in Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stiege/Stiege</image:loc><image:title>Stiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stiege/Stiege1.1.jpg</image:loc><image:title>Stiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stiege/Stiege1.2.jpg</image:loc><image:title>Stiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stiege/Stiege2.0.jpg</image:loc><image:title>Stiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stiege/Stiege2.1.jpg</image:loc><image:title>Stiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stiege/Stiege2.2.jpg</image:loc><image:title>Stiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Kueche/Kueche1.jpg</image:loc><image:title>Küche – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Kueche/Kueche2.jpg</image:loc><image:title>Küche – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Kueche/Kueche3.jpg</image:loc><image:title>Küche – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Esstisch/Esstisch1.0.jpg</image:loc><image:title>Esstisch – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Esstisch/Esstisch2.0.jpg</image:loc><image:title>Esstisch – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Esstisch/Esstisch3.0.jpg</image:loc><image:title>Esstisch – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Esstisch/Esstisch4.0.jpg</image:loc><image:title>Esstisch – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Wohnzimmer/Wohnzimmer.jpg</image:loc><image:title>Wohnzimmer – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Wohnzimmer/Wohnzimmer1.jpg</image:loc><image:title>Wohnzimmer – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Wohnzimmer/Wohnzimmer2.jpg</image:loc><image:title>Wohnzimmer – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stauraum/Stauraum1.0.jpg</image:loc><image:title>Stauraum – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stauraum/Stauraum1.1.jpg</image:loc><image:title>Stauraum – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stauraum/Stauraum1.2.jpg</image:loc><image:title>Stauraum – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stauraum/Stauraum2.0.jpg</image:loc><image:title>Stauraum – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Stauraum/Stauraum3.0.jpg</image:loc><image:title>Stauraum – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Gartenhaus/Gartenhaus1.0.jpg</image:loc><image:title>Gartenhaus – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Gartenhaus/Gartenhaus2.0.jpg</image:loc><image:title>Gartenhaus – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Gartenhaus/Gartenhaus3.0.jpg</image:loc><image:title>Gartenhaus – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Bett/Bett.jpg</image:loc><image:title>Bett – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Bett/Bett2.jpg</image:loc><image:title>Bett – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Bett/Bett3.jpg</image:loc><image:title>Bett – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Spiegel/Spiegel.jpg</image:loc><image:title>Spiegel – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Kastenstiege/Kastenstiege.jpg</image:loc><image:title>Kastenstiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Badezimmer/Badezimmer.jpg</image:loc><image:title>Badezimmer – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+    <image:image><image:loc>https://oirmfkagzasujjlekvsw.supabase.co/storage/v1/object/public/bilder/Tor/Tor.jpg</image:loc><image:title>Tor – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
   </url>
 </urlset>

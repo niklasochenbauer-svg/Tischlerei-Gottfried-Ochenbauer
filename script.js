@@ -406,7 +406,8 @@ function renderGallery() {
         btn.setAttribute('aria-label', `${cat.titel}: Galerie mit ${count} öffnen`);
 
         const img = new Image();
-        img.alt = '';
+        // Beschreibender Bildtext (Bildersuche); Screenreader lesen das aria-label des Buttons
+        img.alt = `${cat.titel} – Tischlerarbeit der Tischlerei Ochenbauer, Pinggau`;
         img.loading = i < 5 ? 'eager' : 'lazy';
         img.decoding = 'async';
         img.addEventListener('load', () => { img.classList.add('is-loaded'); btn.classList.remove('is-loading'); }, { once: true });

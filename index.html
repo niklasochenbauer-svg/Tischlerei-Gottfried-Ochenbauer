@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tischlerei Ochenbauer – Holzarbeiten & Möbelbau aus Pinggau</title>
+    <title>Tischlerei Ochenbauer – Tischler in Pinggau | Möbel nach Maß</title>
     <meta name="theme-color" content="#1A0D06">
-    <meta name="description" content="Tischlerei Ochenbauer aus Pinggau – maßgefertigte Möbel, Küchen und Holzarbeiten mit Leidenschaft. Persönliche Beratung, ehrliches Handwerk seit 2014.">
-    <meta property="og:title" content="Tischlerei Ochenbauer – Holzarbeiten & Möbelbau aus Pinggau">
-    <meta property="og:description" content="Maßgefertigte Möbel, Küchen und Holzarbeiten mit Leidenschaft. Persönliche Beratung, ehrliches Handwerk seit 2014.">
+    <meta name="description" content="Ihre Tischlerei in Pinggau (Schaueregg): Küchen, Möbel und Holzstiegen nach Maß, Reparaturen und Holzhandel. Persönliche Beratung – Tel. 0664 73617208.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="geo.region" content="AT-6">
+    <meta name="geo.placename" content="Pinggau">
+    <meta name="geo.position" content="47.4969289;16.0360376">
+    <meta name="ICBM" content="47.4969289, 16.0360376">
+    <meta property="og:title" content="Tischlerei Ochenbauer – Tischler in Pinggau">
+    <meta property="og:description" content="Küchen, Möbel und Holzstiegen nach Maß aus Pinggau. Persönliche Beratung, ehrliches Handwerk seit 2014.">
+    <meta property="og:site_name" content="Tischlerei Ochenbauer">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="de_AT">
     <meta property="og:url" content="https://www.tischlerei-ochenbauer.at/">
@@ -19,34 +25,64 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Tischlerei Ochenbauer",
-      "description": "Maßgefertigte Möbel, Küchen, Holzstiegen und Holzarbeiten aus Pinggau",
-      "telephone": "+4366473617208",
-      "email": "tischlerei.ochenbauer@gmail.com",
-      "foundingDate": "2014",
-      "url": "https://www.tischlerei-ochenbauer.at/",
-      "image": "https://www.tischlerei-ochenbauer.at/assets/img/og-image.jpg",
-      "founder": {"@type": "Person", "name": "Gottfried Ochenbauer"},
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Schaueregg 23",
-        "postalCode": "2872",
-        "addressLocality": "Pinggau",
-        "addressRegion": "Steiermark",
-        "addressCountry": "AT"
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Tischlerleistungen",
-        "itemListElement": [
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Maßküchen"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Maßmöbel"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Holzstiegen"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Reparatur & Restaurierung"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Holzhandel"}}
-        ]
-      }
+      "@graph": [
+        {
+          "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+          "@id": "https://www.tischlerei-ochenbauer.at/#betrieb",
+          "name": "Tischlerei Ochenbauer",
+          "alternateName": ["Tischlerei & Handel G. Ochenbauer", "Tischlerei und Handel Gottfried Ochenbauer"],
+          "description": "Tischlerei in Pinggau (Schaueregg): Küchen, Möbel und Holzstiegen nach Maß, Möbelmontage, Reparatur und Restaurierung sowie Holzhandel.",
+          "url": "https://www.tischlerei-ochenbauer.at/",
+          "telephone": "+43 664 73617208",
+          "email": "tischlerei.ochenbauer@gmail.com",
+          "foundingDate": "2014",
+          "vatID": "ATU68760735",
+          "founder": {"@type": "Person", "name": "Gottfried Ochenbauer", "jobTitle": "Tischler und Holzgestalter"},
+          "logo": "https://www.tischlerei-ochenbauer.at/assets/icon-512.png",
+          "image": [
+            "https://www.tischlerei-ochenbauer.at/assets/img/og-image.jpg",
+            "https://www.tischlerei-ochenbauer.at/assets/img/hero-stiege-1100.webp",
+            "https://www.tischlerei-ochenbauer.at/assets/img/leistung-kueche-900.webp",
+            "https://www.tischlerei-ochenbauer.at/assets/img/leistung-moebel-900.webp"
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Schaueregg 23",
+            "postalCode": "2872",
+            "addressLocality": "Pinggau",
+            "addressRegion": "Steiermark",
+            "addressCountry": "AT"
+          },
+          "geo": {"@type": "GeoCoordinates", "latitude": 47.4969289, "longitude": 16.0360376},
+          "hasMap": "https://maps.google.com/?cid=11568439096404548305",
+          "sameAs": [
+            "https://maps.google.com/?cid=11568439096404548305",
+            "https://firmen.wko.at/gottfried-ochenbauer/steiermark/?firmaid=8d1931ea-dd14-44f1-908f-7479504579de"
+          ],
+          "knowsAbout": ["Tischlerei", "Küchen nach Maß", "Möbel nach Maß", "Holzstiegen", "Möbelmontage", "Möbelrestaurierung", "Holzhandel"],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Leistungen der Tischlerei",
+            "itemListElement": [
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Küchen nach Maß"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Möbel nach Maß"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Holzstiegen"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Planung & Beratung"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Möbelmontage"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Reparatur & Restaurierung"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Holzhandel"}}
+            ]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.tischlerei-ochenbauer.at/#website",
+          "url": "https://www.tischlerei-ochenbauer.at/",
+          "name": "Tischlerei Ochenbauer",
+          "inLanguage": "de-AT",
+          "publisher": {"@id": "https://www.tischlerei-ochenbauer.at/#betrieb"}
+        }
+      ]
     }
     </script>
     <script>document.documentElement.classList.add('js');</script>
@@ -55,7 +91,10 @@
     <link rel="preload" as="image" href="assets/img/hero-stiege-1100.webp" imagesrcset="assets/img/hero-stiege-640.webp 640w, assets/img/hero-stiege-1100.webp 1100w" imagesizes="(max-width: 900px) 78vw, 34vw" fetchpriority="high">
     <link rel="preconnect" href="https://oirmfkagzasujjlekvsw.supabase.co" crossorigin>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/icon-48.png" type="image/png" sizes="48x48">
+    <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
 </head>
 <body>
 
@@ -131,7 +170,7 @@
         <div class="hero-inner">
             <div class="hero-content">
                 <h1 id="hero-title">Holz mit <em>Charakter.<svg class="pencil-mark" viewBox="0 0 400 26" preserveAspectRatio="none" aria-hidden="true"><path class="pm-1" pathLength="1" d="M5 16C62 10 118 19 176 14S300 7 346 12 386 15 395 11"/><path class="pm-2" pathLength="1" d="M22 20C90 15 160 23 236 18S350 14 382 18"/></svg></em></h1>
-                <p class="hero-sub">Möbel &amp; Holzarbeiten nach Maß — natürliche Materialien, sorgfältige Verarbeitung, persönliche Beratung aus Pinggau.</p>
+                <p class="hero-sub">Ihre Tischlerei in Pinggau: Küchen, Möbel und Holzstiegen nach Maß — natürliche Materialien, sorgfältige Verarbeitung, persönliche Beratung.</p>
                 <div class="hero-buttons">
                     <a href="#contact" class="btn btn-primary">Beratung anfragen</a>
                     <a href="#portfolio" class="btn btn-ghost">Unsere Arbeiten <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
@@ -168,13 +207,13 @@
         <div class="container">
             <div class="section-head" data-reveal>
                 <h2 class="section-title" id="services-title">Unsere Leistungen</h2>
-                <p class="section-lead">Von der Küche bis zur Stiege: Jedes Stück wird für Ihren Raum geplant und in der eigenen Werkstatt gefertigt.</p>
+                <p class="section-lead">Von der Küche bis zur Stiege: Jedes Stück wird für Ihren Raum geplant und in unserer Werkstatt in Pinggau gefertigt.</p>
             </div>
 
             <div class="services-features" data-reveal>
                 <article class="service-feature service-feature--lead">
                     <div class="service-photo">
-                        <img src="assets/img/leistung-kueche-900.webp" width="900" height="676" alt="Maßküche aus Eichenholz mit dunkler Arbeitsplatte und Kochinsel" loading="lazy" decoding="async">
+                        <img src="assets/img/leistung-kueche-900.webp" width="900" height="676" alt="Maßküche aus Holz mit dunkler Arbeitsplatte und Kochinsel" loading="lazy" decoding="async">
                     </div>
                     <h3>Maßküchen</h3>
                     <p>Von der ersten Idee bis zur letzten Schraube — Ihre Küche, genau so wie Sie sie sich vorstellen.</p>
@@ -250,7 +289,7 @@
             <div class="about-content" data-reveal>
                 <div class="about-text">
                     <h2 class="section-title" id="about-title">Holzhandwerk mit Herzblut</h2>
-                    <p>Seit mehr als 20 Jahren arbeitet Gottfried Ochenbauer mit Leidenschaft an Holzprojekten jeder Größe. Aus Pinggau bietet er persönliche Beratung, solide Handwerksarbeit und Ergebnisse, auf die Sie sich wirklich verlassen können.</p>
+                    <p>Seit mehr als 20 Jahren arbeitet Gottfried Ochenbauer mit Leidenschaft an Holzprojekten jeder Größe. Seine Tischlerei liegt in Schaueregg, Gemeinde Pinggau – direkt an der Grenze zwischen Steiermark und Niederösterreich, nahe Friedberg und Mönichkirchen. Von hier aus bietet er persönliche Beratung, solide Handwerksarbeit und Ergebnisse, auf die Sie sich wirklich verlassen können.</p>
                     <blockquote class="craftsman-quote">
                         <p>Jedes Stück Holz erzählt eine Geschichte — wir geben ihr Form.</p>
                     </blockquote>
@@ -263,7 +302,7 @@
                 </div>
                 <figure class="about-figure">
                     <div class="about-photo">
-                        <img id="portrait-img" src="assets/img/portrait-gottfried-720.webp" width="720" height="900" alt="Gottfried Ochenbauer in seinem Büro an einem Massivholztisch" loading="lazy" decoding="async">
+                        <img id="portrait-img" src="assets/img/portrait-gottfried-720.webp" width="720" height="900" alt="Tischler Gottfried Ochenbauer in seinem Büro an einem Holztisch" loading="lazy" decoding="async">
                     </div>
                     <figcaption><strong>Gottfried Ochenbauer</strong> Tischler &amp; Holzgestalter</figcaption>
                 </figure>
@@ -403,7 +442,7 @@
                         <span class="wordmark-name">Ochenbauer</span>
                         <span class="wordmark-trade">Tischlerei &amp; Handel</span>
                     </p>
-                    <p>Holzarbeiten und Möbelbau mit Liebe zum Detail — aus Pinggau.</p>
+                    <p>Tischlerei in Pinggau (Steiermark): Küchen, Möbel und Holzstiegen nach Maß — mit Liebe zum Detail.</p>
                 </div>
                 <div class="footer-section">
                     <h2 class="footer-heading">Leistungen</h2>

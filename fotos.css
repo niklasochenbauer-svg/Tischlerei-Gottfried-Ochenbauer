@@ -186,7 +186,7 @@
     border: 1.5px solid transparent;
     border-radius: 4px;
     background: transparent;
-    font: 700 1.05rem 'Lato', sans-serif;
+    font: 700 1.05rem var(--font-text);
     color: var(--text-darkest);
 }
 .category-title:hover { border-color: rgba(107,58,31,0.2); }

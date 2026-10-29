@@ -27,7 +27,7 @@ Das Profil entscheidet über den Kartenbereich, also die drei Einträge ganz obe
 1. Auf **business.google.com** mit dem Google-Konto der Tischlerei anmelden und das bestehende Profil „Tischlerei & Handel G. Ochenbauer“ beanspruchen. Google bestätigt per Postkarte, Anruf oder Video.
 2. **Hauptkategorie:** „Tischlerei“. Weitere Kategorien: „Möbeltischler“, „Treppenbauer“, „Küchenstudio“, sofern Küchen ein Schwerpunkt sind.
 3. **Website** eintragen: `https://www.tischlerei-ochenbauer.at`
-4. **Adresse einheitlich machen** (siehe Abschnitt „Adresse“ unten).
+4. **Adresse ändern auf „Schaueregg 23, 2872 Pinggau“** (siehe Abschnitt „Adresse“ unten).
 5. **Einzugsgebiet** angeben: nur Orte, in denen ihr wirklich arbeitet (z. B. Pinggau, Friedberg, Mönichkirchen …).
 6. **Öffnungszeiten** eintragen (Google zeigt derzeit „schließt um 17:00“, die Website sagt „nach Absprache“; bitte einheitlich).
 7. **Mindestens 10–15 Projektfotos** hochladen: dieselben wie in der Galerie, dazu Werkstatt und Gottfried bei der Arbeit.
@@ -74,24 +74,25 @@ Bewertungen sind der stärkste Hebel im Kartenbereich. Oswald steht mit **4** Be
 - Jedes fertige Projekt mit Fotos über `fotos.html` in die Galerie stellen und dieselben Fotos ins Google-Profil.
 - Wenn ihr Beschreibungen zu einzelnen Projekten liefert (Holzart, Ort, Besonderheit), baue ich eigene Unterseiten für **Küchen** und **Holzstiegen**. Die ranken für Suchen wie „Holzstiege Pinggau“ deutlich besser als eine einzige Seite.
 
-## Adresse: bitte entscheiden
+## Adresse: entschieden ✅
 
-Der Betrieb taucht mit drei verschiedenen Adressen auf:
+**Überall gilt: Schaueregg 23, 2872 Pinggau** (festgelegt am 29.10.2026).
 
-| Quelle | Adresse |
-| --- | --- |
-| Website & Impressum | Schaueregg 23, **2872 Pinggau** |
-| Google-Profil | Schaueregg 23, **2872 Mönichkirchen** |
-| WKO / Gewerberegister | Schaueregg 23, **2872 Schaueregg** |
+| Quelle | Stand | Zu tun |
+| --- | --- | --- |
+| Website, Impressum, Datenschutz, Firmendaten für Google | ✅ Schaueregg 23, 2872 Pinggau | – |
+| Google-Profil | ❌ Schaueregg 23, 2872 **Mönichkirchen** | Im Profil unter „Adresse“ auf **2872 Pinggau** ändern. Zusätzlich „Pinggau“ als Einzugsgebiet eintragen. |
+| WKO Firmen A-Z | ❌ Schaueregg 23, 2872 **Schaueregg** | Über den WKO-Mitgliederservice anpassen lassen, sofern möglich. Die Angabe stammt aus dem Gewerberegister (GISA); dort ist sie amtlich und bleibt, wie sie ist. |
+| Herold, FirmenABC usw. | neu anlegen | Gleich mit **2872 Pinggau** eintragen. |
 
-Schaueregg gehört zur Gemeinde Pinggau (Steiermark), die Post läuft aber über 2872 Mönichkirchen (Niederösterreich). Google mag widersprüchliche Angaben nicht. Bitte **eine** Schreibweise festlegen (die, unter der Post ankommt), dann passe ich die Website an und ihr ändert Google-Profil und Verzeichnisse genauso. Im Profil zusätzlich „Pinggau“ als Einzugsgebiet eintragen.
+**Hinweis für Google:** Die Postleitzahl 2872 gehört zum Postamt Mönichkirchen. Schlägt Google beim Speichern automatisch „Mönichkirchen“ vor, die Änderung trotzdem mit „Pinggau“ bestätigen. Lässt Google das nicht zu, die vorgeschlagene Schreibweise akzeptieren und dafür im Profil „Pinggau“ als Einzugsgebiet sowie im Beschreibungstext eintragen. Der Ortsbezug zu Pinggau ist dann trotzdem gegeben.
 
 ## Vorlagen zum Einfügen
 
 **Name, Adresse, Telefon (überall gleich):**
 ```
 Tischlerei Ochenbauer
-Schaueregg 23, 2872 Pinggau   ← ggf. nach Entscheidung oben anpassen
+Schaueregg 23, 2872 Pinggau
 +43 664 73617208
 https://www.tischlerei-ochenbauer.at
 ```
@@ -108,4 +109,4 @@ Tischlerei in Pinggau: Küchen, Möbel und Holzstiegen nach Maß, Möbelmontage,
 
 ## Ehrliche Erwartung
 
-Niemand kann Platz 1 garantieren. Im Kartenbereich zählt auch, wie nah die suchende Person am Betrieb ist. Mit beanspruchtem Google-Profil, einheitlicher Adresse und einigen echten Bewertungen ist es aber realistisch, für „Tischlerei Pinggau“ und „Tischler Pinggau“ innerhalb einiger Wochen im Kartenbereich und auf Seite 1 zu erscheinen. Für den eigenen Namen „Tischlerei Ochenbauer“ sollte die Website schon nach der Einrichtung der Search Console ganz vorne stehen.
+Niemand kann Platz 1 garantieren. Im Kartenbereich zählt auch, wie nah die suchende Person am Betrieb ist. Mit beanspruchtem Google-Profil, einheitlicher Adresse (2872 Pinggau) und einigen echten Bewertungen ist es aber realistisch, für „Tischlerei Pinggau“ und „Tischler Pinggau“ innerhalb einiger Wochen im Kartenbereich und auf Seite 1 zu erscheinen. Für den eigenen Namen „Tischlerei Ochenbauer“ sollte die Website schon nach der Einrichtung der Search Console ganz vorne stehen.

@@ -21,7 +21,7 @@ Stand: 29.10.2026. Recherche: Google- und Bing-Suche nach „Tischlerei Pinggau�
 ## Erledigt am 29.10.2026 (Google-Konto niklas.ochenbauer@gmail.com)
 
 - **Search Console** eingerichtet (Property `https://www.tischlerei-ochenbauer.at/`, bestätigt über die Datei `googlea76b5b98eeb0bc63.html` – **nicht löschen**). Sitemap eingereicht, Indexierung für Startseite, Küchen, Holzstiegen und Möbel beantragt.
-- **Fund:** Google hielt `tischlerei-ochenbauer.at` (ohne www) für die Hauptadresse. Grund: Die Umleitung auf www ist bei Vercel nur „vorübergehend“ (307). **Offen:** In Vercel → Projekt → Settings → Domains → `tischlerei-ochenbauer.at` → Edit → Umleitung auf **308 Permanent** stellen.
+- **Fund:** Google hielt `tischlerei-ochenbauer.at` (ohne www) für die Hauptadresse. Grund: Die Umleitung auf www ist bei Vercel nur „vorübergehend“ (307). ✅ Am 29.10.2026 auf **308 Permanent** umgestellt und die Startseite erneut zur Indexierung angemeldet.
 - **Google-Profil:** wird von diesem Konto bereits verwaltet und ist bestätigt. Ergänzt: Zusatzkategorien Möbeltischler, Küchenumbauunternehmen, Treppenbauunternehmen, Holzhandlung · neue Beschreibung · Einzugsgebiet Pinggau, Friedberg, Mönichkirchen · 7 Leistungen. Google prüft die Änderungen (Minuten bis 1 Tag).
 - **Adresse im Profil bewusst nicht geändert:** Das Profil ist bestätigt; eine Adressänderung kann eine neue Bestätigung auslösen und das Profil bis dahin ausblenden. Pinggau steht jetzt im Einzugsgebiet und in der Beschreibung (siehe Hinweis unten).
 - **Bewertungslink:** https://g.page/r/CdEa7-IQWougEBM/review – an Kundinnen und Kunden schicken; der Button auf der Website führt ebenfalls dorthin.

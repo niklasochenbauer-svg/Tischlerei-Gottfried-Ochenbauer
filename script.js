@@ -151,7 +151,7 @@ function relayout() {
     requestAnimationFrame(() => {
         relayoutPending = false;
         measured = false;          // beim nächsten Bedarf neu messen
-        lenis?.resize();
+        // Lenis beobachtet Größenänderungen selbst – kein erzwungenes Neuberechnen hier
         if (window.scrollY > 0) onScroll();
     });
 }

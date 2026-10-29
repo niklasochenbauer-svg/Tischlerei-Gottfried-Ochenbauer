@@ -1,0 +1,4 @@
+# Nicht mit veröffentlichen: interne Dokumente, Datenbank-Skript, Quelldateien
+*.md
+supabase/
+assets/maserung-*.svg

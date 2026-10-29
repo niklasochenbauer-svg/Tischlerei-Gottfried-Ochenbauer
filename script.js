@@ -12,12 +12,20 @@ const clamp01 = v => Math.min(1, Math.max(0, v));
 
 // ── Weiches Scrollen (Lenis) ───────────────────────────────
 // Bremst das Mausrad auf ein ruhiges, gleichmäßiges Tempo. Touch bleibt nativ.
+// Startet erst, wenn die Seite fertig aufgebaut ist (Lenis vermisst beim Start die
+// ganze Seite – sofort beim Laden erzwang das bis zu 450 ms Neuberechnung), und nur
+// mit Maus/Touchpad: auf Touch-Geräten glättet Lenis nichts.
 let lenis = null;
-if (motionOK && window.Lenis) {
+function startLenis() {
+    if (lenis || !motionOK || !window.Lenis || !window.matchMedia('(pointer: fine)').matches) return;
     lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.9, smoothWheel: true });
-    const raf = time => { lenis.raf(time); requestAnimationFrame(raf); };
+    const raf = time => { lenis?.raf(time); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
 }
+window.addEventListener('load', () => {
+    if ('requestIdleCallback' in window) requestIdleCallback(startLenis, { timeout: 2000 });
+    else setTimeout(startLenis, 800);
+}, { once: true });
 
 // Scrollen sperren (Menü, Lightbox) – für Lenis und nativ
 function lockScroll(locked) {

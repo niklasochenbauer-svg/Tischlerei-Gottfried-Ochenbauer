@@ -18,6 +18,14 @@ Stand: 29.10.2026. Recherche: Google- und Bing-Suche nach „Tischlerei Pinggau�
 - Favicons für die Suchergebnisse, schnelle Ladezeit (zählt bei Google als Rankingfaktor).
 - Bing/IndexNow benachrichtigt.
 
+## Erledigt am 29.10.2026 (Google-Konto niklas.ochenbauer@gmail.com)
+
+- **Search Console** eingerichtet (Property `https://www.tischlerei-ochenbauer.at/`, bestätigt über die Datei `googlea76b5b98eeb0bc63.html` – **nicht löschen**). Sitemap eingereicht, Indexierung für Startseite, Küchen, Holzstiegen und Möbel beantragt.
+- **Fund:** Google hielt `tischlerei-ochenbauer.at` (ohne www) für die Hauptadresse. Grund: Die Umleitung auf www ist bei Vercel nur „vorübergehend“ (307). **Offen:** In Vercel → Projekt → Settings → Domains → `tischlerei-ochenbauer.at` → Edit → Umleitung auf **308 Permanent** stellen.
+- **Google-Profil:** wird von diesem Konto bereits verwaltet und ist bestätigt. Ergänzt: Zusatzkategorien Möbeltischler, Küchenumbauunternehmen, Treppenbauunternehmen, Holzhandlung · neue Beschreibung · Einzugsgebiet Pinggau, Friedberg, Mönichkirchen · 7 Leistungen. Google prüft die Änderungen (Minuten bis 1 Tag).
+- **Adresse im Profil bewusst nicht geändert:** Das Profil ist bestätigt; eine Adressänderung kann eine neue Bestätigung auslösen und das Profil bis dahin ausblenden. Pinggau steht jetzt im Einzugsgebiet und in der Beschreibung (siehe Hinweis unten).
+- **Bewertungslink:** https://g.page/r/CdEa7-IQWougEBM/review – an Kundinnen und Kunden schicken; der Button auf der Website führt ebenfalls dorthin.
+
 ## Was ihr tun müsst (in dieser Reihenfolge)
 
 ### 1. Google-Unternehmensprofil übernehmen ⭐ wichtigster Punkt
@@ -45,7 +53,7 @@ Bewertungen sind der stärkste Hebel im Kartenbereich. Oswald steht mit **4** Be
 ### 3. Google Search Console einrichten
 
 1. Auf **search.google.com/search-console** die Domain `tischlerei-ochenbauer.at` hinzufügen.
-2. Google zeigt einen **TXT-Eintrag** an (beginnt mit `google-site-verification=`). **Den an Claude schicken**: Die Domain liegt bei Vercel, den Eintrag kann ich direkt setzen.
+2. ✅ Erledigt per Bestätigungsdatei (das DNS liegt bei Hostinger, nicht bei Vercel).
 3. Danach unter „Sitemaps“ `sitemap.xml` einreichen und unter „URL-Prüfung“ die Startseite zur Indexierung anfordern.
 4. Bing: auf **bing.com/webmasters** „Aus Google Search Console importieren“ wählen.
 

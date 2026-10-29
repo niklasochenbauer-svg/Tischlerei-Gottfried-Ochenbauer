@@ -4,64 +4,51 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* ── Fonts (selbst gehostet, SIL Open Font License, keine Verbindung zu Google) ──
-   Young Serif: kräftige, weich gerundete Serifen — wie geschnitzt oder eingebrannt.
-   Alegreya Sans: humanistische Textschrift mit kalligrafischem Rhythmus und echter Kursive. */
+   Bricolage Grotesque: moderne Grotesk mit leichtem Eigencharakter; variable Schrift mit
+   optischen Größen (große Überschriften werden automatisch straffer).
+   Hanken Grotesk: klare, ruhige Textschrift. */
 @font-face {
-    font-family: 'Young Serif';
+    font-family: 'Bricolage Grotesque';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500 700;
     font-display: swap;
-    src: url('assets/fonts/YoungSerif-400.woff2') format('woff2');
+    src: url('assets/fonts/BricolageGrotesque-var.woff2') format('woff2');
 }
 @font-face {
-    font-family: 'Alegreya Sans';
+    font-family: 'Hanken Grotesk';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 400 600;
     font-display: swap;
-    src: url('assets/fonts/AlegreyaSans-400.woff2') format('woff2');
+    src: url('assets/fonts/HankenGrotesk-var.woff2') format('woff2');
 }
 @font-face {
-    font-family: 'Alegreya Sans';
+    font-family: 'Hanken Grotesk';
     font-style: italic;
     font-weight: 400;
     font-display: swap;
-    src: url('assets/fonts/AlegreyaSans-400-italic.woff2') format('woff2');
-}
-@font-face {
-    font-family: 'Alegreya Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: url('assets/fonts/AlegreyaSans-500.woff2') format('woff2');
-}
-@font-face {
-    font-family: 'Alegreya Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url('assets/fonts/AlegreyaSans-700.woff2') format('woff2');
+    src: url('assets/fonts/HankenGrotesk-400-italic.woff2') format('woff2');
 }
 /* Ersatzschriften mit angeglichenen Maßen: kein Springen, solange die echten Schriften laden */
 @font-face {
-    font-family: 'Young Serif Fallback';
-    src: local('Georgia'), local('Times New Roman');
-    size-adjust: 108%;
+    font-family: 'Bricolage Fallback';
+    src: local('Arial'), local('Helvetica');
+    size-adjust: 102%;
     ascent-override: 92%;
-    descent-override: 24%;
+    descent-override: 26%;
 }
 @font-face {
-    font-family: 'Alegreya Sans Fallback';
-    src: local('Segoe UI'), local('Arial');
-    size-adjust: 93%;
+    font-family: 'Hanken Fallback';
+    src: local('Arial'), local('Helvetica');
+    size-adjust: 99%;
     ascent-override: 98%;
-    descent-override: 28%;
+    descent-override: 27%;
 }
 :root {
-    --font-display: 'Young Serif', 'Young Serif Fallback', Georgia, serif;
-    --font-text: 'Alegreya Sans', 'Alegreya Sans Fallback', 'Segoe UI', sans-serif;
+    --font-display: 'Bricolage Grotesque', 'Bricolage Fallback', 'Segoe UI', sans-serif;
+    --font-text: 'Hanken Grotesk', 'Hanken Fallback', 'Segoe UI', sans-serif;
 }
 /* Keine künstlich verfetteten oder schräggestellten Buchstaben */
-html { font-synthesis: none; }
+html { font-synthesis: none; font-optical-sizing: auto; }
 
 /* ── Reset & Base ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -127,8 +114,8 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 /* ── Global Typography ── */
 body {
     font-family: var(--font-text);
-    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
-    line-height: 1.62;
+    font-size: clamp(1rem, 0.96rem + 0.22vw, 1.1rem);
+    line-height: 1.65;
     color: var(--text-dark);
     background-color: var(--cream-light);
     background-image: var(--grain);
@@ -139,8 +126,9 @@ body {
 
 h1, h2, h3 {
     font-family: var(--font-display);
-    font-weight: 400;
-    line-height: 1.12;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
     text-wrap: balance;
 }
 p { text-wrap: pretty; }
@@ -243,8 +231,8 @@ html { scrollbar-color: var(--wood-medium) var(--cream); }
 /* Zollstock-Lineal unter Sektionstiteln */
 .section-title {
     font-size: clamp(1.9rem, 1.35rem + 2.2vw, 2.85rem);
-    font-weight: 400;
-    letter-spacing: -0.005em;
+    font-weight: 600;
+    letter-spacing: -0.025em;
     color: var(--text-darkest);
     padding-bottom: 1.1rem;
     position: relative;
@@ -374,7 +362,8 @@ section[id] { scroll-margin-top: 72px; }
 .wordmark-name {
     font-family: var(--font-display);
     font-size: 1.4rem;
-    font-weight: 400;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     color: var(--wood-honey);
     letter-spacing: 0.01em;
 }
@@ -398,7 +387,7 @@ section[id] { scroll-margin-top: 72px; }
     text-decoration: none;
     color: var(--on-dark-dim);
     font-weight: 500;
-    font-size: 1.02rem;
+    font-size: 0.98rem;
     letter-spacing: 0.01em;
     border-radius: 4px;
     transition: color 0.2s, background-color 0.2s;
@@ -498,9 +487,9 @@ section[id] { scroll-margin-top: 72px; }
 
 .hero h1 {
     font-size: clamp(2.8rem, 1.5rem + 5.2vw, 5.4rem);
-    font-weight: 400;
-    line-height: 1.04;
-    letter-spacing: -0.015em;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.035em;
     color: var(--on-dark);
 }
 .hero h1 em {
@@ -642,9 +631,9 @@ section[id] { scroll-margin-top: 72px; }
     border: 1.5px solid transparent;
     border-radius: 4px;
     font-family: var(--font-text);
-    font-size: 1.05rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0;
     text-decoration: none;
     cursor: pointer;
     touch-action: manipulation;
@@ -763,8 +752,8 @@ section[id] { scroll-margin-top: 72px; }
 }
 .service-list h3 {
     font-family: var(--font-display);
-    font-size: 1.2rem;
-    font-weight: 400;
+    font-size: 1.15rem;
+    font-weight: 600;
     color: var(--text-darkest);
     margin-bottom: 0.45rem;
 }
@@ -814,7 +803,7 @@ section[id] { scroll-margin-top: 72px; }
     display: block;
     font-family: var(--font-display);
     font-size: 3rem;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1;
     color: var(--wood-warm);
     margin-bottom: 0.9rem;
@@ -868,9 +857,10 @@ section[id] { scroll-margin-top: 72px; }
     color: var(--wood-warm);
 }
 .craftsman-quote p {
-    font-family: var(--font-text);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-display);
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.015em;
     font-size: clamp(1.45rem, 1.2rem + 0.9vw, 1.85rem);
     line-height: 1.34;
     color: var(--text-darkest);
@@ -993,7 +983,7 @@ section[id] { scroll-margin-top: 72px; }
 }
 .portfolio-overlay h3 {
     font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
-    font-weight: 400;
+    font-weight: 600;
 }
 .portfolio-item:first-child .portfolio-overlay h3 { font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); }
 .portfolio-overlay span {
@@ -1352,8 +1342,8 @@ section[id] { scroll-margin-top: 72px; }
 .wordmark--footer { margin-bottom: 1rem; }
 .footer-heading {
     font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 400;
+    font-size: 1.05rem;
+    font-weight: 600;
     color: var(--on-dark);
     margin-bottom: 1rem;
 }

@@ -52,6 +52,8 @@ Stand: 29.10.2026. Recherche: Google- und Bing-Suche nach „Tischlerei Pinggau�
 
 **Fund:** Die Wirtschaftsseite der Gemeinde Pinggau steht bei „tischlerei pinggau“ auf Seite 1 und führt die Tischlerei nicht. Bitte um Eintrag liegt als Gmail-Entwurf bereit (an gde@pinggau.gv.at).
 
+**Search Console (31.10.2026):** Startseite weiter „nicht auf Google“ (Duplikat, kanonisch noch die Adresse ohne www). Indexierung für Startseite und `tischlerei-moenichkirchen.html` neu beantragt, Ergebnis offen. Sitemap am 31.10. erfolgreich gelesen.
+
 **Noch zu klären:** Öffnungszeiten. Google nennt Montag ab 09:00, die Website „nach Absprache“. Deshalb stehen noch keine Zeiten in den strukturierten Daten.
 
 ## Was ihr tun müsst (in dieser Reihenfolge)

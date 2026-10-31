@@ -492,6 +492,16 @@ section[id] { scroll-margin-top: 72px; }
     letter-spacing: -0.035em;
     color: var(--on-dark);
 }
+.hero-kicker {
+    display: block;
+    margin-bottom: 1.1rem;
+    font-family: var(--font-text);
+    font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    color: var(--wood-honey);
+}
 .hero h1 em {
     display: block;
     position: relative;
@@ -1902,3 +1912,6 @@ main { overflow-x: clip; }
 @media (max-width: 640px) {
     .hero--page .hero-figure { width: min(100%, 340px); }
 }
+
+/* Fragen zur Region auf der Startseite */
+.region .service-list a { color: inherit; text-decoration: underline; text-underline-offset: 0.18em; }

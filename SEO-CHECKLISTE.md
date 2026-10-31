@@ -33,6 +33,27 @@ Stand: 29.10.2026. Recherche: Google- und Bing-Suche nach „Tischlerei Pinggau�
 - Website seither mit Ortsbezug Mönichkirchen: Titel „Tischler in Pinggau & Mönichkirchen“, Beschreibung, Hero, Fußzeile, Einzugsgebiet in den Firmendaten.
 - In Google Maps schaltet ein Mitbewerber (Bauer Roman) eine **bezahlte Anzeige** vor alle anderen. Ganz oben garantiert nur Google Ads (kostet laufend).
 
+## Local-SEO-Durchgang (31.10.2026)
+
+**Stand bei Google (nicht angemeldet, Standort des Testrechners):**
+
+- `site:tischlerei-ochenbauer.at`: 3 Treffer. Startseite noch unter der Adresse ohne www und mit altem Titel, dazu Möbel und Küchen. Holzstiegen fehlt.
+- „tischlerei ochenbauer“: Profil rechts sichtbar, Website nicht unter den Treffern.
+- „tischlerei pinggau“: Kartenbereich zeigt Oswald (4 Bewertungen) und Gressenbauer (1 Bewertung), Ochenbauer fehlt.
+- Search Console: 16 Einblendungen, 0 Klicks, Durchschnittsposition 11,3 (28.–29.10.).
+
+**Auf der Website umgesetzt:**
+
+- Hauptüberschriften aller Seiten enthalten jetzt Tischlerei/Tischler und die Orte.
+- Neue Seite `tischlerei-moenichkirchen.html` mit eigenem Text zum Standort und zur Postleitzahl 2872.
+- Startseite: Abschnitt „Ihre Tischlerei zwischen Pinggau und Mönichkirchen“.
+- Leistungsseiten: Titel mit beiden Orten, vollständige Firmendaten in den strukturierten Daten.
+- Sitemap aktualisiert.
+
+**Fund:** Die Wirtschaftsseite der Gemeinde Pinggau steht bei „tischlerei pinggau“ auf Seite 1 und führt die Tischlerei nicht. Bitte um Eintrag liegt als Gmail-Entwurf bereit (an gde@pinggau.gv.at).
+
+**Noch zu klären:** Öffnungszeiten. Google nennt Montag ab 09:00, die Website „nach Absprache“. Deshalb stehen noch keine Zeiten in den strukturierten Daten.
+
 ## Was ihr tun müsst (in dieser Reihenfolge)
 
 ### 1. Google-Unternehmensprofil übernehmen ⭐ wichtigster Punkt

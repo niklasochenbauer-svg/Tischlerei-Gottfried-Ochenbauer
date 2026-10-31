@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.tischlerei-ochenbauer.at/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/hero-stiege-1100.webp</image:loc><image:title>Abgehängte Holzstiege – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
     <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-kueche-900.webp</image:loc><image:title>Maßküche aus Holz – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
     <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-moebel-900.webp</image:loc><image:title>Wohnwand nach Maß – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
@@ -42,17 +42,22 @@
   </url>
   <url>
     <loc>https://www.tischlerei-ochenbauer.at/kuechen.html</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-kueche-900.webp</image:loc><image:title>Küchen nach Maß – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
   </url>
   <url>
     <loc>https://www.tischlerei-ochenbauer.at/holzstiegen.html</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-stiege-700.webp</image:loc><image:title>Holzstiegen nach Maß – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
   </url>
   <url>
     <loc>https://www.tischlerei-ochenbauer.at/moebel.html</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-moebel-900.webp</image:loc><image:title>Möbel nach Maß – Tischlerei Ochenbauer, Pinggau</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://www.tischlerei-ochenbauer.at/tischlerei-moenichkirchen.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <image:image><image:loc>https://www.tischlerei-ochenbauer.at/assets/img/leistung-moebel-900.webp</image:loc><image:title>Wohnwand nach Maß – Tischlerei Ochenbauer bei Mönichkirchen</image:title></image:image>
   </url>
 </urlset>

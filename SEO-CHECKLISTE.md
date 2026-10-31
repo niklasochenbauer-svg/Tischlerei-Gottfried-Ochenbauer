@@ -101,6 +101,15 @@ Bewertungen sind der stärkste Hebel im Kartenbereich. Oswald steht mit **4** Be
 | **Apple Business Connect** | Für Apple Karten (iPhone). |
 | Firmania, Cylex, gecheckt.at | Optional, gleiche Daten. |
 
+**Stand 31.10.2026:**
+- **FirmenABC:** Eintrag besteht bereits als „Gottfried Ochenbauer“, 2872 Schaueregg, Tel. 02649 20932, ohne Website. Nicht neu anlegen. Korrektur (Name, 2872 Pinggau, Handynummer, E-Mail, Website) am 31.10.2026 über [„Profil vervollständigen“](https://www.firmenabc.at/gottfried-ochenbauer_NkVT) gesendet, FirmenABC hat den Empfang bestätigt. Übernahme noch prüfen.
+- **Herold:** Bei der Suche nicht gefunden (Prüfung nicht vollständig). Das Formular unter herold.at/firmeneintrag legt ein Nutzerprofil an, E-Mail-Bestätigung nötig.
+- **Bing Places:** Anmeldung über bing.com/forbusiness („Weiter mit Google“), danach Import aus dem Google-Profil.
+- **Cylex:** Unter cylex.at/register-company mit E-Mail und AGB-Bestätigung registrieren (Konto).
+- **gecheckt.at:** Nur mit Anmeldung, ohne Formular für Gäste.
+- **Firmania:** Kein Eintragsformular, nur Kontaktformular unter firmania.at/contact.
+- **Gemeinde Pinggau:** Mail liegt als Gmail-Entwurf bereit, noch nicht gesendet.
+
 ### 5. Verweise von anderen Seiten (Backlinks)
 
 - Lieferanten und Partnerbetriebe um einen Link bitten (z. B. auf deren Referenz- oder Partnerseite).

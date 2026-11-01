@@ -103,7 +103,9 @@ function ensureMeasured() { if (!measured) measureStack(); }
 // ── Navbar, Scrollspy & Jahresringe ────────────────────────
 const navbar      = document.getElementById('navbar');
 const scrollTopEl = document.getElementById('scroll-top');
-const navLinks    = document.querySelectorAll('.nav-link');
+const actionBar   = document.getElementById('action-bar');
+const contactInView = new Set(); // Kontakt/Fußzeile im Bild: dort stören die Schnellknöpfe nur
+const navLinks   = document.querySelectorAll('.nav-link');
 const rings       = [...document.querySelectorAll('.growth-rings .ring')].reverse(); // innen → außen
 let activeId      = null;
 let scrollRafPending = false;
@@ -138,6 +140,7 @@ function onScroll() {
     if (y > 0) ensureMeasured();
     navbar?.classList.toggle('scrolled', y > 40);
     scrollTopEl?.classList.toggle('is-visible', y > 600);
+    actionBar?.classList.toggle('is-visible', y > 420 && !contactInView.size);
     if (measured) {
         updateSpy(y);
         updateRings(y);
@@ -150,6 +153,17 @@ function requestScrollUpdate() {
     requestAnimationFrame(onScroll);
 }
 window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+
+if (actionBar && 'IntersectionObserver' in window) {
+    const barObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) contactInView.add(entry.target);
+            else contactInView.delete(entry.target);
+        });
+        requestScrollUpdate();
+    });
+    document.querySelectorAll('#contact, .footer').forEach(el => barObserver.observe(el));
+}
 
 // Mehrere Auslöser (Größenänderung, Schriften, Galerie) auf einen Frame bündeln
 let relayoutPending = false;
@@ -178,6 +192,16 @@ document.fonts?.ready.then(relayout);
 
 
 // ── Anker-Links: ruhige Fahrt zum Ziel ─────────────────────
+// Die Überschrift darf nicht unter der festen Kopfzeile landen (Abschnitte haben
+// auf Handys wenig Innenabstand). offsetTop statt Rect: ignoriert Scroll-Animationen.
+function sectionY(section, top) {
+    const heading = section.querySelector('h1, h2');
+    if (!heading) return top;
+    let offset = 0;
+    for (let el = heading; el && el !== section; el = el.offsetParent) offset += el.offsetTop;
+    return Math.min(top, top + offset - (navbar?.offsetHeight || 0) - 20);
+}
+
 document.addEventListener('click', e => {
     const link = e.target.closest('a[href^="#"]');
     if (!link || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey) return;
@@ -189,7 +213,7 @@ document.addEventListener('click', e => {
     ensureMeasured();
     const index = stackSections.indexOf(target);
     const y = id === 'home' ? 0
-        : index >= 0 ? naturalTops[index]
+        : index >= 0 ? sectionY(target, naturalTops[index])
         : target.getBoundingClientRect().top + window.scrollY - 80;
     scrollToY(y);
     history.replaceState(null, '', id === 'home' ? location.pathname : `#${id}`);
@@ -436,7 +460,9 @@ function renderGallery() {
         });
         if (Galerie.OPTIMIZE) {
             // Kachelgröße: die erste ist doppelt so groß wie die übrigen
-            img.sizes = i === 0 ? '(max-width: 768px) 92vw, 50vw' : '(max-width: 768px) 46vw, 25vw';
+            img.sizes = i === 0
+                ? '(max-width: 768px) 92vw, (max-width: 1024px) 66vw, 50vw'
+                : '(max-width: 768px) 46vw, (max-width: 1024px) 33vw, 25vw';
             img.srcset = Galerie.srcset(cover.url);
             img.src = Galerie.sized(cover.url, 640);
         } else {
@@ -685,11 +711,22 @@ btnPrev?.addEventListener('click', () => step(-1));
 btnClose?.addEventListener('click', closeLightbox);
 lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
 
-let touchStartX = 0;
-lightbox?.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+// Wischen: seitlich blättern, nach unten schließen. Zwei Finger oder ein
+// hineingezoomtes Foto sind Zoomen und dürfen nie weiterblättern.
+let touchStart = null;
+lightbox?.addEventListener('touchstart', e => {
+    const zoomed = (window.visualViewport?.scale || 1) > 1.01;
+    touchStart = e.touches.length === 1 && !zoomed
+        ? { x: e.touches[0].clientX, y: e.touches[0].clientY }
+        : null;
+}, { passive: true });
 lightbox?.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+    if (!touchStart) return;
+    const dx = e.changedTouches[0].clientX - touchStart.x;
+    const dy = e.changedTouches[0].clientY - touchStart.y;
+    touchStart = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+    else if (dy > 90 && dy > Math.abs(dx) * 1.5) closeLightbox();
 }, { passive: true });
 
 document.addEventListener('keydown', e => {

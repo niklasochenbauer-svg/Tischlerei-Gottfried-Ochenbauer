@@ -2,7 +2,7 @@
 <html lang="de-AT">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Tischlerei Ochenbauer – Tischler in Pinggau &amp; Mönichkirchen</title>
     <meta name="theme-color" content="#1A0D06">
     <meta name="description" content="Tischlerei in Schaueregg bei Pinggau, Mönichkirchen und Friedberg: Küchen, Möbel und Holzstiegen nach Maß, Reparatur und Holzhandel. Tel. 0664 73617208.">
@@ -421,17 +421,17 @@
                     <form id="contact-form" novalidate aria-labelledby="form-title">
                         <div class="form-group">
                             <label for="contact-name">Ihr Name <span class="req" aria-hidden="true">*</span></label>
-                            <input type="text" name="name" id="contact-name" placeholder="z.B. Thomas Müller" autocomplete="name" required aria-describedby="err-name">
+                            <input type="text" name="name" id="contact-name" placeholder="z.B. Thomas Müller" autocomplete="name" autocapitalize="words" enterkeyhint="next" required aria-describedby="err-name">
                             <p class="field-msg" id="err-name"></p>
                         </div>
                         <div class="form-group">
                             <label for="contact-email">E-Mail-Adresse <span class="req" aria-hidden="true">*</span></label>
-                            <input type="email" name="email" id="contact-email" placeholder="ihre@email.at" autocomplete="email" inputmode="email" required aria-describedby="err-email">
+                            <input type="email" name="email" id="contact-email" placeholder="ihre@email.at" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" required aria-describedby="err-email">
                             <p class="field-msg" id="err-email"></p>
                         </div>
                         <div class="form-group">
                             <label for="contact-phone">Telefonnummer <span class="optional">(optional)</span></label>
-                            <input type="tel" name="phone" id="contact-phone" placeholder="+43 …" autocomplete="tel" inputmode="tel">
+                            <input type="tel" name="phone" id="contact-phone" placeholder="+43 …" autocomplete="tel" inputmode="tel" enterkeyhint="next">
                         </div>
                         <div class="form-group">
                             <label for="contact-message">Ihre Nachricht <span class="req" aria-hidden="true">*</span></label>
@@ -508,6 +508,11 @@
             </div>
         </div>
     </footer>
+
+    <nav class="action-bar" id="action-bar" aria-label="Schnellkontakt">
+        <a href="tel:+4366473617208" class="btn btn-primary"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Anrufen</a>
+        <a href="#contact" class="btn btn-ghost">Anfragen</a>
+    </nav>
 
     <a href="#home" class="scroll-to-top" id="scroll-top" aria-label="Nach oben">
         <!-- Jahresringe: zeigen, wie weit man auf der Seite ist -->

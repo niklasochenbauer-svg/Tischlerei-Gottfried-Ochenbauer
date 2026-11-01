@@ -97,7 +97,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     /* Rhythm */
     --section-y: clamp(4rem, 9vw, 7.5rem);
-    --gutter:    clamp(16px, 4vw, 40px);
+    --gutter:    max(clamp(16px, 4vw, 40px), env(safe-area-inset-left), env(safe-area-inset-right));
     --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
     --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
@@ -1691,7 +1691,14 @@ main { overflow-x: clip; }
    (nur transform/opacity) — exakt im Takt, ohne JS-Verzögerung.
    Ältere Browser: einfache Einblendungen (data-reveal).
    ═══════════════════════════════════════════════════════════ */
-@keyframes scrub-rise   { from { opacity: 0; transform: translateY(56px); } to { opacity: 1; transform: none; } }
+:root {
+    --rise-y: 56px;
+    --rise-1: entry 4% entry 78%;
+    --rise-2: entry 11% entry 85%;
+    --rise-3: entry 18% entry 92%;
+    --rise-4: entry 25% entry 99%;
+}
+@keyframes scrub-rise   { from { opacity: 0; transform: translateY(var(--rise-y)); } to { opacity: 1; transform: none; } }
 @keyframes photo-drift  { from { transform: translateY(-6%) scale(1.14); } to { transform: translateY(6%) scale(1.14); } }
 @keyframes edge-drift   { from { transform: translateX(-7%); } to { transform: translateX(7%); } }
 @keyframes rings-turn   { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
@@ -1706,15 +1713,15 @@ main { overflow-x: clip; }
                  .contact-form-inner, .portfolio-item) {
             animation: scrub-rise linear both;
             animation-timeline: view();
-            animation-range: entry 4% entry 78%;
+            animation-range: var(--rise-1);
         }
         /* Geschwister nacheinander — wie Bretter, die nachgereicht werden */
         .sda :is(.services-features, .service-list, .process-steps, .section-head) > :nth-child(2),
-        .sda .portfolio-item:nth-child(4n + 2) { animation-range: entry 11% entry 85%; }
+        .sda .portfolio-item:nth-child(4n + 2) { animation-range: var(--rise-2); }
         .sda :is(.services-features, .service-list, .process-steps) > :nth-child(3),
-        .sda .portfolio-item:nth-child(4n + 3) { animation-range: entry 18% entry 92%; }
+        .sda .portfolio-item:nth-child(4n + 3) { animation-range: var(--rise-3); }
         .sda .service-list > :nth-child(4),
-        .sda .portfolio-item:nth-child(4n + 4) { animation-range: entry 25% entry 99%; }
+        .sda .portfolio-item:nth-child(4n + 4) { animation-range: var(--rise-4); }
 
         /* Fotos bewegen sich im Rahmen leicht gegen die Scrollrichtung (Tiefe) */
         .sda :is(.service-photo, .about-photo) img {
@@ -1915,3 +1922,127 @@ main { overflow-x: clip; }
 
 /* Fragen zur Region auf der Startseite */
 .region .service-list a { color: inherit; text-decoration: underline; text-underline-offset: 0.18em; }
+
+/* ═══════════════════════════════════════════════════════════
+   HANDY & TABLET
+   ═══════════════════════════════════════════════════════════ */
+a, button { -webkit-tap-highlight-color: rgba(196,135,75,0.22); }
+.form-group input, .form-group textarea { scroll-margin-top: 96px; }
+.nav-menu, .lightbox { overscroll-behavior: contain; }
+/* Zoomen bleibt erlaubt, die Seite dahinter scrollt aber nicht mit */
+.lightbox { touch-action: pinch-zoom; }
+.lightbox-image { max-height: 80dvh; }
+.lightbox-close {
+    top: max(16px, env(safe-area-inset-top));
+    right: max(16px, env(safe-area-inset-right));
+}
+.contact-info-inner, .contact-form-inner {
+    padding-inline: max(clamp(1.5rem, 5vw, 4rem), env(safe-area-inset-left), env(safe-area-inset-right));
+}
+.scroll-to-top {
+    bottom: max(1.5rem, env(safe-area-inset-bottom));
+    right: max(1.5rem, env(safe-area-inset-right));
+}
+
+/* Inhalte sind schnell lesbar: Auf Touch und kleinen Bildschirmen hängt das Einblenden
+   an einer festen Strecke statt an der Elementhöhe (sonst bleibt z. B. das hohe
+   Formular blass, obwohl es längst im Bild ist). */
+@media (max-width: 1024px), (pointer: coarse) {
+    :root {
+        --rise-y: 20px;
+        --rise-1: entry 0px entry 110px;
+        --rise-2: entry 20px entry 130px;
+        --rise-3: entry 40px entry 150px;
+        --rise-4: entry 60px entry 170px;
+    }
+}
+
+/* Touch: jedes Ziel mindestens 44 px hoch */
+@media (pointer: coarse) {
+    .wordmark { justify-content: center; min-height: 44px; }
+    .nav-link { display: flex; align-items: center; min-height: 44px; }
+    .service-link,
+    .more-link,
+    .breadcrumb a,
+    .contact-item a,
+    .footer-section a,
+    .footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; }
+    .more-link { margin-top: 0.25rem; }
+    .footer-section li { margin-bottom: 0; }
+    .contact-item > div { gap: 0; }
+}
+@media (hover: none) {
+    .btn-ghost:hover .icon, .more-link:hover .icon { transform: none; }
+}
+
+/* iPad: Lead-Foto füllt die Höhe der beiden Nachbarn, statt ein Loch zu lassen */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .services-features { align-items: stretch; }
+    .service-feature--lead { display: flex; flex-direction: column; }
+    .service-feature--lead .service-photo { position: relative; flex: 1; aspect-ratio: auto; min-height: 320px; }
+    .service-feature--lead .service-photo img { position: absolute; inset: 0; }
+}
+/* iPad hochkant: kein halb leerer Hero */
+@media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
+    .hero:not(.hero--page) { min-height: min(100svh, 860px); }
+}
+/* iPad mini hochkant: Platz nutzen statt endlos untereinander */
+@media (min-width: 641px) and (max-width: 768px) {
+    .services-features { grid-template-columns: 1fr 1fr; }
+    .service-feature--lead { grid-column: 1 / -1; }
+    .portfolio-grid { grid-auto-rows: 30vw; }
+}
+
+/* Kompakte Kopfzeile: mehr Platz für den Inhalt */
+@media (max-width: 768px), (max-height: 500px) {
+    .navbar, .navbar.scrolled { padding: 0.5rem 0; }
+}
+@media (max-width: 768px) {
+    .nav-menu {
+        padding-top: max(5.5rem, calc(env(safe-area-inset-top) + 4.5rem));
+        padding-right: max(1.5rem, env(safe-area-inset-right));
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
+    }
+    .nav-link { font-size: 1.1rem; }
+    /* Foto nutzt die ganze Breite (94vw schob es seitlich aus dem Bild) */
+    .lightbox-content { max-width: 100vw; }
+    .lightbox-image { max-height: 72dvh; }
+    .lightbox-prev, .lightbox-next { bottom: max(70px, calc(env(safe-area-inset-bottom) + 24px)); }
+    .lightbox-caption { bottom: max(80px, calc(env(safe-area-inset-bottom) + 34px)); }
+}
+
+/* Hoher Hero auf dem Handy: das Foto steht unten und darf beim Hinscrollen nicht ausblenden */
+@media (max-width: 640px), (max-height: 500px) {
+    .sda .hero-inner { animation: none; }
+}
+
+/* Handy quer: Hero nicht höher als nötig */
+@media (max-height: 500px) {
+    .hero:not(.hero--page) { min-height: 0; padding: 88px 0 72px; }
+    .hero-figure { width: min(100%, 260px); }
+    .hero-scroll-hint { display: none; }
+    .lightbox-image { max-height: 86dvh; }
+}
+
+/* Schnellknöpfe am Handy: anrufen geht mit dem Daumen, von überall auf der Seite */
+.action-bar { display: none; }
+@media (max-width: 640px) and (min-height: 501px) {
+    .scroll-to-top { display: none; }
+    .action-bar {
+        position: fixed;
+        inset: auto 0 0;
+        z-index: 900;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+        padding: 0.6rem var(--gutter) max(0.6rem, env(safe-area-inset-bottom));
+        background: rgba(20, 10, 4, 0.97);
+        box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.3);
+        transform: translateY(100%);
+        visibility: hidden;
+        transition: transform 0.25s var(--ease-out), visibility 0.25s;
+    }
+    .action-bar.is-visible { transform: none; visibility: visible; }
+    .action-bar .btn { padding-inline: 0.5rem; }
+    .action-bar .btn-primary { background: var(--wood-honey); color: var(--text-darkest); box-shadow: none; }
+}

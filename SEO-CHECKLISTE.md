@@ -157,3 +157,19 @@ Tischlerei in Pinggau: Küchen, Möbel und Holzstiegen nach Maß, Möbelmontage,
 ## Ehrliche Erwartung
 
 Niemand kann Platz 1 garantieren. Im Kartenbereich zählt auch, wie nah die suchende Person am Betrieb ist. Mit beanspruchtem Google-Profil, einheitlicher Adresse (2872 Pinggau) und einigen echten Bewertungen ist es aber realistisch, für „Tischlerei Pinggau“ und „Tischler Pinggau“ innerhalb einiger Wochen im Kartenbereich und auf Seite 1 zu erscheinen. Für den eigenen Namen „Tischlerei Ochenbauer“ sollte die Website schon nach der Einrichtung der Search Console ganz vorne stehen.
+
+## Stand 05.11.2026
+
+Google-Platzierungen (google.at, eigene Prüfung, kann je nach Standort abweichen):
+
+| Suche | Platz |
+|---|---|
+| tischlerei ochenbauer, tischlerei schaueregg | 1 |
+| tischlerei mönichkirchen | 1 |
+| küche nach maß pinggau, holzstiegen pinggau | 1 |
+| tischlerei pinggau, tischler pinggau | 3 (hinter Tischlerteam Oswald und FirmenABC), nicht im Kartenbereich |
+| tischler friedberg, tischlerei aspang, tischler wechselland | nicht auf Seite 1 |
+
+Neu: Seite `tischler-wechselland.html` mit echten Straßenentfernungen (OpenStreetMap) zu 12 Orten in Steiermark, Niederösterreich und Burgenland, verlinkt aus der Fußzeile und der Startseite, in der Sitemap, Indexierung beantragt.
+
+Bewertungskarte zum Ausdrucken: `_quellen/bewertung/bewertungskarte-a6.pdf` (QR-Code zum Google-Bewertungslink).

@@ -3,49 +3,19 @@
    Signatur: die Bemaßungslinie („nach Maß“) aus der Werkzeichnung
    ═══════════════════════════════════════════════════════════ */
 
-/* ── Fonts (selbst gehostet, SIL Open Font License, keine Verbindung zu Google) ──
-   Bricolage Grotesque: moderne Grotesk mit leichtem Eigencharakter; variable Schrift mit
-   optischen Größen (große Überschriften werden automatisch straffer).
-   Hanken Grotesk: klare, ruhige Textschrift. */
-@font-face {
-    font-family: 'Bricolage Grotesque';
-    font-style: normal;
-    font-weight: 500 700;
-    font-display: swap;
-    src: url('assets/fonts/BricolageGrotesque-var.woff2') format('woff2');
-}
-@font-face {
-    font-family: 'Hanken Grotesk';
-    font-style: normal;
-    font-weight: 400 600;
-    font-display: swap;
-    src: url('assets/fonts/HankenGrotesk-var.woff2') format('woff2');
-}
-@font-face {
-    font-family: 'Hanken Grotesk';
-    font-style: italic;
-    font-weight: 400;
-    font-display: swap;
-    src: url('assets/fonts/HankenGrotesk-400-italic.woff2') format('woff2');
-}
-/* Ersatzschriften mit angeglichenen Maßen: kein Springen, solange die echten Schriften laden */
-@font-face {
-    font-family: 'Bricolage Fallback';
-    src: local('Arial'), local('Helvetica');
-    size-adjust: 102%;
-    ascent-override: 92%;
-    descent-override: 26%;
-}
-@font-face {
-    font-family: 'Hanken Fallback';
-    src: local('Arial'), local('Helvetica');
-    size-adjust: 99%;
-    ascent-override: 98%;
-    descent-override: 27%;
-}
+/* ── Fonts: Typografie aus dem Claude-Design „Werkplan“ (wie die Startseite) ──
+   Besley für Überschriften und Text, Saira Condensed für Beschriftungen (immer Versalien).
+   Selbst gehostet, SIL Open Font License, Dateien aus Fontsource. */
+@font-face { font-family: 'Besley'; font-style: normal; font-weight: 400; font-display: swap; src: url('assets/fonts/besley-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Besley'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/besley-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Besley'; font-style: normal; font-weight: 600; font-display: swap; src: url('assets/fonts/besley-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Besley'; font-style: italic; font-weight: 400; font-display: swap; src: url('assets/fonts/besley-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Saira Condensed'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/saira-condensed-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Saira Condensed'; font-style: normal; font-weight: 600; font-display: swap; src: url('assets/fonts/saira-condensed-latin-600-normal.woff2') format('woff2'); }
 :root {
-    --font-display: 'Bricolage Grotesque', 'Bricolage Fallback', 'Segoe UI', sans-serif;
-    --font-text: 'Hanken Grotesk', 'Hanken Fallback', 'Segoe UI', sans-serif;
+    --font-display: 'Besley', Georgia, 'Times New Roman', serif;
+    --font-text:    'Besley', Georgia, 'Times New Roman', serif;
+    --font-label:   'Saira Condensed', 'Arial Narrow', sans-serif;
 }
 /* Keine künstlich verfetteten oder schräggestellten Buchstaben */
 html { font-synthesis: none; font-optical-sizing: auto; }
@@ -126,7 +96,7 @@ body {
 
 h1, h2, h3 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.1;
     letter-spacing: -0.01em;
     text-wrap: balance;
@@ -137,7 +107,7 @@ p { text-wrap: pretty; }
 :focus-visible {
     outline: 2px solid var(--wood-warm);
     outline-offset: 3px;
-    border-radius: 3px;
+    border-radius: 0;
 }
 html { scrollbar-color: var(--wood-medium) var(--cream); }
 
@@ -177,7 +147,7 @@ html { scrollbar-color: var(--wood-medium) var(--cream); }
     background: var(--wood-honey);
     color: var(--text-darkest);
     padding: 0.6rem 1rem;
-    border-radius: 4px;
+    border-radius: 0;
     font-weight: 700;
     text-decoration: none;
 }
@@ -231,8 +201,8 @@ html { scrollbar-color: var(--wood-medium) var(--cream); }
 /* Zollstock-Lineal unter Sektionstiteln */
 .section-title {
     font-size: clamp(1.9rem, 1.35rem + 2.2vw, 2.85rem);
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-weight: 500;
+    letter-spacing: -0.01em;
     color: var(--text-darkest);
     padding-bottom: 1.1rem;
     position: relative;
@@ -389,7 +359,7 @@ section[id] { scroll-margin-top: 72px; }
     font-weight: 500;
     font-size: 0.98rem;
     letter-spacing: 0.01em;
-    border-radius: 4px;
+    border-radius: 0;
     transition: color 0.2s, background-color 0.2s;
 }
 .nav-link:hover,
@@ -427,7 +397,7 @@ section[id] { scroll-margin-top: 72px; }
     width: 24px;
     height: 2px;
     background: var(--wood-honey);
-    border-radius: 2px;
+    border-radius: 0;
     transition: transform 0.3s var(--ease-out), opacity 0.2s;
 }
 .hamburger.active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -487,9 +457,9 @@ section[id] { scroll-margin-top: 72px; }
 
 .hero h1 {
     font-size: clamp(2.8rem, 1.5rem + 5.2vw, 5.4rem);
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -0.035em;
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.015em;
     color: var(--on-dark);
 }
 .hero-kicker {
@@ -586,7 +556,7 @@ section[id] { scroll-margin-top: 72px; }
     grid-column: 2;
     aspect-ratio: 3 / 4;
     overflow: hidden;
-    border-radius: 7px;
+    border-radius: 0;
     background: var(--bg-warm);
     box-shadow: 0 30px 70px rgba(0,0,0,0.5), 0 6px 18px rgba(0,0,0,0.3);
 }
@@ -639,7 +609,7 @@ section[id] { scroll-margin-top: 72px; }
     min-height: 48px;
     padding: 0.85rem 1.7rem;
     border: 1.5px solid transparent;
-    border-radius: 4px;
+    border-radius: 0;
     font-family: var(--font-text);
     font-size: 1rem;
     font-weight: 600;
@@ -724,7 +694,7 @@ section[id] { scroll-margin-top: 72px; }
 }
 .service-photo {
     overflow: hidden;
-    border-radius: 7px;
+    border-radius: 0;
     background: var(--cream-dark);
     aspect-ratio: 4 / 3;
     box-shadow: 0 14px 34px rgba(42,15,4,0.14);
@@ -916,7 +886,7 @@ section[id] { scroll-margin-top: 72px; }
 .about-photo {
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    border-radius: 7px;
+    border-radius: 0;
     background: var(--cream-dark);
     box-shadow: 0 24px 56px rgba(42,15,4,0.22), 0 4px 12px rgba(42,15,4,0.12);
 }
@@ -957,7 +927,7 @@ section[id] { scroll-margin-top: 72px; }
     height: 100%;
     padding: 0;
     border: 0;
-    border-radius: 7px;
+    border-radius: 0;
     overflow: hidden;
     background: var(--cream-dark);
     cursor: pointer;
@@ -1030,7 +1000,7 @@ section[id] { scroll-margin-top: 72px; }
     margin-top: 1.5rem;
     padding: 1rem 1.25rem;
     border: 1px solid rgba(107,58,31,0.25);
-    border-radius: 4px;
+    border-radius: 0;
     color: var(--text-medium);
     display: flex;
     flex-wrap: wrap;
@@ -1086,7 +1056,7 @@ section[id] { scroll-margin-top: 72px; }
     max-height: 80vh;
     width: auto;
     height: auto;
-    border-radius: 2px;
+    border-radius: 0;
     box-shadow: 0 16px 60px rgba(0,0,0,0.7);
     transition: opacity 0.2s ease;
 }
@@ -1119,7 +1089,7 @@ section[id] { scroll-margin-top: 72px; }
     display: flex;
     gap: 1rem;
     padding: 0.4rem 1rem;
-    border-radius: 4px;
+    border-radius: 0;
     background: rgba(20,8,2,0.75);
     color: var(--wood-honey);
     font-size: 0.88rem;
@@ -1221,7 +1191,7 @@ section[id] { scroll-margin-top: 72px; }
     place-items: center;
     width: 44px;
     height: 44px;
-    border-radius: 4px;
+    border-radius: 0;
     border: 1px solid rgba(232,201,155,0.35);
     color: var(--wood-honey);
     flex-shrink: 0;
@@ -1277,7 +1247,7 @@ section[id] { scroll-margin-top: 72px; }
     min-height: 48px;
     padding: 0.8rem 1rem;
     border: 1.5px solid rgba(107,58,31,0.3);
-    border-radius: 4px;
+    border-radius: 0;
     font-family: inherit;
     font-size: 1rem;
     background: #fff;
@@ -1325,7 +1295,7 @@ section[id] { scroll-margin-top: 72px; }
 .form-feedback {
     margin-top: 1.25rem;
     padding: 1rem 1.25rem;
-    border-radius: 4px;
+    border-radius: 0;
     line-height: 1.55;
 }
 .form-feedback:focus { outline: none; }
@@ -1550,7 +1520,7 @@ section[id] { scroll-margin-top: 72px; }
     .nav-link-cta {
         margin: 1.25rem 0 0;
         text-align: center;
-        border-radius: 4px;
+        border-radius: 0;
         border: 0;
     }
 
@@ -1867,7 +1837,7 @@ main { overflow-x: clip; }
 }
 .page-intro-aside {
     padding: clamp(1.5rem, 3vw, 2.25rem);
-    border-radius: 7px;
+    border-radius: 0;
     background: var(--cream);
     border: 1px solid rgba(107,58,31,0.14);
 }
@@ -2101,3 +2071,46 @@ a, button { -webkit-tap-highlight-color: rgba(196,135,75,0.22); }
     .action-bar .btn { padding-inline: 0.5rem; }
     .action-bar .btn-primary { background: var(--wood-honey); color: var(--text-darkest); box-shadow: none; }
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   MISCHUNG — Werkplan-Typografie auf Nussbaum
+   Farben, Maserung und Layout bleiben; Beschriftungen sprechen
+   wie auf der Startseite in Saira Condensed, immer in Versalien.
+   ═══════════════════════════════════════════════════════════ */
+.hero-kicker, .breadcrumb, .dim, .dim--h span, .wordmark-trade, .nav-link, .btn,
+.portfolio-overlay span, .lightbox-caption, .footer-heading, .distance-table caption,
+.distance-table thead th, .legal h3, .legal-back, .hero-scroll-hint, .form-group label,
+.process-num, .text-link, .page-more a, .more-link, .portfolio-status button, .skip-link {
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+.hero-kicker {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: clamp(0.92rem, 0.88rem + 0.2vw, 1rem);
+    letter-spacing: 0.14em;
+}
+/* Tischlerdreieck (Anreißzeichen) wie auf der Startseite */
+.hero-kicker::before {
+    content: '';
+    flex: none;
+    width: 16px; height: 14px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 14'%3E%3Cpath d='M2.2 12.6 L8.1 1.8 L13.8 12.4 Z' fill='none' stroke='%23E8C99B' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.breadcrumb { font-size: 0.82rem; letter-spacing: 0.12em; }
+.dim, .dim--h span { font-size: 0.8rem; letter-spacing: 0.12em; }
+.nav-link { font-size: 0.95rem; }
+.btn { font-weight: 600; font-size: 0.98rem; }
+.process-num { letter-spacing: 0.02em; }
+.footer-heading { font-size: 0.9rem; letter-spacing: 0.14em; }
+.distance-table caption { font-size: 1rem; letter-spacing: 0.14em; }
+.portfolio-overlay span, .lightbox-caption { font-size: 0.82rem; }
+.legal h3 { font-size: 0.95rem; letter-spacing: 0.12em; }
+.lightbox-title { font-family: var(--font-display); font-weight: 500; text-transform: none; letter-spacing: 0; }
+.craftsman-quote p, .testimonial blockquote p { letter-spacing: 0; }
+.breadcrumb { align-items: baseline; }
+.legal h1 { font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3.2rem); overflow-wrap: break-word; hyphens: auto; }
+/* Maße in den Entfernungstabellen wie Bemaßungszahlen */
+.distance-table td { font-family: var(--font-label); font-weight: 500; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }

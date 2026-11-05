@@ -105,4 +105,12 @@ mark_icon = Image.fromarray(layer(swoosh_a, is_gold, CREAM, GOLD_ON_DARK)).crop(
 for size, name_ in [(48, 'icon-48.png'), (192, 'icon-192.png'), (512, 'icon-512.png'), (180, 'apple-touch-icon.png')]:
     on_bg(mark_icon, DARK_BG, (size, size), round(size * 0.14)).convert('RGB').save(OUT / name_, optimize=True)
 
+# Vollversion mit Kontaktzeilen (Vorlage unverändert, nur freigestellt) – für Google-Profil, Druck, Signatur
+contact_a = np.where(alpha > 0.02, alpha, 0)
+kontakt = Image.fromarray(layer(contact_a, is_gold, DARK, GOLD)).crop(bbox(contact_a))
+fit(kontakt, 1600).save(OUT / 'logo-ochenbauer-kontakt.png', optimize=True)
+white_k = Image.new('RGBA', kontakt.size, (255, 255, 255, 255)); white_k.alpha_composite(kontakt)
+fit(white_k, 1600).convert('RGB').save(OUT / 'logo-ochenbauer-kontakt.jpg', quality=92)
+on_bg(kontakt, (255, 255, 255), (1080, 1080), 70).convert('RGB').save(OUT / 'logo-ochenbauer-kontakt-quadrat.png', optimize=True)
+
 print('Kopf', lock.size, 'Logo', full.size, 'Name-Bbox', bbox(name_a), 'Bögen', bbox(swoosh_a))

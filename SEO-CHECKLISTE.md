@@ -173,3 +173,5 @@ Google-Platzierungen (google.at, eigene Prüfung, kann je nach Standort abweiche
 Neu: Seite `tischler-wechselland.html` mit echten Straßenentfernungen (OpenStreetMap) zu 12 Orten in Steiermark, Niederösterreich und Burgenland, verlinkt aus der Fußzeile und der Startseite, in der Sitemap, Indexierung beantragt.
 
 Bewertungskarte zum Ausdrucken: `_quellen/bewertung/bewertungskarte-a6.pdf` (QR-Code zum Google-Bewertungslink).
+
+Einsatzgebiet (Angabe 05.11.2026): Schwerpunkt Pinggau, Friedberg, Mönichkirchen und Wechselland, grundsätzlich aber ganz Österreich. Auf der Website (Startseite, Wechselland-Seite, Schema `areaServed`) so eingetragen.

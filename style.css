@@ -2114,3 +2114,6 @@ a, button { -webkit-tap-highlight-color: rgba(196,135,75,0.22); }
 .legal h1 { font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3.2rem); overflow-wrap: break-word; hyphens: auto; }
 /* Maße in den Entfernungstabellen wie Bemaßungszahlen */
 .distance-table td { font-family: var(--font-label); font-weight: 500; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+/* Zitat wie auf dem Werkplan: Besley kursiv, breiter gesetzt */
+.craftsman-quote { max-width: 34rem; }
+.craftsman-quote p { font-style: italic; font-weight: 400; }

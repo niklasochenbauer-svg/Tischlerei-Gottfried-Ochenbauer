@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// TISCHLEREI OCHENBAUER — werkplan.js (Startseite)
+// TISCHLEREI OCHENBAUER — werkplan.js (alle Seiten außer fotos.html)
 // Gliedermaßstab, Menü, Bemaßung, Fragen, Werkstücke, Lightbox, Formular
 // ═══════════════════════════════════════════════════════════
 
@@ -123,9 +123,12 @@ faqButtons.forEach(btn => btn.addEventListener('click', () => {
 
 // ═══════════════════════════════════════════════════════════
 // WERKSTÜCKE — Kategorien & Fotos aus Supabase (siehe galerie.js)
-// Die ersten sechs Kategorien werden Werkplan-Blätter, der Rest eine Liste.
+// Blätter (#sheets): die ersten sechs Kategorien als Werkplan-Blätter, der Rest eine Liste.
+// Fototafeln (#plates, Leistungsseiten): jedes Foto der Ordner aus data-ordner einzeln.
 // ═══════════════════════════════════════════════════════════
 const sheetsEl     = document.getElementById('sheets');
+const platesEl     = document.getElementById('plates');
+const plateFolders = platesEl?.dataset.ordner?.split(',').map(s => s.trim()).filter(Boolean) || [];
 const moreWorks    = document.getElementById('more-works');
 const moreList     = document.getElementById('more-works-list');
 const worksStatus  = document.getElementById('works-status');
@@ -137,7 +140,8 @@ const AREA = {
     Stiege: ['Holzstiegen', 'holzstiegen.html'], Kastenstiege: ['Holzstiegen', 'holzstiegen.html'],
     Kueche: ['Küchen', 'kuechen.html'],
     Esstisch: ['Möbel', 'moebel.html'], Wohnzimmer: ['Möbel', 'moebel.html'], Stauraum: ['Möbel', 'moebel.html'],
-    Bett: ['Möbel', 'moebel.html'], Spiegel: ['Möbel', 'moebel.html'], Badezimmer: ['Möbel', 'moebel.html']
+    Bett: ['Möbel', 'moebel.html'], Spiegel: ['Möbel', 'moebel.html'], Badezimmer: ['Möbel', 'moebel.html'],
+    Gartenhaus: ['Möbel', 'moebel.html'], Tor: ['Möbel', 'moebel.html']
 };
 
 let categories = [];
@@ -170,24 +174,31 @@ const pad = n => String(n).padStart(2, '0');
 const fotoCount = n => `${n} ${n === 1 ? 'Foto' : 'Fotos'}`;
 const TRIANGLE = '<svg class="mark" width="15" height="14" viewBox="0 0 16 14" aria-hidden="true"><path d="M2.2 12.6 L8.1 1.8 L13.8 12.4 Z"/></svg>';
 
-function coverImage(cat, wide) {
-    const cover = cat.photos[cat.coverIndex] || cat.photos[0];
+function photoImage(photo, cat, sizes, widths, eager = false) {
     const img = new Image();
     img.alt = `${cat.titel} – Tischlerarbeit der Tischlerei Ochenbauer, Pinggau`;
-    img.loading = 'lazy';
+    img.loading = eager ? 'eager' : 'lazy';
     img.decoding = 'async';
     img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
     img.addEventListener('error', () => {
         // Optimierung oder Vorschaubild nicht verfügbar? Dann das Originalfoto nehmen
-        if (img.src !== cover.url) { img.removeAttribute('srcset'); img.src = cover.url; }
+        if (img.src !== photo.url) { img.removeAttribute('srcset'); img.src = photo.url; }
     }, { once: true });
     if (Galerie.OPTIMIZE) {
-        img.sizes = wide ? '(max-width: 859px) 92vw, 50vw' : '(max-width: 859px) 92vw, 30vw';
-        img.srcset = Galerie.srcset(cover.url, [384, 640, 960, 1280]);
-        img.src = Galerie.sized(cover.url, 960);
+        img.sizes = sizes;
+        img.srcset = Galerie.srcset(photo.url, widths);
+        img.src = Galerie.sized(photo.url, widths[widths.length - 2] || widths[0]);
     } else {
-        img.src = cover.url;
+        img.src = photo.thumb || photo.url;
     }
+    return img;
+}
+
+function coverImage(cat, wide) {
+    const cover = cat.photos[cat.coverIndex] || cat.photos[0];
+    const sizes = wide ? '(max-width: 859px) 92vw, 50vw' : '(max-width: 859px) 92vw, 30vw';
+    const img = photoImage(cover, cat, sizes, [384, 640, 960, 1280]);
+    if (!Galerie.OPTIMIZE) img.src = cover.url;
     return img;
 }
 
@@ -214,9 +225,9 @@ function renderWorks() {
             ${i === 0 ? '<div class="pencil" aria-hidden="true"><svg width="80" height="40" viewBox="0 0 80 40" style="display:block"><path d="M78 30 C 54 34, 26 26, 6 8 M6 8 L 9 18 M6 8 L 16 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><p>jedes Stück ein Einzelstück</p></div>' : ''}`;
         const photoBtn = article.querySelector('.sheet-photo');
         photoBtn.appendChild(coverImage(cat, i % 4 === 0 || i % 4 === 2));
-        photoBtn.addEventListener('click', () => openLightbox(cat, i + 1, photoBtn));
+        photoBtn.addEventListener('click', () => openLightbox(cat, `Werkstück ${no}`, photoBtn));
         const allBtn = article.querySelector('.cta-link');
-        allBtn.addEventListener('click', () => openLightbox(cat, i + 1, allBtn));
+        allBtn.addEventListener('click', () => openLightbox(cat, `Werkstück ${no}`, allBtn));
         sheetsEl.appendChild(article);
     });
 
@@ -225,33 +236,69 @@ function renderWorks() {
         const li = document.createElement('li');
         li.innerHTML = `<button type="button"><span>${escapeHtml(cat.titel)}</span><span>${fotoCount(cat.photos.length)}</span></button>`;
         const btn = li.querySelector('button');
-        btn.addEventListener('click', () => openLightbox(cat, MAX_SHEETS + j + 1, btn));
+        btn.addEventListener('click', () => openLightbox(cat, `Werkstück ${pad(MAX_SHEETS + j + 1)}`, btn));
         moreList.appendChild(li);
     });
     moreWorks.hidden = !rest.length;
     sheetsEl.setAttribute('aria-busy', 'false');
 }
 
+// Fototafeln: je Ordner eine Gruppe, jedes Foto mit Positionsnummer
+function renderPlates() {
+    if (!platesEl) return;
+    const cats = categories.filter(c => plateFolders.includes(c.ordner));
+    platesEl.innerHTML = '';
+    platesEl.setAttribute('aria-busy', 'false');
+    if (!cats.length) {
+        worksStatus.innerHTML = '<span>Fotos dieser Arbeiten zeigen wir Ihnen gerne persönlich: <a href="tel:+4366473617208">0664 73617208</a>.</span>';
+        worksStatus.hidden = false;
+        return;
+    }
+    let shown = 0;
+    cats.forEach(cat => {
+        const group = document.createElement('div');
+        group.className = 'plate-group';
+        group.innerHTML = `
+            <div class="plate-head"><h3 class="sheet-no">${TRIANGLE}${escapeHtml(cat.titel)}</h3><span class="label">${fotoCount(cat.photos.length)}</span></div>
+            <ul class="plate-grid"></ul>`;
+        const list = group.querySelector('ul');
+        cat.photos.forEach((photo, i) => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'plate';
+            btn.setAttribute('aria-label', `${cat.titel}, Foto ${i + 1} von ${cat.photos.length} vergrößern`);
+            btn.appendChild(photoImage(photo, cat, '(max-width: 599px) 46vw, (max-width: 859px) 30vw, 20vw', [384, 640, 960], shown++ < 4));
+            btn.addEventListener('click', () => openLightbox(cat, 'Fotos', btn, i));
+            li.appendChild(btn);
+            li.insertAdjacentHTML('beforeend', `<span class="plate-no" aria-hidden="true">Pos. ${pad(i + 1)}</span>`);
+            list.appendChild(li);
+        });
+        platesEl.appendChild(group);
+    });
+}
+
+function renderAll() { renderWorks(); renderPlates(); }
+
 function showWorksError() {
     worksStatus.innerHTML = '<span>Die Fotos konnten gerade nicht geladen werden.</span><button type="button">Erneut versuchen</button>';
     worksStatus.hidden = false;
     worksStatus.querySelector('button').addEventListener('click', initWorks, { once: true });
-    sheetsEl.innerHTML = '';
-    sheetsEl.setAttribute('aria-busy', 'false');
+    [sheetsEl, platesEl].forEach(el => { if (el) { el.innerHTML = ''; el.setAttribute('aria-busy', 'false'); } });
 }
 
 async function initWorks() {
     // galerie.js legt Galerie mit const an: global sichtbar, aber nicht als window.Galerie
-    if (!sheetsEl || typeof Galerie === 'undefined') return;
+    if ((!sheetsEl && !platesEl) || typeof Galerie === 'undefined') return;
     worksStatus.hidden = true;
     const cached = readCache();
-    if (cached) { categories = cached; renderWorks(); }
+    if (cached) { categories = cached; renderAll(); }
     try {
         const fresh = await fetchCategories();
         writeCache(fresh);
         if (JSON.stringify(fresh) !== JSON.stringify(cached)) {
             categories = fresh;
-            if (!lightbox?.open) renderWorks();
+            if (!lightbox?.open) renderAll();
         }
     } catch (err) {
         console.error(err);
@@ -284,13 +331,13 @@ function showPhoto(index) {
     if (!reduceMotion.matches) lbImage.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180, easing: 'ease-out' });
 }
 
-function openLightbox(cat, no, opener) {
+function openLightbox(cat, prefix, opener, start = cat.coverIndex || 0) {
     if (!lightbox || !cat.photos.length) return;
     lbCat = cat; lbOpener = opener;
-    lbTitle.innerHTML = `<span>Werkstück ${pad(no)}</span> ${escapeHtml(cat.titel)}`;
+    lbTitle.innerHTML = `<span>${escapeHtml(prefix)}</span> ${escapeHtml(cat.titel)}`;
     const single = cat.photos.length < 2;
     lightbox.querySelectorAll('[data-lb="prev"], [data-lb="next"]').forEach(b => { b.hidden = single; });
-    showPhoto(cat.coverIndex || 0);
+    showPhoto(start);
     lockScroll(true);
     lightbox.showModal();
 }

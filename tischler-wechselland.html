@@ -47,12 +47,12 @@
   ]
 }
     </script>
-    <script>document.documentElement.classList.add('js');</script>
+    <script>(function(d){d.classList.add('js');if(window.CSS&&CSS.supports('animation-timeline: view()')&&matchMedia('(prefers-reduced-motion: no-preference)').matches)d.classList.add('sda');})(document.documentElement);</script>
     <link rel="preload" href="assets/fonts/besley-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/besley-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/saira-condensed-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preconnect" href="https://oirmfkagzasujjlekvsw.supabase.co" crossorigin>
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=5">
     <link rel="icon" href="favicon.ico?v=2" sizes="any">
     <link rel="icon" href="assets/icon-32.png?v=2" type="image/png" sizes="32x32">
     <link rel="icon" href="assets/icon-48.png?v=2" type="image/png" sizes="48x48">
@@ -133,14 +133,14 @@
                 <p class="hero-sub">Unsere Werkstatt liegt am Fuß des Wechsels, dort wo Steiermark, Niederösterreich und das Burgenland nah beieinander liegen. Von hier fertigen wir Küchen, Möbel und Holzstiegen nach Maß für die Region und auf Wunsch für ganz Österreich.</p>
                 <div class="hero-buttons">
                     <a href="index.html#contact" class="btn btn-primary">Beratung anfragen</a>
-                    <a href="tel:+4366473617208" class="btn btn-ghost">0664 73617208</a>
+                    <a href="tel:+4366473617208" class="btn btn-ghost">0664&nbsp;73617208</a>
                 </div>
             </div>
 
             <figure class="hero-figure">
                 <div class="dim dim--v" aria-hidden="true"><span>nach Maß</span></div>
                 <div class="hero-photo">
-                    <img src="assets/img/leistung-kueche-900.webp" width="900" height="676" alt="Maßküche aus Holz mit dunkler Arbeitsplatte und Kochinsel" fetchpriority="high" decoding="async">
+                    <img src="assets/img/leistung-kueche-900.webp" srcset="assets/img/leistung-kueche-480.webp 480w, assets/img/leistung-kueche-640.webp 640w, assets/img/leistung-kueche-900.webp 900w" sizes="(max-width: 640px) 85vw, (max-width: 1280px) 34vw, 421px" width="900" height="676" alt="Maßküche aus Holz mit dunkler Arbeitsplatte und Kochinsel" fetchpriority="high" decoding="async">
                 </div>
                 <figcaption class="dim dim--h"><span>Küche · aus unserer Werkstatt</span></figcaption>
             </figure>
@@ -164,7 +164,7 @@
                     <li>Möbelmontage, Reparatur und Restaurierung</li>
                     <li>Holzhandel</li>
                     </ul>
-                    <p class="page-more"><a href="https://maps.google.com/?cid=11568439096404548305" target="_blank" rel="noopener">Route auf Google Maps<span class="sr-only"> (öffnet in neuem Tab)</span></a> · <a href="tel:+4366473617208">0664 73617208</a></p>
+                    <p class="page-more"><a href="https://maps.google.com/?cid=11568439096404548305" target="_blank" rel="noopener">Route auf Google Maps<span class="sr-only"> (öffnet in neuem Tab)</span></a> · <a href="tel:+4366473617208">0664&nbsp;73617208</a></p>
                 </div>
             </div>
         </div>
@@ -208,7 +208,7 @@
                     </tbody>
                 </table>
             </div>
-            <p class="distance-note">Berechnet mit OpenStreetMap, gerundet. Ihr Ort ist nicht dabei? Wir arbeiten grundsätzlich in ganz Österreich. Rufen Sie an unter <a href="tel:+4366473617208">0664 73617208</a> und wir besprechen Ihr Projekt.</p>
+            <p class="distance-note">Berechnet mit OpenStreetMap, gerundet. Ihr Ort ist nicht dabei? Wir arbeiten grundsätzlich in ganz Österreich. Rufen Sie an unter <a href="tel:+4366473617208">0664&nbsp;73617208</a> und wir besprechen Ihr Projekt.</p>
         </div>
     </section>
 
@@ -259,7 +259,7 @@
                 <p class="section-lead">Erzählen Sie uns von Ihrer Idee – wir beraten Sie persönlich, kostenlos und unverbindlich.</p>
             </div>
             <div class="testimonials-cta" data-reveal>
-                <a href="tel:+4366473617208" class="btn btn-primary">Anrufen: 0664 73617208</a>
+                <a href="tel:+4366473617208" class="btn btn-primary">Anrufen:&nbsp;0664&nbsp;73617208</a>
                 <a href="index.html#contact" class="btn btn-ghost">Nachricht schreiben <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
             </div>
         </div>
@@ -285,7 +285,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <p class="footer-logo"><img src="assets/logo/logo-hell-640.webp" width="280" height="202" alt="Logo: Gottfried Ochenbauer, Tischlerei &amp; Handel" loading="lazy" decoding="async"></p>
+                    <p class="footer-logo"><img src="assets/logo/logo-hell-640.webp" srcset="assets/logo/logo-hell-320.webp 320w, assets/logo/logo-hell-640.webp 640w" sizes="280px" width="280" height="202" alt="Logo: Gottfried Ochenbauer, Tischlerei &amp; Handel" loading="lazy" decoding="async"></p>
                     <p>Tischlerei in Schaueregg (Gemeinde Pinggau), direkt an der Grenze zu Mönichkirchen: Küchen, Möbel und Holzstiegen nach Maß — mit Liebe zum Detail.</p>
                 </div>
                 <div class="footer-section">
@@ -304,7 +304,7 @@
                 <div class="footer-section">
                     <h2 class="footer-heading">Kontakt</h2>
                     <ul>
-                        <li><a href="tel:+4366473617208">+43 664 73617208</a></li>
+                        <li><a href="tel:+4366473617208">+43&nbsp;664&nbsp;73617208</a></li>
                         <li><a href="mailto:tischlerei.ochenbauer@gmail.com">tischlerei.ochenbauer@gmail.com</a></li>
                         <li><a href="https://maps.google.com/?cid=11568439096404548305" target="_blank" rel="noopener">Schaueregg 23, 2872 Pinggau</a></li>
                     </ul>

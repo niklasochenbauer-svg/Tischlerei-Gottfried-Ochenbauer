@@ -186,8 +186,9 @@ if ('ResizeObserver' in window) {
     });
     stackSections.forEach(s => ro.observe(s));
 }
-// Seite mitten drin geladen (Zurück-Taste, Anker)? Dann sofort Zustand setzen
-if (window.scrollY > 0) onScroll();
+// Seite mitten drin geladen (Zurück-Taste, Anker)? Dann im ersten Frame Zustand setzen –
+// scrollY sofort beim Laden zu lesen, erzwang eine zusätzliche Layout-Berechnung
+requestAnimationFrame(() => { if (window.scrollY > 0) onScroll(); });
 document.fonts?.ready.then(relayout);
 
 

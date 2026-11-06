@@ -95,13 +95,13 @@
       ]
     }
     </script>
-    <script>document.documentElement.classList.add('js');</script>
+    <script>(function(d){d.classList.add('js');if(window.CSS&&CSS.supports('animation-timeline: view()')&&matchMedia('(prefers-reduced-motion: no-preference)').matches)d.classList.add('sda');})(document.documentElement);</script>
     <link rel="preload" href="assets/fonts/besley-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/besley-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/saira-condensed-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" as="image" href="assets/img/hero-stiege-1100.webp" imagesrcset="assets/img/hero-stiege-640.webp 640w, assets/img/hero-stiege-1100.webp 1100w" imagesizes="(max-width: 900px) 78vw, 34vw" fetchpriority="high">
     <link rel="preconnect" href="https://oirmfkagzasujjlekvsw.supabase.co" crossorigin>
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=5">
     <link rel="icon" href="favicon.ico?v=2" sizes="any">
     <link rel="icon" href="assets/icon-32.png?v=2" type="image/png" sizes="32x32">
     <link rel="icon" href="assets/icon-48.png?v=2" type="image/png" sizes="48x48">
@@ -185,7 +185,7 @@
                     <a href="#contact" class="btn btn-primary">Beratung anfragen</a>
                     <a href="#portfolio" class="btn btn-ghost">Unsere Arbeiten <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
                 </div>
-                <ul class="hero-facts" aria-label="Kurz zu uns">
+                <ul class="hero-facts">
                     <li><strong>20+</strong> Jahre Erfahrung</li>
                     <li><strong>200+</strong> zufriedene Kunden</li>
                     <li><strong>seit 2014</strong> eigener Betrieb</li>
@@ -223,7 +223,7 @@
             <div class="services-features" data-reveal>
                 <article class="service-feature service-feature--lead">
                     <div class="service-photo">
-                        <img src="assets/img/leistung-kueche-900.webp" width="900" height="676" alt="Maßküche aus Holz mit dunkler Arbeitsplatte und Kochinsel" loading="lazy" decoding="async">
+                        <img src="assets/img/leistung-kueche-900.webp" srcset="assets/img/leistung-kueche-480.webp 480w, assets/img/leistung-kueche-640.webp 640w, assets/img/leistung-kueche-900.webp 900w" sizes="(max-width: 768px) 95vw, (max-width: 1280px) 53vw, 480px" width="900" height="676" alt="Maßküche aus Holz mit dunkler Arbeitsplatte und Kochinsel" loading="lazy" decoding="async">
                     </div>
                     <h3><a href="kuechen.html" class="service-link">Maßküchen</a></h3>
                     <p>Von der ersten Idee bis zur letzten Schraube — Ihre Küche, genau so wie Sie sie sich vorstellen.</p>
@@ -231,7 +231,7 @@
                 </article>
                 <article class="service-feature">
                     <div class="service-photo">
-                        <img src="assets/img/leistung-moebel-900.webp" width="900" height="676" alt="Wohnwand nach Maß mit beleuchteten Holzfächern" loading="lazy" decoding="async">
+                        <img src="assets/img/leistung-moebel-900.webp" srcset="assets/img/leistung-moebel-480.webp 480w, assets/img/leistung-moebel-640.webp 640w, assets/img/leistung-moebel-900.webp 900w" sizes="(max-width: 640px) 95vw, (max-width: 1280px) 46vw, 360px" width="900" height="676" alt="Wohnwand nach Maß mit beleuchteten Holzfächern" loading="lazy" decoding="async">
                     </div>
                     <h3><a href="moebel.html" class="service-link">Maßmöbel</a></h3>
                     <p>Kein Standardmaß. Jedes Möbelstück entsteht nach Ihren Wünschen und fügt sich perfekt in Ihren Raum ein.</p>
@@ -239,7 +239,7 @@
                 </article>
                 <article class="service-feature">
                     <div class="service-photo">
-                        <img src="assets/img/leistung-stiege-700.webp" width="700" height="932" alt="Holzstiege mit massiven Stufen in offenem Wohnbereich" loading="lazy" decoding="async">
+                        <img src="assets/img/leistung-stiege-700.webp" srcset="assets/img/leistung-stiege-480.webp 480w, assets/img/leistung-stiege-700.webp 700w" sizes="(max-width: 640px) 95vw, (max-width: 1280px) 46vw, 290px" width="700" height="932" alt="Holzstiege mit massiven Stufen in offenem Wohnbereich" loading="lazy" decoding="async">
                     </div>
                     <h3><a href="holzstiegen.html" class="service-link">Holzstiegen</a></h3>
                     <p>Eine Treppe verbindet mehr als zwei Stockwerke. Wir bauen sie so, dass sie täglich begeistert.</p>
@@ -315,7 +315,7 @@
                 </div>
                 <figure class="about-figure">
                     <div class="about-photo">
-                        <img id="portrait-img" src="assets/img/portrait-gottfried-720.webp" width="720" height="900" alt="Tischler Gottfried Ochenbauer in seinem Büro an einem Holztisch" loading="lazy" decoding="async">
+                        <img id="portrait-img" src="assets/img/portrait-gottfried-720.webp" srcset="assets/img/portrait-gottfried-480.webp 480w, assets/img/portrait-gottfried-720.webp 720w" sizes="(max-width: 480px) 82vw, 445px" width="720" height="900" alt="Tischler Gottfried Ochenbauer in seinem Büro an einem Holztisch" loading="lazy" decoding="async">
                     </div>
                     <figcaption><strong>Gottfried Ochenbauer</strong> Tischler &amp; Holzgestalter</figcaption>
                 </figure>
@@ -358,7 +358,7 @@
                 </li>
                 <li>
                     <h3>Was kostet die Beratung?</h3>
-                    <p>Nichts: Wir beraten Sie persönlich, kostenlos und unverbindlich. Rufen Sie an unter <a href="tel:+4366473617208">0664 73617208</a>.</p>
+                    <p>Nichts: Wir beraten Sie persönlich, kostenlos und unverbindlich. Rufen Sie an unter <a href="tel:+4366473617208">0664&nbsp;73617208</a>.</p>
                 </li>
             </ul>
         </div>
@@ -391,7 +391,7 @@
                             <span class="contact-icon" aria-hidden="true"><svg class="icon"><use href="#i-phone"/></svg></span>
                             <div>
                                 <strong>Telefon</strong>
-                                <a href="tel:+4366473617208">+43 664 73617208</a>
+                                <a href="tel:+4366473617208">+43&nbsp;664&nbsp;73617208</a>
                             </div>
                         </li>
                         <li class="contact-item">
@@ -479,7 +479,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <p class="footer-logo"><img src="assets/logo/logo-hell-640.webp" width="280" height="202" alt="Logo: Gottfried Ochenbauer, Tischlerei &amp; Handel" loading="lazy" decoding="async"></p>
+                    <p class="footer-logo"><img src="assets/logo/logo-hell-640.webp" srcset="assets/logo/logo-hell-320.webp 320w, assets/logo/logo-hell-640.webp 640w" sizes="280px" width="280" height="202" alt="Logo: Gottfried Ochenbauer, Tischlerei &amp; Handel" loading="lazy" decoding="async"></p>
                     <p>Tischlerei in Schaueregg (Gemeinde Pinggau), direkt an der Grenze zu Mönichkirchen: Küchen, Möbel und Holzstiegen nach Maß — mit Liebe zum Detail.</p>
                 </div>
                 <div class="footer-section">
@@ -498,7 +498,7 @@
                 <div class="footer-section">
                     <h2 class="footer-heading">Kontakt</h2>
                     <ul>
-                        <li><a href="tel:+4366473617208">+43 664 73617208</a></li>
+                        <li><a href="tel:+4366473617208">+43&nbsp;664&nbsp;73617208</a></li>
                         <li><a href="mailto:tischlerei.ochenbauer@gmail.com">tischlerei.ochenbauer@gmail.com</a></li>
                         <li><a href="https://maps.google.com/?cid=11568439096404548305" target="_blank" rel="noopener">Schaueregg 23, 2872 Pinggau</a></li>
                     </ul>

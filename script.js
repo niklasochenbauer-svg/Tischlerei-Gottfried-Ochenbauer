@@ -247,7 +247,7 @@ if (scrollDriven || reduceMotion.matches || !('IntersectionObserver' in window))
 
 
 // ── Kontaktformular ────────────────────────────────────────
-const WEBHOOK_URL  = 'https://n8n.srv1070777.hstgr.cloud/webhook/d6271044-14b4-4bd1-b026-df33608b4a20';
+const CONTACT_API  = '/api/contact';   // Vercel-Funktion, schickt die Anfrage per E-Mail (api/contact.js)
 const CONTACT_MAIL = 'tischlerei.ochenbauer@gmail.com';
 
 const contactForm = document.getElementById('contact-form');
@@ -325,14 +325,15 @@ if (contactForm) {
         label.textContent = 'Wird gesendet …';
 
         try {
-            const res = await fetch(WEBHOOK_URL, {
+            const res = await fetch(CONTACT_API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    'ihr name':           data.get('name').trim(),
-                    'ihre email':         data.get('email').trim(),
-                    'ihre telefonnummer': (data.get('phone') || '').trim(),
-                    'ihre nachricht':     data.get('message').trim()
+                    name:    data.get('name').trim(),
+                    email:   data.get('email').trim(),
+                    phone:   (data.get('phone') || '').trim(),
+                    message: data.get('message').trim(),
+                    website: data.get('website') || ''
                 })
             });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -898,17 +899,4 @@ if (portfolioSection && 'IntersectionObserver' in window) {
     galleryObserver.observe(portfolioSection);
 } else {
     initGallery();
-}
-
-// Verbindung zum Formular-Webhook vorwärmen, sobald Kontakt in Sicht kommt
-const contactSection = document.getElementById('contact');
-if (contactSection && 'IntersectionObserver' in window) {
-    const warm = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) return;
-        warm.disconnect();
-        document.head.appendChild(Object.assign(document.createElement('link'), {
-            rel: 'preconnect', href: new URL(WEBHOOK_URL).origin
-        }));
-    }, { rootMargin: '400px 0px' });
-    warm.observe(contactSection);
 }

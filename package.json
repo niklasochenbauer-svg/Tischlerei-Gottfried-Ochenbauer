@@ -1,0 +1,8 @@
+{
+  "name": "tischlerei-ochenbauer",
+  "private": true,
+  "description": "Statische Website; einzige Abhängigkeit ist der Mailversand der Funktion api/contact.js",
+  "dependencies": {
+    "nodemailer": "6.9.16"
+  }
+}

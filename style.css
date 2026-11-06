@@ -1462,6 +1462,100 @@ section[id] { scroll-margin-top: 72px; }
     color: var(--text-light);
 }
 
+/* Impressum / Datenschutz als Fenster über der Seite (script.js) */
+.legal-sheet {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: clamp(16px, 4vw, 48px);
+    border: 0;
+    overflow: hidden;
+    background: rgba(12, 5, 1, 0);
+    color: var(--text-dark);
+    transition: background-color 0.26s ease;
+}
+.legal-sheet[open] { display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; }
+.legal-sheet::backdrop { background: transparent; }
+.legal-sheet.is-open { background: rgba(12, 5, 1, 0.72); }
+.legal-sheet-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 760px);
+    min-width: 0;
+    max-height: min(86dvh, 920px);
+    background-color: var(--cream-light);
+    background-image: var(--grain);
+    border-top: 3px solid var(--wood-warm);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+    transition: opacity 0.24s ease, transform 0.32s var(--ease-out);
+}
+.legal-sheet.is-open .legal-sheet-panel { opacity: 1; transform: none; }
+.legal-sheet.is-closing,
+.legal-sheet.is-closing .legal-sheet-panel { transition-duration: 0.18s; transition-timing-function: ease; }
+.legal-sheet-body {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    outline: none;
+}
+.legal-sheet .legal {
+    max-width: none;
+    margin: 0;
+    padding: clamp(2rem, 5vw, 3.25rem) clamp(1.25rem, 5vw, 3.5rem) clamp(2rem, 5vw, 3rem);
+}
+.legal-sheet .legal h1 { padding-right: 3rem; margin-bottom: 1.5rem; }
+.legal-sheet .legal .legal-note { margin-top: 2rem; margin-bottom: 0; }
+.legal-sheet-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(107, 58, 31, 0.28);
+    background: var(--cream-light);
+    color: var(--wood-rich);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color 0.2s, color 0.2s;
+}
+.legal-sheet-close .icon { width: 20px; height: 20px; }
+@media (hover: hover) and (pointer: fine) {
+    .legal-sheet-close:hover { background: var(--wood-rich); color: var(--cream-light); }
+}
+/* Handy: kommt als Blatt von unten, oben bleibt die Seite sichtbar zum Antippen */
+@media (max-width: 640px) {
+    .legal-sheet { padding: 0; }
+    .legal-sheet[open] { place-items: end stretch; }
+    /* Überschrift unter dem X statt daneben – „Datenschutzerklärung“ passt so in eine Zeile */
+    .legal-sheet .legal { padding-top: 4.25rem; }
+    .legal-sheet .legal h1 { padding-right: 0; font-size: clamp(1.35rem, 0.6rem + 4.4vw, 2.2rem); hyphens: auto; }
+    .legal-sheet-panel {
+        width: 100%;
+        max-height: 88dvh;
+        padding-bottom: env(safe-area-inset-bottom);
+        transform: translateY(100%);
+        opacity: 1;
+        transition: transform 0.34s var(--ease-out);
+    }
+    .legal-sheet.is-closing .legal-sheet-panel { transition: transform 0.2s ease; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .legal-sheet-panel, .legal-sheet.is-open .legal-sheet-panel { transform: none; }
+    .legal-sheet-panel { transition: opacity 0.15s ease; }
+    @media (max-width: 640px) { .legal-sheet-panel { opacity: 0; } }
+}
+
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════════════════════ */

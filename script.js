@@ -752,6 +752,120 @@ document.addEventListener('keydown', e => {
 });
 
 
+// ── Impressum & Datenschutz als Fenster über der Seite ─────
+// Die eigenen Seiten bleiben bestehen (Pflicht, Suchmaschinen, Fallback). Hier wird
+// nur ihr Inhalt geladen und in einem Dialog gezeigt: Tippen daneben, Esc, X oder die
+// Zurück-Taste schließen ihn, und man steht wieder genau dort, wo man war.
+const LEGAL_PAGE = /(?:^|\/)(impressum|datenschutz)\.html$/;
+const legalCache = new Map();
+let legalDialog = null;
+let legalOpener = null;
+
+function buildLegalDialog() {
+    const dlg = document.createElement('dialog');
+    dlg.className = 'legal-sheet';
+    dlg.innerHTML = `
+        <div class="legal-sheet-panel">
+            <button type="button" class="legal-sheet-close" aria-label="Schließen">
+                <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+            </button>
+            <div class="legal-sheet-body" data-lenis-prevent tabindex="-1"></div>
+        </div>`;
+    document.body.appendChild(dlg);
+    dlg.querySelector('.legal-sheet-close').addEventListener('click', requestLegalClose);
+    // Tippen auf die abgedunkelte Fläche (= der Dialog selbst, nicht das Panel)
+    dlg.addEventListener('click', e => { if (e.target === dlg) requestLegalClose(); });
+    // Esc: erst sanft ausblenden statt hart schließen
+    dlg.addEventListener('cancel', e => { e.preventDefault(); requestLegalClose(); });
+    // Links zwischen Impressum und Datenschutz bleiben im Fenster
+    dlg.addEventListener('click', e => {
+        const link = e.target.closest('a[href]');
+        const m = link?.getAttribute('href').match(LEGAL_PAGE);
+        if (!m || e.metaKey || e.ctrlKey || e.shiftKey) return;
+        e.preventDefault();
+        showLegal(m[1] + '.html');
+    });
+    return dlg;
+}
+
+async function loadLegal(url) {
+    if (!legalCache.has(url)) {
+        legalCache.set(url, fetch(url).then(res => {
+            if (!res.ok) throw new Error(`${url}: ${res.status}`);
+            return res.text();
+        }).then(html => {
+            const main = new DOMParser().parseFromString(html, 'text/html').querySelector('main.legal');
+            if (!main) throw new Error(`${url}: kein Inhalt`);
+            return main.innerHTML;
+        }).catch(err => { legalCache.delete(url); throw err; }));
+    }
+    return legalCache.get(url);
+}
+
+async function showLegal(url) {
+    const content = await loadLegal(url);
+    legalDialog ||= buildLegalDialog();
+    const body = legalDialog.querySelector('.legal-sheet-body');
+    body.innerHTML = `<div class="legal">${content}</div>`;
+    body.scrollTop = 0;
+    const title = body.querySelector('h1');
+    if (title) { title.id = 'legal-sheet-title'; legalDialog.setAttribute('aria-labelledby', title.id); }
+}
+
+async function openLegal(url, opener) {
+    try {
+        await showLegal(url);
+    } catch {
+        location.href = url;               // offline o. Ä.: ganz normal zur Seite
+        return;
+    }
+    if (legalDialog.open) return;
+    legalOpener = opener;
+    legalDialog.showModal();
+    legalDialog.querySelector('.legal-sheet-body').focus({ preventScroll: true });
+    lockScroll(true);
+    requestAnimationFrame(() => legalDialog.classList.add('is-open'));
+    // Zurück-Taste (Handy) schließt das Fenster statt die Seite zu verlassen
+    history.pushState({ legalSheet: true }, '');
+}
+
+function requestLegalClose() {
+    if (history.state?.legalSheet) history.back(); // → popstate schließt
+    else closeLegal();
+}
+
+function closeLegal() {
+    if (!legalDialog?.open || legalDialog.classList.contains('is-closing')) return;
+    legalDialog.classList.add('is-closing');
+    legalDialog.classList.remove('is-open');
+    const done = () => {
+        legalDialog.classList.remove('is-closing');
+        legalDialog.close();
+        lockScroll(false);
+        legalOpener?.focus({ preventScroll: true });
+    };
+    if (reduceMotion.matches) done();
+    else setTimeout(done, 200);
+}
+
+window.addEventListener('popstate', () => { if (legalDialog?.open) closeLegal(); });
+
+document.addEventListener('click', e => {
+    const link = e.target.closest('a[href]');
+    if (!link || link.closest('.legal-sheet') || e.defaultPrevented || e.button !== 0
+        || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const m = link.getAttribute('href').match(LEGAL_PAGE);
+    if (!m || typeof HTMLDialogElement !== 'function') return;
+    e.preventDefault();
+    openLegal(m[1] + '.html', link);
+});
+// Beim Draufzeigen schon laden, damit das Fenster sofort Inhalt hat
+document.addEventListener('pointerover', e => {
+    const m = e.target.closest?.('a[href]')?.getAttribute('href').match(LEGAL_PAGE);
+    if (m) loadLegal(m[1] + '.html').catch(() => {});
+}, { passive: true });
+
+
 // ═══════════════════════════════════════════════════════════
 // INITIALISIERUNG
 // ═══════════════════════════════════════════════════════════

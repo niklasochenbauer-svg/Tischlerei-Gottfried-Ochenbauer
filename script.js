@@ -340,7 +340,17 @@ if (contactForm) {
             showStatus('success', '<strong>Vielen Dank für Ihre Nachricht!</strong> Wir melden uns so schnell wie möglich bei Ihnen.');
         } catch (err) {
             console.error('Fehler beim Senden:', err);
-            showStatus('error', `<strong>Die Nachricht konnte nicht gesendet werden.</strong> Ihre Eingaben bleiben erhalten&nbsp;– bitte versuchen Sie es noch einmal oder schreiben Sie uns direkt an <a href="mailto:${CONTACT_MAIL}">${CONTACT_MAIL}</a>.`);
+            // Ausweg, falls der Formular-Server nicht erreichbar ist: dieselbe Nachricht fertig im Mailprogramm öffnen
+            const phone = (data.get('phone') || '').trim();
+            const body = [
+                `Name: ${data.get('name').trim()}`,
+                `E-Mail: ${data.get('email').trim()}`,
+                ...(phone ? [`Telefon: ${phone}`] : []),
+                '',
+                data.get('message').trim()
+            ].join('\n');
+            const mailto = `mailto:${CONTACT_MAIL}?subject=${encodeURIComponent('Anfrage über die Website')}&body=${encodeURIComponent(body)}`;
+            showStatus('error', `<strong>Die Nachricht konnte nicht gesendet werden.</strong> Ihre Eingaben bleiben erhalten. Sie können sie mit einem Klick per E-Mail schicken oder es später noch einmal versuchen.<a class="btn btn-primary form-feedback-mail" href="${mailto}">Per E-Mail senden</a>`);
         } finally {
             submitBtn.disabled = false;
             submitBtn.removeAttribute('aria-busy');
@@ -756,7 +766,7 @@ document.addEventListener('keydown', e => {
 // Die eigenen Seiten bleiben bestehen (Pflicht, Suchmaschinen, Fallback). Hier wird
 // nur ihr Inhalt geladen und in einem Dialog gezeigt: Tippen daneben, Esc, X oder die
 // Zurück-Taste schließen ihn, und man steht wieder genau dort, wo man war.
-const LEGAL_PAGE = /(?:^|\/)(impressum|datenschutz)\.html$/;
+const LEGAL_PAGE = /(?:^|\/)(impressum|datenschutz|cookies)\.html$/;
 const legalCache = new Map();
 let legalDialog = null;
 let legalOpener = null;

@@ -52,7 +52,7 @@
     <link rel="preload" href="assets/fonts/besley-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/saira-condensed-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preconnect" href="https://oirmfkagzasujjlekvsw.supabase.co" crossorigin>
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
     <link rel="icon" href="favicon.ico?v=2" sizes="any">
     <link rel="icon" href="assets/icon-32.png?v=2" type="image/png" sizes="32x32">
     <link rel="icon" href="assets/icon-48.png?v=2" type="image/png" sizes="48x48">
@@ -312,7 +312,7 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; <span id="year">2026</span> Tischlerei und Handel Gottfried Ochenbauer</p>
-                <p><a href="datenschutz.html">Datenschutz</a> <a href="impressum.html">Impressum</a></p>
+                <p><a href="datenschutz.html">Datenschutz</a> <a href="cookies.html">Cookies</a> <a href="impressum.html">Impressum</a></p>
             </div>
         </div>
     </footer>
@@ -322,18 +322,20 @@
         <a href="index.html#contact" class="btn btn-ghost">Anfragen</a>
     </nav>
 
-    <a href="#home" class="scroll-to-top" id="scroll-top" aria-label="Nach oben">
-        <!-- Jahresringe: zeigen, wie weit man auf der Seite ist -->
-        <svg class="growth-rings" viewBox="0 0 56 56" aria-hidden="true">
-            <circle class="ring-track" cx="28" cy="28" r="25"/>
-            <circle class="ring-track" cx="28" cy="28" r="20.5"/>
-            <circle class="ring-track" cx="28" cy="28" r="16"/>
-            <circle class="ring" cx="28" cy="28" r="25" pathLength="1"/>
-            <circle class="ring" cx="28" cy="28" r="20.5" pathLength="1"/>
-            <circle class="ring" cx="28" cy="28" r="16" pathLength="1"/>
-        </svg>
-        <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
-    </a>
+    <nav class="scroll-top-nav" aria-label="Seitenanfang">
+        <a href="#home" class="scroll-to-top" id="scroll-top" aria-label="Nach oben">
+            <!-- Jahresringe: zeigen, wie weit man auf der Seite ist -->
+            <svg class="growth-rings" viewBox="0 0 56 56" aria-hidden="true">
+                <circle class="ring-track" cx="28" cy="28" r="25"/>
+                <circle class="ring-track" cx="28" cy="28" r="20.5"/>
+                <circle class="ring-track" cx="28" cy="28" r="16"/>
+                <circle class="ring" cx="28" cy="28" r="25" pathLength="1"/>
+                <circle class="ring" cx="28" cy="28" r="20.5" pathLength="1"/>
+                <circle class="ring" cx="28" cy="28" r="16" pathLength="1"/>
+            </svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+        </a>
+    </nav>
 
     <script src="assets/vendor/lenis.min.js" defer></script>
     <script src="galerie.js" defer></script>

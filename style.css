@@ -1308,6 +1308,7 @@ section[id] { scroll-margin-top: 72px; }
 .form-feedback.is-success { background: var(--success-bg); color: var(--success-fg); }
 .form-feedback.is-error { background: var(--error-bg); color: var(--error); border: 1px solid rgba(154,42,30,0.35); }
 .form-feedback strong { display: block; margin-bottom: 0.15rem; }
+.form-feedback .form-feedback-mail { display: flex; width: fit-content; margin-top: 0.9rem; color: #fff; text-decoration: none; font-weight: 600; }
 
 /* ═══════════════════════════════════════════════════════════
    FOOTER
@@ -1463,6 +1464,13 @@ section[id] { scroll-margin-top: 72px; }
 }
 
 /* Impressum / Datenschutz als Fenster über der Seite (script.js) */
+/* Cookie-Richtlinie: Begriff/Wert-Liste */
+.legal-table { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.5rem 1.25rem; margin: 0 0 1.25rem; padding: 1rem 1.25rem; border-left: 3px solid var(--wood-warm); background: rgba(107,58,31,0.06); }
+.legal-table dt { font-family: var(--font-label); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 0.15em; }
+.legal-table dd { margin: 0; min-width: 0; }
+.legal code { font-size: 0.92em; overflow-wrap: anywhere; }
+@media (max-width: 480px) { .legal-table { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; } .legal-table dd + dt { margin-top: 0.6rem; } }
+
 .legal-sheet {
     position: fixed;
     inset: 0;

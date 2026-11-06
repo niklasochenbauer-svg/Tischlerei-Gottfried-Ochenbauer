@@ -340,7 +340,7 @@ if (contactForm) {
             showStatus('success', '<strong>Vielen Dank für Ihre Nachricht!</strong> Wir melden uns so schnell wie möglich bei Ihnen.');
         } catch (err) {
             console.error('Fehler beim Senden:', err);
-            showStatus('error', `<strong>Die Nachricht konnte nicht gesendet werden.</strong> Ihre Eingaben bleiben erhalten — bitte versuchen Sie es noch einmal oder schreiben Sie uns direkt an <a href="mailto:${CONTACT_MAIL}">${CONTACT_MAIL}</a>.`);
+            showStatus('error', `<strong>Die Nachricht konnte nicht gesendet werden.</strong> Ihre Eingaben bleiben erhalten&nbsp;– bitte versuchen Sie es noch einmal oder schreiben Sie uns direkt an <a href="mailto:${CONTACT_MAIL}">${CONTACT_MAIL}</a>.`);
         } finally {
             submitBtn.disabled = false;
             submitBtn.removeAttribute('aria-busy');

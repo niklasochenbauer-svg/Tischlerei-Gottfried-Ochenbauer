@@ -22,9 +22,27 @@ function getTransporter() {
     return transporter;
 }
 
+// Selbstprüfung per GET: meldet nur, ob die Zugangsdaten gesetzt sind und der Gmail-Login klappt –
+// verschickt nichts. Ergebnis 10 Minuten zwischengespeichert, damit niemand Logins provozieren kann.
+let lastCheck = null;
+async function selfCheck() {
+    const configured = Boolean(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
+    if (!configured) return { configured, smtp: 'not-configured' };
+    if (lastCheck && Date.now() - lastCheck.at < 10 * 60 * 1000) return lastCheck.result;
+    let smtp;
+    try { await handler.getTransporter().verify(); smtp = 'ok'; }
+    catch (err) { smtp = err.code === 'EAUTH' ? 'login-failed' : 'unreachable'; }
+    lastCheck = { at: Date.now(), result: { configured, smtp } };
+    return lastCheck.result;
+}
+
 async function handler(req, res) {
+    if (req.method === 'GET') {
+        res.setHeader('Cache-Control', 'no-store');
+        return res.status(200).json(await selfCheck());
+    }
     if (req.method !== 'POST') {
-        res.setHeader('Allow', 'POST');
+        res.setHeader('Allow', 'GET, POST');
         return res.status(405).json({ ok: false, error: 'method' });
     }
     const origin = req.headers.origin;
